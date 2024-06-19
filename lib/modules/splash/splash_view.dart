@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glive/constants/assets.dart';
 import 'package:glive/modules/login/login_view.dart';
+import 'package:glive/routes.dart';
 import 'package:glive/utils/commonFunctions.dart';
 import 'package:glive/utils/globalVariables.dart';
 import 'package:simple_shadow/simple_shadow.dart';
@@ -22,7 +23,7 @@ class _SplashViewState extends State<SplashView> {
     super.initState();
     Timer(const Duration(seconds: 5), () async {
       // Sample Getx Navigation
-      Get.off(() => const LoginView());
+      Get.offNamed(RouteNames.login);
     });
   }
 

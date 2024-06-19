@@ -171,7 +171,7 @@ class _LoginViewState extends State<LoginView> {
                         TouchableOpacity(
                           onTap: () {
                             // login();
-                            Get.to(() => const HomeView());
+                            Get.offNamed(RouteNames.home);
                           },
                           child: Container(
                             height: 50,
