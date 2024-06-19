@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:glive/constants/StorageCodes.dart';
 import 'package:glive/constants/appColors.dart';
 import 'package:glive/constants/assets.dart';
@@ -8,6 +9,7 @@ import 'package:glive/constants/assets.dart';
 import 'package:glive/models/database/AdminModel.dart';
 
 import 'package:glive/models/response/LoginResponse.dart';
+import 'package:glive/modules/home/home_view.dart';
 import 'package:glive/network/ApiEndpoints.dart';
 import 'package:glive/network/NetworkProvider.dart';
 import 'package:glive/repositories/AdminRepository.dart';
@@ -99,14 +101,14 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       backgroundColor: AppColors.lightgrey,
       body: SizedBox(
-        height: heightScreen(),
-        width: widthScreen(),
+        width: double.infinity,
+        height: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              width: widthScreen() < 600 ? widthScreen() : 500,
+              width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius:
@@ -137,7 +139,7 @@ class _LoginViewState extends State<LoginView> {
                       height: 10,
                     ),
                     Text(
-                      "QR Project",
+                      "GLive",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 22,
@@ -168,7 +170,8 @@ class _LoginViewState extends State<LoginView> {
                         const Spacer(),
                         TouchableOpacity(
                           onTap: () {
-                            login();
+                            // login();
+                            Get.to(() => const HomeView());
                           },
                           child: Container(
                             height: 50,
