@@ -49,6 +49,7 @@ dependencies:
   oktoast:
   simple_shadow:
   get:
+  get_storage:
 
 dev_dependencies:
   flutter_test:

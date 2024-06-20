@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:glive/constants/assets.dart';
 import 'package:glive/modules/login/login_view.dart';
 import 'package:glive/routes.dart';
@@ -17,13 +18,17 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
+  final box = GetStorage();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     Timer(const Duration(seconds: 5), () async {
-      // Sample Getx Navigation
-      Get.offNamed(RouteNames.login);
+      if (box.read('started') == 'true') {
+        Get.offNamed(RouteNames.home);
+      } else {
+        Get.offNamed(RouteNames.login);
+      }
     });
   }
 
