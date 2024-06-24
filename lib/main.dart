@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:glive/modules/home/home_view.dart';
 import 'package:glive/modules/login/login_view.dart';
@@ -15,16 +16,23 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return OKToast(
-      child: GetMaterialApp(
-        initialRoute: '/',
-        getPages: [
-          GetPage(name: '/', page: () => const SplashView()),
-          GetPage(name: '/login', page: () => const LoginView()),
-          GetPage(name: '/home', page: () => const HomeView()),
-        ],
-        title: 'GLive',
-      ),
-    );
+    return ScreenUtilInit(
+        designSize: const Size(428, 926),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return OKToast(
+            child: GetMaterialApp(
+              initialRoute: '/',
+              getPages: [
+                GetPage(name: '/', page: () => const SplashView()),
+                GetPage(name: '/login', page: () => const LoginView()),
+                GetPage(name: '/home', page: () => const HomeView()),
+              ],
+              title: 'GLive',
+            ),
+          );
+        },
+        child: SplashView());
   }
 }
