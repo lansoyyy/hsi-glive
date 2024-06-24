@@ -4,6 +4,11 @@ import 'package:get/get.dart';
 import 'package:glive/modules/home/home_view.dart';
 import 'package:glive/modules/login/initial_login_view.dart';
 import 'package:glive/modules/login/login_view.dart';
+import 'package:glive/modules/security/channels_view.dart';
+import 'package:glive/modules/security/faceid_setup_view.dart';
+import 'package:glive/modules/security/faceid_view.dart';
+import 'package:glive/modules/security/fingerprint_view.dart';
+import 'package:glive/modules/security/otp_view.dart';
 import 'package:glive/modules/splash/splash_view.dart';
 import 'package:oktoast/oktoast.dart';
 
@@ -32,6 +37,13 @@ class MyApp extends StatelessWidget {
                     name: '/initiallogin',
                     page: () => const InitialLoginView()),
                 GetPage(name: '/home', page: () => const HomeView()),
+                GetPage(name: '/security', page: () => const OTPView()),
+                GetPage(
+                    name: '/fingerprint', page: () => const FingerprintView()),
+                GetPage(name: '/faceid', page: () => const FaceIDView()),
+                GetPage(
+                    name: '/faceidsetup', page: () => const FaceIDSetupView()),
+                GetPage(name: '/channels', page: () => const ChannelsView()),
               ],
               title: 'GLive',
             ),

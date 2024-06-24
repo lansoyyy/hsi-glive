@@ -185,7 +185,9 @@ class _LoginViewState extends State<LoginView> {
             ),
             ButtonWidget(
               label: 'Sign In',
-              onPressed: () {},
+              onPressed: () {
+                Get.offNamed(RouteNames.security);
+              },
             ),
             SizedBox(
               height: 50.sp,
@@ -228,18 +230,23 @@ class _LoginViewState extends State<LoginView> {
                 for (int i = 0; i < 4; i++)
                   Padding(
                     padding: const EdgeInsets.only(left: 5, right: 5),
-                    child: Container(
-                      width: 55.sp,
-                      height: 55.sp,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white, width: 0.5),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Center(
-                        child: Image.asset(
-                          'assets/images/${socialMediaImages[i]}.png',
-                          height: 30.sp,
-                          width: 30.sp,
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.offNamed(RouteNames.security);
+                      },
+                      child: Container(
+                        width: 55.sp,
+                        height: 55.sp,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white, width: 0.5),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Image.asset(
+                            'assets/images/${socialMediaImages[i]}.png',
+                            height: 30.sp,
+                            width: 30.sp,
+                          ),
                         ),
                       ),
                     ),

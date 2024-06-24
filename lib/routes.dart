@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:glive/modules/home/home_view.dart';
 import 'package:glive/modules/login/initial_login_view.dart';
 import 'package:glive/modules/login/login_view.dart';
+import 'package:glive/modules/security/channels_view.dart';
+import 'package:glive/modules/security/faceid_setup_view.dart';
+import 'package:glive/modules/security/faceid_view.dart';
+import 'package:glive/modules/security/fingerprint_view.dart';
+import 'package:glive/modules/security/otp_view.dart';
 
 import 'package:glive/modules/splash/splash_view.dart';
 
@@ -24,6 +29,11 @@ class RouteNames {
   static const String fundHistory = "/fund-history";
   static const String allLogs = "/logs";
   static const String initiallogin = "/initiallogin";
+  static const String security = "/security";
+  static const String fingerprint = "/fingerprint";
+  static const String faceid = "/faceid";
+  static const String faceidsetup = "/faceidsetup";
+  static const String channels = "/channels";
 }
 
 class AppRoutes {
@@ -32,5 +42,10 @@ class AppRoutes {
     RouteNames.login: (context) => const LoginView(),
     RouteNames.home: (context) => const HomeView(),
     RouteNames.initiallogin: (context) => const InitialLoginView(),
+    RouteNames.security: (context) => const OTPView(),
+    RouteNames.fingerprint: (context) => const FingerprintView(),
+    RouteNames.faceid: (context) => const FaceIDView(),
+    RouteNames.faceidsetup: (context) => const FaceIDSetupView(),
+    RouteNames.channels: (context) => const ChannelsView(),
   };
 }

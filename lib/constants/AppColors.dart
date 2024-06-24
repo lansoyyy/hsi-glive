@@ -16,5 +16,5 @@ class AppColors {
   static Color squash = HexColor("#FC427B");
   static Color yellow = HexColor("#f1c40f");
   static Color pumpkin = HexColor("#d35400");
-  Color bluegreen = const Color(0XFF85ECF8);
+  static Color bluegreen = HexColor("85ecf8");
 }

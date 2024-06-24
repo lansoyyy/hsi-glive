@@ -28,7 +28,6 @@ class TextWidget extends StatelessWidget {
     return Text(
       text,
       textAlign: align,
-      maxLines: maxLines,
       style: TextStyle(
           overflow: TextOverflow.ellipsis,
           fontStyle: isItalize! ? FontStyle.italic : null,
