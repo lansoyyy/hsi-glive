@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:glive/modules/home/home_view.dart';
+import 'package:glive/modules/login/initial_login_view.dart';
 import 'package:glive/modules/login/login_view.dart';
 import 'package:glive/modules/splash/splash_view.dart';
 import 'package:oktoast/oktoast.dart';
@@ -27,6 +28,9 @@ class MyApp extends StatelessWidget {
               getPages: [
                 GetPage(name: '/', page: () => const SplashView()),
                 GetPage(name: '/login', page: () => const LoginView()),
+                GetPage(
+                    name: '/initiallogin',
+                    page: () => const InitialLoginView()),
                 GetPage(name: '/home', page: () => const HomeView()),
               ],
               title: 'GLive',

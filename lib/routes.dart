@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:glive/modules/home/home_view.dart';
+import 'package:glive/modules/login/initial_login_view.dart';
 import 'package:glive/modules/login/login_view.dart';
 
 import 'package:glive/modules/splash/splash_view.dart';
@@ -22,6 +23,7 @@ class RouteNames {
   static const String donationHistory = "/donation-history";
   static const String fundHistory = "/fund-history";
   static const String allLogs = "/logs";
+  static const String initiallogin = "/initiallogin";
 }
 
 class AppRoutes {
@@ -29,5 +31,6 @@ class AppRoutes {
     RouteNames.splash: (context) => const SplashView(),
     RouteNames.login: (context) => const LoginView(),
     RouteNames.home: (context) => const HomeView(),
+    RouteNames.initiallogin: (context) => const InitialLoginView(),
   };
 }

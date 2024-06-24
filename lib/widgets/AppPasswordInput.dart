@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glive/constants/appColors.dart';
 import 'package:glive/constants/assets.dart';
 import 'package:glive/widgets/TouchableOpacity.dart';
@@ -19,7 +20,7 @@ class AppPasswordInput extends StatefulWidget {
 
   final double width;
   final String title;
-  final String icon;
+  final IconData icon;
   final TextEditingController controller;
 
   @override
@@ -118,21 +119,22 @@ class _AppPasswordInputState extends State<AppPasswordInput> {
     return GestureDetector(
       onTapDown: (details) {},
       child: Container(
-        height: 60,
+        height: 70.sp,
         width: myWidth,
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: Colors.grey.withOpacity(0.30),
             boxShadow: [
               BoxShadow(
                 color: isFocused
-                    ? Colors.grey.withOpacity(0.5)
+                    ? Colors.grey.withOpacity(0.30)
                     : Colors.transparent,
                 spreadRadius: 1,
                 blurRadius: 5,
                 offset: const Offset(0, 3), // changes position of shadow
               ),
             ],
-            borderRadius: BorderRadius.circular(10)),
+            border: Border.all(color: Colors.white, width: 0.30),
+            borderRadius: BorderRadius.circular(100)),
         child: Stack(
           children: [
             Container(
@@ -170,11 +172,10 @@ class _AppPasswordInputState extends State<AppPasswordInput> {
                 height: 60,
                 width: 40,
                 child: Center(
-                  child: Image.asset(
+                  child: Icon(
                     widget.icon,
                     color: hasValue ? AppColors.primaryColor : AppColors.grey,
-                    height: 25,
-                    width: 25,
+                    size: 25,
                   ),
                 ),
               ),

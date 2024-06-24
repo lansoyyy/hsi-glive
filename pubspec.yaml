@@ -78,9 +78,9 @@ flutter:
   assets:
     - assets/images/
     - assets/excel/
-    - assets/audios/
-    - assets/html/
-    - assets/videos/
+    # - assets/audios/
+    # - assets/html/
+    # - assets/videos/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

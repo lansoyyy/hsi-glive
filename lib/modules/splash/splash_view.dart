@@ -27,7 +27,7 @@ class _SplashViewState extends State<SplashView> {
       if (box.read('started') == 'true') {
         Get.offNamed(RouteNames.home);
       } else {
-        Get.offNamed(RouteNames.login);
+        Get.offNamed(RouteNames.initiallogin);
       }
     });
   }
@@ -38,31 +38,19 @@ class _SplashViewState extends State<SplashView> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        color: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SimpleShadow(
-              opacity: 0.25, // Default: 0.5
-              color: Colors.grey, // Default: Black
-              offset: const Offset(1, 1), // Default: Offset(2, 2)
-              sigma: 7,
-              child: Image.asset(
-                Assets.icon,
-                height: 100,
-                width: 100,
-              ), // Default: 2
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage(
+              'assets/images/splash_bg.png',
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            const Text(
-              "GLive",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-            )
-          ],
+          ),
+        ),
+        child: Center(
+          child: Image.asset(
+            height: 186,
+            'assets/images/logo.png',
+          ),
         ),
       ),
     );
