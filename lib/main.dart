@@ -33,6 +33,6 @@ class MyApp extends StatelessWidget {
             ),
           );
         },
-        child: SplashView());
+        child: const SplashView());
   }
 }
