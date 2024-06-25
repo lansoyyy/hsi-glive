@@ -186,7 +186,7 @@ class _LoginViewState extends State<LoginView> {
             ButtonWidget(
               label: 'Sign In',
               onPressed: () {
-                Get.offNamed(RouteNames.security);
+                Get.offNamed(RouteNames.home);
               },
             ),
             SizedBox(

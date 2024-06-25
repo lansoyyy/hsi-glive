@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:glive/routes.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:glive/modules/home/tabs/home_tab.dart';
+import 'package:glive/widgets/AppBottomNavbar.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -11,66 +12,33 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final box = GetStorage();
+  int _currentIndex = 0;
+
+  final List<Widget> _pages = const [
+    HomeTab(),
+    SizedBox(),
+    SizedBox(),
+    SizedBox(),
+    SizedBox()
+  ];
+
+  void _onItemTap(int newIndex) {
+    setState(() {
+      _currentIndex = newIndex;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                            title: const Text(
-                              'Logout Confirmation',
-                              style: TextStyle(
-                                  fontFamily: 'QBold',
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            content: const Text(
-                              'Are you sure you want to Logout?',
-                              style: TextStyle(fontFamily: 'QRegular'),
-                            ),
-                            actions: <Widget>[
-                              MaterialButton(
-                                onPressed: () =>
-                                    Navigator.of(context).pop(true),
-                                child: const Text(
-                                  'Close',
-                                  style: TextStyle(
-                                      fontFamily: 'QRegular',
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              MaterialButton(
-                                onPressed: () async {
-                                  box.write('started', 'false');
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Color(0xFF8B008B),
+    ));
 
-                                  print(box.read('started'));
-                                  Get.offNamed(RouteNames.login);
-                                },
-                                child: const Text(
-                                  'Continue',
-                                  style: TextStyle(
-                                      fontFamily: 'QRegular',
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ));
-                },
-                icon: const Icon(
-                  Icons.logout,
-                ),
-              ),
-            ),
-          ],
-        ),
+    return Scaffold(
+      body: SafeArea(child: _pages[_currentIndex]),
+      bottomNavigationBar: AppBottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: _onItemTap,
       ),
     );
   }
