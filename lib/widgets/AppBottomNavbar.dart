@@ -22,19 +22,28 @@ class AppBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
+      backgroundColor: Colors.black, // Ensure the background is transparent
       currentIndex: currentIndex,
+
       onTap: onTap,
-      items: _icons.map((icon) {
+      items: _icons.asMap().entries.map((entry) {
+        int index = entry.key;
+        Map<String, String> icon = entry.value;
+
         return BottomNavigationBarItem(
-          icon: ImageIcon(
-            AssetImage(
-                'assets/images/${icon[currentIndex == _icons.indexOf(icon) ? 'active' : 'inactive']!}.png'),
-            size: 45.sp,
-            color: currentIndex == _icons.indexOf(icon)
-                ? Colors.purple
-                : Colors.black.withOpacity(0.6),
-          ),
+          backgroundColor: const Color(0xFF8B008B),
+          icon: index == 2
+              ? Image.asset(
+                  'assets/images/${icon['active']}.png',
+                  width: 45,
+                  height: 45,
+                )
+              : ImageIcon(
+                  AssetImage(
+                      'assets/images/${icon[currentIndex == index ? 'active' : 'inactive']!}.png'),
+                  size: 45,
+                  color: currentIndex == index ? Colors.white : Colors.grey,
+                ),
           label: '',
         );
       }).toList(),

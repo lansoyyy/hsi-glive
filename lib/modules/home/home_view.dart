@@ -30,12 +30,23 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Color(0xFF8B008B),
-    ));
-
     return Scaffold(
-      body: SafeArea(child: _pages[_currentIndex]),
+      body: SafeArea(
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF8B008B), // Darker purple
+                Color(0xFF008B8B), // Darker teal
+              ],
+              stops: [0.0, 1.0],
+            ),
+          ),
+          width: double.infinity,
+          height: double.infinity,
+          child: _pages[_currentIndex],
+        ),
+      ),
       bottomNavigationBar: AppBottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: _onItemTap,
