@@ -78,6 +78,7 @@ flutter:
   assets:
     - assets/images/
     - assets/excel/
+    - assets/images/gifts/
     # - assets/audios/
     # - assets/html/
     # - assets/videos/
