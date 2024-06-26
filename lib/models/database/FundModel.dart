@@ -2,9 +2,9 @@
 //
 //     final fundModel = fundModelFromJson(jsonString);
 
-import 'dart:convert';
+// ignore_for_file: file_names
 
-import 'package:glive/utils/commonFunctions.dart';
+import 'dart:convert';
 
 FundModel fundModelFromJson(String str) => FundModel.fromJson(json.decode(str));
 

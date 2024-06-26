@@ -1,30 +1,17 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:glive/constants/StorageCodes.dart';
-import 'package:glive/constants/appColors.dart';
-import 'package:glive/constants/assets.dart';
-
-import 'package:glive/models/database/AdminModel.dart';
-
-import 'package:glive/models/response/LoginResponse.dart';
-import 'package:glive/modules/home/home_view.dart';
 import 'package:glive/network/ApiEndpoints.dart';
 import 'package:glive/network/NetworkProvider.dart';
-import 'package:glive/repositories/AdminRepository.dart';
 import 'package:glive/routes.dart';
-import 'package:glive/utils/CommonFunctions.dart';
-import 'package:glive/utils/GlobalVariables.dart';
 import 'package:glive/utils/LoadingUtil.dart';
-import 'package:glive/utils/LocalStorage.dart';
-import 'package:glive/utils/syncHelper.dart';
 import 'package:glive/utils/ToastHelper.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
-import 'package:glive/widgets/TouchableOpacity.dart';
 import 'package:glive/widgets/AppPasswordInput.dart';
 import 'package:glive/widgets/AppTextInput.dart';
 import 'package:oktoast/oktoast.dart';
@@ -57,8 +44,7 @@ class _LoginViewState extends State<LoginView> {
     }
     LoadingUtil.show(context);
 
-    String response = await networkProvider.post(ApiEndpoints.login,
-        body: LoginParameter(email: username, password: password));
+    String response = await networkProvider.post(ApiEndpoints.login, body: LoginParameter(email: username, password: password));
 
     if (jsonDecode(response)['c'] == 200) {
       try {
@@ -137,11 +123,7 @@ class _LoginViewState extends State<LoginView> {
             SizedBox(
               height: 20.sp,
             ),
-            AppPasswordInput(
-                width: 350.sp,
-                title: "Password",
-                controller: passwordController,
-                icon: Icons.lock),
+            AppPasswordInput(width: 350.sp, title: "Password", controller: passwordController, icon: Icons.lock),
             Padding(
               padding: EdgeInsets.only(left: 25.sp, right: 25.sp),
               child: Row(

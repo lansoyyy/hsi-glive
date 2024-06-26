@@ -1,16 +1,13 @@
+// ignore_for_file: file_names
+
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:glive/constants/appColors.dart';
-import 'package:glive/constants/assets.dart';
 import 'package:glive/utils/CallbackModel.dart';
 import 'package:glive/utils/CommonFunctions.dart';
 import 'package:glive/utils/GlobalVariables.dart';
 import 'package:glive/widgets/TouchableOpacity.dart';
-import 'package:intl/intl.dart';
 
 class AppSelectOption {
   String label = "";
@@ -32,8 +29,7 @@ class AppSelectPickerController extends ChangeNotifier {
   }
 
   void onLoadData(CallbackModel cb) {
-    loadFunctions = loadFunctions.where((el) => el.id != cb.id).toList()
-      ..add(cb);
+    loadFunctions = loadFunctions.where((el) => el.id != cb.id).toList()..add(cb);
   }
 }
 
@@ -66,11 +62,9 @@ class _AppSelectPickerState extends State<AppSelectPicker> {
 
   @override
   void initState() {
-    widget.controller
-        .onLoadData(CallbackModel(id: randomString(24), callback: onLoadData));
+    widget.controller.onLoadData(CallbackModel(id: randomString(24), callback: onLoadData));
     Future.delayed(const Duration(milliseconds: 100), () {
-      widget.controller.onLoadData(
-          CallbackModel(id: randomString(24), callback: onLoadData));
+      widget.controller.onLoadData(CallbackModel(id: randomString(24), callback: onLoadData));
     });
 
     super.initState();
@@ -126,21 +120,14 @@ class _AppSelectPickerState extends State<AppSelectPicker> {
                 },
                 child: Container(
                   width: widthScreen() - 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                            color: rgba(0, 0, 0, 0.5),
-                            blurRadius: 5.0,
-                            offset: const Offset(0.0, 2)),
-                      ]),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white, boxShadow: [
+                    BoxShadow(color: rgba(0, 0, 0, 0.5), blurRadius: 5.0, offset: const Offset(0.0, 2)),
+                  ]),
                   child: Column(
                     children: [
                       Container(
                         width: widthScreen() - 40,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 15),
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                         decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(8),
@@ -151,10 +138,7 @@ class _AppSelectPickerState extends State<AppSelectPicker> {
                           child: Text(
                             widget.title,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18),
+                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 18),
                           ),
                         ),
                       ),
@@ -174,8 +158,7 @@ class _AppSelectPickerState extends State<AppSelectPicker> {
                                       decoration: const BoxDecoration(
                                         color: Colors.transparent,
                                       ),
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 15, horizontal: 20),
+                                      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                                       child: Text(
                                         item.label,
                                         textAlign: TextAlign.center,
@@ -221,22 +204,18 @@ class _AppSelectPickerState extends State<AppSelectPicker> {
       child: Container(
         height: 60,
         width: myWidth,
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(10)),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
         child: Stack(
           children: [
             Container(
               height: 60,
               width: myWidth,
-              padding:
-                  EdgeInsets.only(left: 60, right: 10, top: hasValue ? 18 : 0),
+              padding: EdgeInsets.only(left: 60, right: 10, top: hasValue ? 18 : 0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   hasValue ? selectedOption!.label : widget.title,
-                  style: TextStyle(
-                      color: hasValue ? AppColors.black : AppColors.grey,
-                      fontSize: 15),
+                  style: TextStyle(color: hasValue ? AppColors.black : AppColors.grey, fontSize: 15),
                 ),
               ),
             ),

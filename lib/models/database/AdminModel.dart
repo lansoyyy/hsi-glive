@@ -2,12 +2,11 @@
 //
 //     final adminModel = adminModelFromJson(jsonString);
 
+// ignore_for_file: slash_for_doc_comments, file_names
+
 import 'dart:convert';
 
-import 'package:glive/utils/commonFunctions.dart';
-
-AdminModel adminModelFromJson(String str) =>
-    AdminModel.fromJson(json.decode(str));
+AdminModel adminModelFromJson(String str) => AdminModel.fromJson(json.decode(str));
 
 String adminModelToJson(AdminModel data) => json.encode(data.toJson());
 

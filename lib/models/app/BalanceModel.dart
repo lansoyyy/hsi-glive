@@ -2,6 +2,8 @@
 //
 //     final balanceModel = balanceModelFromJson(jsonString);
 
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
 BalanceModel balanceModelFromJson(String str) => BalanceModel.fromJson(json.decode(str));
@@ -9,21 +11,21 @@ BalanceModel balanceModelFromJson(String str) => BalanceModel.fromJson(json.deco
 String balanceModelToJson(BalanceModel data) => json.encode(data.toJson());
 
 class BalanceModel {
-    double funds;
-    double donated;
+  double funds;
+  double donated;
 
-    BalanceModel({
-        required this.funds,
-        required this.donated,
-    });
+  BalanceModel({
+    required this.funds,
+    required this.donated,
+  });
 
-    factory BalanceModel.fromJson(Map<String, dynamic> json) => BalanceModel(
+  factory BalanceModel.fromJson(Map<String, dynamic> json) => BalanceModel(
         funds: json["funds"],
         donated: json["donated"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "funds": funds,
         "donated": donated,
-    };
+      };
 }

@@ -1,7 +1,6 @@
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, file_names
 
 class Assets {
-
   static const String icon = "assets/images/icon.png";
   static const String email = "assets/images/email.png";
   static const String user = "assets/images/user.png";
@@ -57,12 +56,7 @@ class Assets {
   static const String reports = "assets/images/reports.png";
   static const String refresh = "assets/images/refresh.png";
 
-  
   static const String digital_id_template = "assets/excel/digital-template.xlsx";
   static const String csv_template = "assets/excel/template.csv";
   static const String excel_template = "assets/excel/excel_template.xlsx";
-
-
-
-
 }

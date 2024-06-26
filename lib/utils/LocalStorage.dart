@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LocalStorage {
@@ -17,6 +19,7 @@ class LocalStorage {
       return "0";
     }
   }
+
   static Future<String> readString(String code) async {
     const storage = FlutterSecureStorage();
     var value = (await storage.read(key: code));

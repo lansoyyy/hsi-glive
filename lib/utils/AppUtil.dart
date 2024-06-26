@@ -1,21 +1,17 @@
-import 'dart:convert';
-import 'dart:developer';
+// ignore_for_file: file_names
 
 import 'package:glive/models/app/BalanceModel.dart';
-import 'package:glive/models/database/AdminModel.dart';
 import 'package:glive/models/database/FundModel.dart';
 import 'package:glive/models/database/TransactionModel.dart';
 import 'package:glive/repositories/fundRepository.dart';
 import 'package:glive/repositories/TransactionRepository.dart';
 import 'package:glive/utils/commonFunctions.dart';
-import 'package:glive/utils/localStorage.dart';
 
 class AppUtil {
   static Future<BalanceModel> loadBalance(String fundsId) async {
     List<List> responses = [];
     if (isSuperAdmin()) {
-      responses = await Future.wait(
-          [FundRepository.getAll(), TransactionRepository.getAll()]);
+      responses = await Future.wait([FundRepository.getAll(), TransactionRepository.getAll()]);
     } else {
       responses = await Future.wait([
         FundRepository.getAllByFundId(fundsId),
@@ -23,12 +19,10 @@ class AppUtil {
       ]);
     }
     List<FundModel> fundModels = responses[0] as List<FundModel>;
-    List<TransactionModel> transactionModels =
-        responses[1] as List<TransactionModel>;
+    List<TransactionModel> transactionModels = responses[1] as List<TransactionModel>;
     List allModels = [...fundModels, ...transactionModels];
 
-    allModels.sort((a, b) =>
-        DateTime.parse(a.createdAt).compareTo(DateTime.parse(b.createdAt)));
+    allModels.sort((a, b) => DateTime.parse(a.createdAt).compareTo(DateTime.parse(b.createdAt)));
 
     double tempDonated = 0;
     double tempFunds = 0;

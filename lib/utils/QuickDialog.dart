@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -49,8 +51,7 @@ class QuickDialog {
     return completer.future;
   }
 
-  static Future getStringCanBeEmpty(
-      BuildContext context, String title, String label) {
+  static Future getStringCanBeEmpty(BuildContext context, String title, String label) {
     Completer completer = Completer();
 
     showDialog(
@@ -92,15 +93,13 @@ class QuickDialog {
     return completer.future;
   }
 
-  static Future getStringDefault(
-      BuildContext context, String title, String label, String defaultValue) {
+  static Future getStringDefault(BuildContext context, String title, String label, String defaultValue) {
     Completer completer = Completer();
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        TextEditingController textController =
-            TextEditingController(text: defaultValue);
+        TextEditingController textController = TextEditingController(text: defaultValue);
 
         return AlertDialog(
           title: Text(
@@ -138,15 +137,13 @@ class QuickDialog {
     return completer.future;
   }
 
-  static Future getInt(
-      BuildContext context, String title, String label, String defaultValue) {
+  static Future getInt(BuildContext context, String title, String label, String defaultValue) {
     Completer completer = Completer();
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        TextEditingController textController =
-            TextEditingController(text: defaultValue);
+        TextEditingController textController = TextEditingController(text: defaultValue);
 
         return AlertDialog(
           title: Text(
@@ -192,8 +189,7 @@ class QuickDialog {
 
     showDialog<void>(
       context: context,
-      barrierDismissible:
-          false, // Prevents dialog dismissal when tapping on the backdrop
+      barrierDismissible: false, // Prevents dialog dismissal when tapping on the backdrop
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
@@ -242,8 +238,7 @@ class QuickDialog {
 
     showDialog<void>(
       context: context,
-      barrierDismissible:
-          false, // Prevents dialog dismissal when tapping on the backdrop
+      barrierDismissible: false, // Prevents dialog dismissal when tapping on the backdrop
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
@@ -285,14 +280,12 @@ class QuickDialog {
     return completer.future;
   }
 
-  static Future disbursementConfirmation(
-      BuildContext context, double amount, String name) {
+  static Future disbursementConfirmation(BuildContext context, double amount, String name) {
     Completer completer = Completer();
 
     showDialog<void>(
       context: context,
-      barrierDismissible:
-          false, // Prevents dialog dismissal when tapping on the backdrop
+      barrierDismissible: false, // Prevents dialog dismissal when tapping on the backdrop
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
@@ -318,8 +311,7 @@ class QuickDialog {
               child: Text(
                 'Disburse',
                 style: TextStyle(
-                  color: AppColors
-                      .primaryColor, // Customize text color for delete button
+                  color: AppColors.primaryColor, // Customize text color for delete button
                 ),
               ),
               onPressed: () {
@@ -342,8 +334,7 @@ class QuickDialog {
 
     showDialog<void>(
       context: context,
-      barrierDismissible:
-          false, // Prevents dialog dismissal when tapping on the backdrop
+      barrierDismissible: false, // Prevents dialog dismissal when tapping on the backdrop
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(

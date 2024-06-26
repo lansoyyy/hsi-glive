@@ -1,17 +1,11 @@
-import 'package:flutter/foundation.dart';
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:glive/constants/appColors.dart';
-import 'package:glive/constants/assets.dart';
 
 class AppMobileInput extends StatefulWidget {
-  const AppMobileInput(
-      {super.key,
-      required this.width,
-      required this.title,
-      required this.controller,
-      required this.icon});
+  const AppMobileInput({super.key, required this.width, required this.title, required this.controller, required this.icon});
 
   final double width;
   final String title;
@@ -90,8 +84,7 @@ class _AppMobileInputState extends State<AppMobileInput> {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color:
-                  isFocused ? Colors.grey.withOpacity(0.5) : Colors.transparent,
+              color: isFocused ? Colors.grey.withOpacity(0.5) : Colors.transparent,
               spreadRadius: 1,
               blurRadius: 5,
               offset: const Offset(0, 3), // changes position of shadow
@@ -120,9 +113,7 @@ class _AppMobileInputState extends State<AppMobileInput> {
                 decoration: InputDecoration(
                     counterText: "",
                     labelText: widget.title,
-                    labelStyle: TextStyle(
-                        color:
-                            hasValue ? AppColors.primaryColor : AppColors.grey),
+                    labelStyle: TextStyle(color: hasValue ? AppColors.primaryColor : AppColors.grey),
                     isDense: true,
                     hintStyle: TextStyle(color: AppColors.grey),
                     border: InputBorder.none),

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 class ApiEndpoints {
   //static const String baseUrl = "http://192.168.1.13:3000";
   static const String baseUrl = "https://ksmiguel.com";

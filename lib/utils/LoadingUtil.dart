@@ -1,6 +1,7 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:glive/utils/CallbackModel.dart';
-import 'package:glive/utils/CommonFunctions.dart';
 import 'package:glive/utils/GlobalVariables.dart';
 
 class LoadingUtil {
@@ -58,8 +59,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
 
   @override
   void initState() {
-    widget.controller
-        .onUpdate(CallbackModel(id: "loading-widget", callback: onUpdate));
+    widget.controller.onUpdate(CallbackModel(id: "loading-widget", callback: onUpdate));
     super.initState();
   }
 
@@ -116,7 +116,6 @@ class LoadingController extends ChangeNotifier {
   }
 
   void onUpdate(CallbackModel cb) {
-    updateFunctions = updateFunctions.where((el) => el.id != cb.id).toList()
-      ..add(cb);
+    updateFunctions = updateFunctions.where((el) => el.id != cb.id).toList()..add(cb);
   }
 }

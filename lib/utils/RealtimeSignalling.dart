@@ -1,14 +1,12 @@
+// ignore_for_file: unused_catch_clause, non_constant_identifier_names, file_names
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:glive/utils/GlobalControllers.dart';
 import 'package:glive/utils/CallbackModel.dart';
-import 'package:glive/utils/GlobalVariables.dart';
-import 'package:glive/utils/syncHelper.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:web_socket_channel/status.dart' as status;
 
 class RealtimeSignalling {
   static List<CallbackModel> signalFunctions = [];
@@ -30,8 +28,7 @@ class RealtimeSignalling {
   static String Type_Transactions = "transactions";
 
   static void onSignal(CallbackModel cb) {
-    signalFunctions = signalFunctions.where((el) => el.id != cb.id).toList()
-      ..add(cb);
+    signalFunctions = signalFunctions.where((el) => el.id != cb.id).toList()..add(cb);
   }
 
   static Future restart() async {
@@ -138,11 +135,7 @@ class RealtimeSignalling {
 
   static void register(String userId, String clientId) {
     log("Socket connected: $userId");
-    Map<String, String> data = {
-      "type": "register",
-      "userId": userId,
-      "clientId": clientId
-    };
+    Map<String, String> data = {"type": "register", "userId": userId, "clientId": clientId};
     channel.sink.add(jsonEncode(data));
   }
 
@@ -155,22 +148,13 @@ class RealtimeSignalling {
   }
 
   static void sendMessage(String from, String to, String message) {
-    Map<String, String> data = {
-      "type": "message",
-      "from": from,
-      "to": to,
-      "message": message
-    };
+    Map<String, String> data = {"type": "message", "from": from, "to": to, "message": message};
     channel.sink.add(jsonEncode(data));
   }
 
   static void sendType(String type) {
     log("Type sent: $type $myClientId $initId");
-    Map<String, String> data = {
-      "type": type,
-      "clientId": myClientId,
-      "userId": initId
-    };
+    Map<String, String> data = {"type": type, "clientId": myClientId, "userId": initId};
     channel.sink.add(jsonEncode(data));
   }
 

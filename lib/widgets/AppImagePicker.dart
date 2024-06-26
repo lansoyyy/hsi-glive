@@ -1,18 +1,14 @@
-import 'dart:convert';
-import 'dart:developer';
+// ignore_for_file: file_names
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:glive/constants/appColors.dart';
-import 'package:glive/constants/assets.dart';
 import 'package:glive/utils/CallbackModel.dart';
 import 'package:glive/utils/CommonFunctions.dart';
 import 'package:glive/utils/ImageUtil.dart';
 import 'package:glive/widgets/TouchableOpacity.dart';
-import 'package:intl/intl.dart';
 
 class AppImagePickerController extends ChangeNotifier {
   List<CallbackModel> loadFunctions = [];
@@ -24,8 +20,7 @@ class AppImagePickerController extends ChangeNotifier {
   }
 
   void onLoadData(CallbackModel cb) {
-    loadFunctions = loadFunctions.where((el) => el.id != cb.id).toList()
-      ..add(cb);
+    loadFunctions = loadFunctions.where((el) => el.id != cb.id).toList()..add(cb);
   }
 }
 
@@ -43,8 +38,7 @@ class AppImagePicker extends StatefulWidget {
   final String title;
   final String icon;
   final AppImagePickerController controller;
-  final Function(String, String, XFile)
-      onChanged; //image name, base64 and xfile
+  final Function(String, String, XFile) onChanged; //image name, base64 and xfile
 
   @override
   State<AppImagePicker> createState() => _AppImagePickerState();
@@ -65,8 +59,7 @@ class _AppImagePickerState extends State<AppImagePicker> {
   @override
   void initState() {
     focusNode.addListener(nodeListener);
-    widget.controller
-        .onLoadData(CallbackModel(id: randomString(24), callback: onLoadData));
+    widget.controller.onLoadData(CallbackModel(id: randomString(24), callback: onLoadData));
     super.initState();
   }
 
@@ -143,9 +136,7 @@ class _AppImagePickerState extends State<AppImagePicker> {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: isFocused
-                    ? Colors.grey.withOpacity(0.5)
-                    : Colors.transparent,
+                color: isFocused ? Colors.grey.withOpacity(0.5) : Colors.transparent,
                 spreadRadius: 1,
                 blurRadius: 5,
                 offset: const Offset(0, 3), // changes position of shadow
@@ -157,15 +148,12 @@ class _AppImagePickerState extends State<AppImagePicker> {
             Container(
               height: 60,
               width: myWidth,
-              padding: EdgeInsets.only(
-                  left: 60, right: 10, top: hasChanged ? 18 : 0),
+              padding: EdgeInsets.only(left: 60, right: 10, top: hasChanged ? 18 : 0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   hasChanged ? imageName : widget.title,
-                  style: TextStyle(
-                      color: hasChanged ? AppColors.black : AppColors.grey,
-                      fontSize: 15),
+                  style: TextStyle(color: hasChanged ? AppColors.black : AppColors.grey, fontSize: 15),
                 ),
               ),
             ),
@@ -194,8 +182,7 @@ class _AppImagePickerState extends State<AppImagePicker> {
                   child: Center(
                     child: Image.asset(
                       widget.icon,
-                      color:
-                          hasChanged ? AppColors.primaryColor : AppColors.grey,
+                      color: hasChanged ? AppColors.primaryColor : AppColors.grey,
                       height: 25,
                       width: 25,
                     ),

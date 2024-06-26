@@ -2,10 +2,11 @@
 //
 //     final ageGenderModel = ageGenderModelFromJson(jsonString);
 
+// ignore_for_file: file_names, duplicate_ignore
+
 import 'dart:convert';
 
-AgeGenderModel ageGenderModelFromJson(String str) =>
-    AgeGenderModel.fromJson(json.decode(str));
+AgeGenderModel ageGenderModelFromJson(String str) => AgeGenderModel.fromJson(json.decode(str));
 
 String ageGenderModelToJson(AgeGenderModel data) => json.encode(data.toJson());
 

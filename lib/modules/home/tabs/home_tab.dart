@@ -1,11 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:glive/models/app/GiftModel.dart';
-import 'package:glive/routes.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
 
@@ -130,8 +125,7 @@ class _HomeTabState extends State<HomeTab> {
         ),
         Expanded(
             child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
@@ -161,8 +155,7 @@ class _HomeTabState extends State<HomeTab> {
                           child: Container(
                             height: 30.sp,
                             width: 30.sp,
-                            decoration: const BoxDecoration(
-                                color: Colors.white38, shape: BoxShape.circle),
+                            decoration: const BoxDecoration(color: Colors.white38, shape: BoxShape.circle),
                             child: Icon(
                               Icons.favorite,
                               color: Colors.white,
@@ -353,8 +346,7 @@ class _HomeTabState extends State<HomeTab> {
                         children: [
                           for (int i = 0; i < 4; i++)
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10),
+                              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.pop(context);
@@ -378,10 +370,8 @@ class _HomeTabState extends State<HomeTab> {
                                       height: 5.sp,
                                     ),
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Image.asset(
                                           'assets/images/gifts/coin.png',
@@ -413,8 +403,7 @@ class _HomeTabState extends State<HomeTab> {
                         children: [
                           for (int i = 4; i < giftList.length; i++)
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
+                              padding: const EdgeInsets.only(left: 10, right: 10),
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.pop(context);
@@ -438,10 +427,8 @@ class _HomeTabState extends State<HomeTab> {
                                       height: 5.sp,
                                     ),
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Image.asset(
                                           'assets/images/gifts/coin.png',

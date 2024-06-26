@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
@@ -5,7 +7,6 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:glive/database/appDatabase.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:glive/network/AuthInterceptor.dart';
 import 'package:glive/routes.dart';
@@ -70,8 +71,7 @@ class NetworkProvider {
     }
   }
 
-  Future<String> post(String uri,
-      {dynamic body, Map<String, dynamic>? queryParams}) async {
+  Future<String> post(String uri, {dynamic body, Map<String, dynamic>? queryParams}) async {
     try {
       log("POST >>> $uri");
       Response<String> response = await _dio.post(
@@ -95,8 +95,7 @@ class NetworkProvider {
     }
   }
 
-  Future<String> putImage(String uri,
-      {dynamic body, Map<String, dynamic>? queryParams}) async {
+  Future<String> putImage(String uri, {dynamic body, Map<String, dynamic>? queryParams}) async {
     try {
       Response<String> response = await _dio.put(
         uri,
@@ -112,8 +111,7 @@ class NetworkProvider {
     }
   }
 
-  Future<String> put(String uri,
-      {dynamic body, Map<String, dynamic>? queryParams}) async {
+  Future<String> put(String uri, {dynamic body, Map<String, dynamic>? queryParams}) async {
     // if (body != null) {
     //   log("PUT >>> $uri\n\nBody: ${jsonEncode(body.toJson())}");
     // } else {
@@ -139,8 +137,7 @@ class NetworkProvider {
     }
   }
 
-  Future<String> patch(String uri,
-      {dynamic body, Map<String, dynamic>? queryParams}) async {
+  Future<String> patch(String uri, {dynamic body, Map<String, dynamic>? queryParams}) async {
     // if (body != null) {
     //   log("PUT >>> $uri\n\nBody: ${jsonEncode(body.toJson())}");
     // } else {
@@ -166,8 +163,7 @@ class NetworkProvider {
     }
   }
 
-  Future<String> delete(String uri,
-      {Object? body, Map<String, dynamic>? queryParams}) async {
+  Future<String> delete(String uri, {Object? body, Map<String, dynamic>? queryParams}) async {
     CancelToken? cancelToken;
     try {
       final Response<String> response = await _dio.delete(

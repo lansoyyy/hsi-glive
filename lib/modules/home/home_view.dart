@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:glive/modules/home/tabs/home_tab.dart';
 import 'package:glive/widgets/AppBottomNavbar.dart';
 
@@ -14,13 +12,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   int _currentIndex = 0;
 
-  final List<Widget> _pages = const [
-    HomeTab(),
-    SizedBox(),
-    SizedBox(),
-    SizedBox(),
-    SizedBox()
-  ];
+  final List<Widget> _pages = const [HomeTab(), SizedBox(), SizedBox(), SizedBox(), SizedBox()];
 
   void _onItemTap(int newIndex) {
     setState(() {

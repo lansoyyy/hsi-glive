@@ -1,22 +1,16 @@
-import 'dart:developer';
+// ignore_for_file: file_names
+
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glive/constants/appColors.dart';
 import 'package:glive/constants/assets.dart';
 import 'package:glive/widgets/TouchableOpacity.dart';
 
 class AppPasswordInput extends StatefulWidget {
-  const AppPasswordInput(
-      {super.key,
-      required this.width,
-      required this.title,
-      required this.controller,
-      required this.icon});
+  const AppPasswordInput({super.key, required this.width, required this.title, required this.controller, required this.icon});
 
   final double width;
   final String title;
@@ -125,9 +119,7 @@ class _AppPasswordInputState extends State<AppPasswordInput> {
             color: Colors.grey.withOpacity(0.30),
             boxShadow: [
               BoxShadow(
-                color: isFocused
-                    ? Colors.grey.withOpacity(0.30)
-                    : Colors.transparent,
+                color: isFocused ? Colors.grey.withOpacity(0.30) : Colors.transparent,
                 spreadRadius: 1,
                 blurRadius: 5,
                 offset: const Offset(0, 3), // changes position of shadow
@@ -154,10 +146,7 @@ class _AppPasswordInputState extends State<AppPasswordInput> {
                   },
                   decoration: InputDecoration(
                       labelText: widget.title,
-                      labelStyle: TextStyle(
-                          color: hasValue
-                              ? AppColors.primaryColor
-                              : AppColors.grey),
+                      labelStyle: TextStyle(color: hasValue ? AppColors.primaryColor : AppColors.grey),
                       isDense: true,
                       hintStyle: TextStyle(color: AppColors.grey),
                       border: InputBorder.none),

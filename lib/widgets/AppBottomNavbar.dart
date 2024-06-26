@@ -1,5 +1,6 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
@@ -39,8 +40,7 @@ class AppBottomNavigationBar extends StatelessWidget {
                   height: 45,
                 )
               : ImageIcon(
-                  AssetImage(
-                      'assets/images/${icon[currentIndex == index ? 'active' : 'inactive']!}.png'),
+                  AssetImage('assets/images/${icon[currentIndex == index ? 'active' : 'inactive']!}.png'),
                   size: 45,
                   color: currentIndex == index ? Colors.white : Colors.grey,
                 ),
