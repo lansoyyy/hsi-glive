@@ -87,7 +87,7 @@ class _AppTextInputState extends State<AppTextInput> {
     }
 
     return Container(
-      height: 70.sp,
+      height: 65.sp,
       width: myWidth,
       decoration: BoxDecoration(
           color: Colors.grey.withOpacity(0.30),
@@ -102,7 +102,7 @@ class _AppTextInputState extends State<AppTextInput> {
             ),
           ],
           border: Border.all(color: Colors.white, width: 0.30),
-          borderRadius: BorderRadius.circular(100)),
+          borderRadius: BorderRadius.circular(5)),
       child: Stack(
         children: [
           Container(

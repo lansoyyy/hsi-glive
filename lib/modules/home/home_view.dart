@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:glive/constants/AppColors.dart';
 import 'package:glive/modules/home/tabs/home_tab.dart';
 import 'package:glive/widgets/AppBottomNavbar.dart';
 
@@ -33,13 +34,10 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                Color(0xFF8B008B), // Darker purple
-                Color(0xFF008B8B), // Darker teal
-              ],
-              stops: [0.0, 1.0],
+              colors: AppColors.gradiants,
+              stops: const [0.0, 1.0],
             ),
           ),
           width: double.infinity,

@@ -17,4 +17,9 @@ class AppColors {
   static Color yellow = HexColor("#f1c40f");
   static Color pumpkin = HexColor("#d35400");
   static Color bluegreen = HexColor("85ecf8");
+
+  static List<Color> gradiants = [
+    const Color(0xFF8B008B), // Darker purple
+    const Color(0xFF008B8B), // Darker teal
+  ];
 }

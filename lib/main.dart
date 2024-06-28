@@ -9,6 +9,7 @@ import 'package:glive/modules/security/faceid_setup_view.dart';
 import 'package:glive/modules/security/faceid_view.dart';
 import 'package:glive/modules/security/fingerprint_view.dart';
 import 'package:glive/modules/security/otp_view.dart';
+import 'package:glive/modules/signup/signup_view.dart';
 import 'package:glive/modules/splash/splash_view.dart';
 import 'package:oktoast/oktoast.dart';
 
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
             child: GetMaterialApp(
               initialRoute: '/',
               getPages: [
-                GetPage(name: '/', page: () => const FingerprintView()),
+                GetPage(name: '/', page: () => const LoginView()),
+                GetPage(name: '/signup', page: () => const SignupView()),
                 GetPage(name: '/login', page: () => const LoginView()),
                 GetPage(
                     name: '/initiallogin',

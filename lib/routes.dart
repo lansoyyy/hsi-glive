@@ -8,6 +8,7 @@ import 'package:glive/modules/security/faceid_setup_view.dart';
 import 'package:glive/modules/security/faceid_view.dart';
 import 'package:glive/modules/security/fingerprint_view.dart';
 import 'package:glive/modules/security/otp_view.dart';
+import 'package:glive/modules/signup/signup_view.dart';
 
 import 'package:glive/modules/splash/splash_view.dart';
 
@@ -34,6 +35,7 @@ class RouteNames {
   static const String faceid = "/faceid";
   static const String faceidsetup = "/faceidsetup";
   static const String channels = "/channels";
+  static const String signup = "/signup";
 }
 
 class AppRoutes {
@@ -47,5 +49,6 @@ class AppRoutes {
     RouteNames.faceid: (context) => const FaceIDView(),
     RouteNames.faceidsetup: (context) => const FaceIDSetupView(),
     RouteNames.channels: (context) => const ChannelsView(),
+    RouteNames.signup: (context) => const SignupView(),
   };
 }

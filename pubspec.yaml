@@ -52,6 +52,7 @@ dependencies:
   get_storage:
   flutter_screenutil:
   local_auth:
+  flutter_stepindicator:
 
 dev_dependencies:
   flutter_test:
