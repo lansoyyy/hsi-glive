@@ -19,4 +19,21 @@ class AppColors {
   static Color yellow = HexColor("#f1c40f");
   static Color pumpkin = HexColor("#d35400");
   static Color bluegreen = HexColor("85ecf8");
+
+  static const Color lightGreyColor = Color(0xFF414141);
+
+  static const Color buttonGradStartColor = Color(0xFFE630EF);
+  static const Color buttonGradEndColor = Color(0xFF33E6F6);
+
+  static const Color giftGradStartColor = Color(0xFFE630EF);
+  static const Color giftGradEndColor = Color(0xFFFFDE62);
+
+  static const Color bgStartGradientColor = Color(0xFF00272A);
+  static const Color bgEndGradientColor = Color(0xFF2F0032);
+
+  static const Color liveBackgroundColor = Color(0xFFF11B43);
+  static const List<Color> bgGradientColors = [
+    Color(0xFF00272A),
+    Color(0xFF2F0032),
+  ];
 }

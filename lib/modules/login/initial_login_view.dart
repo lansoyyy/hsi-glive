@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:glive/routes/AppRoutes.dart';
 
-import 'package:glive/routes.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -59,7 +59,7 @@ class _InitialLoginViewState extends State<InitialLoginView> {
                 padding: const EdgeInsets.only(bottom: 15),
                 child: GestureDetector(
                   onTap: () {
-                    Get.offNamed(RouteNames.login);
+                    Get.offNamed(AppRoutes.LOGIN);
                   },
                   child: Container(
                     width: 350.sp,
@@ -135,7 +135,7 @@ class _InitialLoginViewState extends State<InitialLoginView> {
             ButtonWidget(
               label: 'Sign In',
               onPressed: () {
-                Get.offNamed(RouteNames.login);
+                Get.offNamed(AppRoutes.LOGIN);
               },
             ),
             SizedBox(

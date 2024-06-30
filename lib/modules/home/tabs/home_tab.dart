@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:glive/constants/AppColors.dart';
 import 'package:glive/models/app/GiftModel.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
@@ -21,229 +22,248 @@ class _HomeTabState extends State<HomeTab> {
   bool isChecked = false;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/images/logo.png',
-              width: 80.sp,
-              height: 80.sp,
-            ),
-            SizedBox(
-              width: 10.sp,
-            ),
-            TextWidget(
-              text: 'GVLive GoodVibes',
-              fontSize: 15.sp,
-              color: Colors.white,
-            ),
-            Expanded(
-              child: SizedBox(
-                width: 10.sp,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.search,
-                color: Colors.white,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.notifications_active_outlined,
-                color: Colors.white,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(
-          width: 20.sp,
-        ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              for (int i = 0; i < categories.length; i++)
-                Padding(
-                  padding: const EdgeInsets.only(left: 5, right: 5),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selected = categories[i];
-                      });
-                    },
-                    child: Container(
-                      width: 100.sp,
-                      height: 40.sp,
-                      decoration: selected == categories[i]
-                          ? BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [
-                                  Color(0xFFE630EF),
-                                  Color(0xFF33E6F6),
-                                ],
-                                stops: [0.0, 1.0],
-                              ),
-                              borderRadius: BorderRadius.circular(7.5),
-                            )
-                          : BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(7.5),
-                            ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/${categoryImages[i]}.png',
-                            height: 20.sp,
-                            width: 20.sp,
-                          ),
-                          SizedBox(
-                            width: 10.sp,
-                          ),
-                          TextWidget(
-                            text: categories[i],
-                            fontSize: 12.sp,
-                            color: Colors.black,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-            ],
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: AppColors.bgGradientColors,
+            stops: [0.0891, 0.9926],
+            transform: GradientRotation(263.49 * (3.14159 / 180)),
           ),
         ),
-        SizedBox(
-          height: 20.sp,
-        ),
-        Expanded(
-            child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                sendGift();
-              },
-              child: Card(
-                child: Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(10),
-                    image: const DecorationImage(
-                      opacity: 0.5,
-                      fit: BoxFit.cover,
-                      image: AssetImage(
-                        'assets/images/image 12.png',
-                      ),
+        width: double.infinity,
+        height: double.infinity,
+        child: SafeArea(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/logo.png',
+                    width: 80.sp,
+                    height: 80.sp,
+                  ),
+                  SizedBox(
+                    width: 10.sp,
+                  ),
+                  TextWidget(
+                    text: 'GVLive GoodVibes',
+                    fontSize: 15.sp,
+                    color: Colors.white,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      width: 10.sp,
                     ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.topRight,
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.search,
+                      color: Colors.white,
+                      size: 30.r,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.notifications_active_outlined,
+                      color: Colors.white,
+                      size: 30.r,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 20.sp,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    for (int i = 0; i < categories.length; i++)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5, right: 5),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selected = categories[i];
+                            });
+                          },
                           child: Container(
-                            height: 30.sp,
-                            width: 30.sp,
-                            decoration: const BoxDecoration(color: Colors.white38, shape: BoxShape.circle),
-                            child: Icon(
-                              Icons.favorite,
-                              color: Colors.white,
-                              size: 20.sp,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: SizedBox(
-                            height: 10.sp,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/images/Group 56.png',
-                              height: 40.sp,
-                            ),
-                            SizedBox(
-                              width: 10.sp,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            width: 100.sp,
+                            height: 40.sp,
+                            decoration: selected == categories[i]
+                                ? BoxDecoration(
+                                    gradient: const LinearGradient(
+                                      colors: [
+                                        Color(0xFFE630EF),
+                                        Color(0xFF33E6F6),
+                                      ],
+                                      stops: [0.0, 1.0],
+                                    ),
+                                    borderRadius: BorderRadius.circular(7.5),
+                                  )
+                                : BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(7.5),
+                                  ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                TextWidget(
-                                  text: 'Carla Cruz',
-                                  fontSize: 12.sp,
-                                  color: Colors.white,
+                                Image.asset(
+                                  'assets/images/${categoryImages[i]}.png',
+                                  height: 20.sp,
+                                  width: 20.sp,
                                 ),
                                 SizedBox(
-                                  height: 2.sp,
+                                  width: 10.sp,
                                 ),
                                 TextWidget(
-                                  text: '159k Followers',
-                                  fontSize: 8.sp,
-                                  color: Colors.white,
+                                  text: categories[i],
+                                  fontSize: 12.sp,
+                                  color: Colors.black,
                                 ),
                               ],
                             ),
-                            Expanded(
-                              child: SizedBox(
-                                height: 10.sp,
-                              ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20.sp,
+              ),
+              Expanded(
+                  child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      sendGift();
+                    },
+                    child: Card(
+                      child: Container(
+                        height: double.infinity,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(10),
+                          image: const DecorationImage(
+                            opacity: 0.5,
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                              'assets/images/image 12.png',
                             ),
-                            Container(
-                              height: 30.sp,
-                              width: 70.sp,
-                              decoration: BoxDecoration(
-                                color: Colors.white38,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.remove_red_eye,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Container(
+                                  height: 30.sp,
+                                  width: 30.sp,
+                                  decoration: const BoxDecoration(color: Colors.white38, shape: BoxShape.circle),
+                                  child: Icon(
+                                    Icons.favorite,
                                     color: Colors.white,
                                     size: 20.sp,
                                   ),
-                                  SizedBox(
-                                    width: 5.sp,
+                                ),
+                              ),
+                              Expanded(
+                                child: SizedBox(
+                                  height: 10.sp,
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/Group 56.png',
+                                    height: 40.sp,
                                   ),
-                                  TextWidget(
-                                    text: '120k',
-                                    fontSize: 8.sp,
-                                    color: Colors.white,
+                                  SizedBox(
+                                    width: 10.sp,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      TextWidget(
+                                        text: 'Carla Cruz',
+                                        fontSize: 12.sp,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(
+                                        height: 2.sp,
+                                      ),
+                                      TextWidget(
+                                        text: '159k Followers',
+                                        fontSize: 8.sp,
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: SizedBox(
+                                      height: 10.sp,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 30.sp,
+                                    width: 70.sp,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white38,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.remove_red_eye,
+                                          color: Colors.white,
+                                          size: 20.sp,
+                                        ),
+                                        SizedBox(
+                                          width: 5.sp,
+                                        ),
+                                        TextWidget(
+                                          text: '120k',
+                                          fontSize: 8.sp,
+                                          color: Colors.white,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
+                              SizedBox(
+                                height: 5.sp,
+                              ),
+                            ],
+                          ),
                         ),
-                        SizedBox(
-                          height: 5.sp,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            );
-          },
-        ))
-      ],
+                  );
+                },
+              ))
+            ],
+          ),
+        ),
+      ),
     );
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:glive/routes.dart';
+import 'package:glive/routes/AppRoutes.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 
 import '../../widgets/TextWidget.dart';
@@ -112,7 +112,7 @@ class _OTPViewState extends State<OTPView> {
               //     _controllers.map((controller) => controller.text).join();
               // print("Entered OTP: $otp");
 
-              Get.toNamed(RouteNames.fingerprint);
+              Get.toNamed(AppRoutes.FINGERPRINT);
             },
           ),
         ],

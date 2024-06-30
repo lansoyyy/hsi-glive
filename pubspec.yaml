@@ -52,7 +52,11 @@ dependencies:
   get_storage:
   flutter_screenutil:
 
+  cached_video_player_plus: 
+  visibility_detector:
+
 dev_dependencies:
+  build_runner: ^2.1.5
   flutter_test:
     sdk: flutter
 
@@ -78,6 +82,7 @@ flutter:
   assets:
     - assets/images/
     - assets/excel/
+    - assets/json/
     - assets/images/gifts/
     # - assets/audios/
     # - assets/html/

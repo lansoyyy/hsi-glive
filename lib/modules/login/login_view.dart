@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:glive/network/ApiEndpoints.dart';
 import 'package:glive/network/NetworkProvider.dart';
-import 'package:glive/routes.dart';
+import 'package:glive/routes/AppRoutes.dart';
 import 'package:glive/utils/LoadingUtil.dart';
 import 'package:glive/utils/ToastHelper.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
@@ -63,7 +63,7 @@ class _LoginViewState extends State<LoginView> {
 
         box.write('started', 'true');
 
-        Get.offNamed(RouteNames.home);
+        Get.offNamed(AppRoutes.HOME);
       } catch (e) {
         showToast(e.toString());
       }
@@ -168,7 +168,7 @@ class _LoginViewState extends State<LoginView> {
             ButtonWidget(
               label: 'Sign In',
               onPressed: () {
-                Get.offNamed(RouteNames.home);
+                Get.offNamed(AppRoutes.HOME);
               },
             ),
             SizedBox(
@@ -214,7 +214,7 @@ class _LoginViewState extends State<LoginView> {
                     padding: const EdgeInsets.only(left: 5, right: 5),
                     child: GestureDetector(
                       onTap: () {
-                        Get.offNamed(RouteNames.security);
+                        Get.offNamed(AppRoutes.SECURITY);
                       },
                       child: Container(
                         width: 55.sp,

@@ -9,7 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:glive/database/appDatabase.dart';
 
 import 'package:glive/network/AuthInterceptor.dart';
-import 'package:glive/routes.dart';
+import 'package:glive/routes/AppRoutes.dart';
 import 'package:glive/utils/globalVariables.dart';
 import 'package:glive/utils/localStorage.dart';
 import 'package:glive/utils/toastHelper.dart';
@@ -42,7 +42,7 @@ class NetworkProvider {
 
           Navigator.pushNamedAndRemoveUntil(
             GlobalVariables.navigatorKey.currentContext!,
-            RouteNames.login,
+            AppRoutes.LOGIN,
             (Route<dynamic> route) => false,
           );
         }

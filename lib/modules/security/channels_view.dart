@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:glive/routes.dart';
+import 'package:glive/routes/AppRoutes.dart';
 import 'package:glive/widgets/TextWidget.dart';
 
 import '../../widgets/ButtonWidget.dart';
@@ -134,7 +134,7 @@ channel that you may know below.
                   //     _controllers.map((controller) => controller.text).join();
                   // print("Entered OTP: $otp");
 
-                  Get.toNamed(RouteNames.home);
+                  Get.toNamed(AppRoutes.HOME);
                 },
               ),
               ButtonWidget(
@@ -148,7 +148,7 @@ channel that you may know below.
                   //     _controllers.map((controller) => controller.text).join();
                   // print("Entered OTP: $otp");
 
-                  Get.toNamed(RouteNames.home);
+                  Get.toNamed(AppRoutes.HOME);
                 },
               ),
             ],
