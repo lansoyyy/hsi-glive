@@ -126,7 +126,7 @@ class _AppPasswordInputState extends State<AppPasswordInput> {
               ),
             ],
             border: Border.all(color: Colors.white, width: 0.30),
-            borderRadius: BorderRadius.circular(100)),
+            borderRadius: BorderRadius.circular(5)),
         child: Stack(
           children: [
             Container(

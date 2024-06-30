@@ -9,6 +9,7 @@ import 'package:glive/modules/security/faceid_setup_view.dart';
 import 'package:glive/modules/security/faceid_view.dart';
 import 'package:glive/modules/security/fingerprint_view.dart';
 import 'package:glive/modules/security/otp_view.dart';
+import 'package:glive/modules/signup/signup_view.dart';
 import 'package:glive/modules/splash/splash_view.dart';
 import 'package:glive/routes/AppRoutes.dart';
 
@@ -37,5 +38,6 @@ class AppPages {
     GetPage(name: AppRoutes.FUNDHISTORY, page: () => const ChannelsView()),
     GetPage(name: AppRoutes.ALLLOGS, page: () => const ChannelsView()),
     GetPage(name: AppRoutes.SECURITY, page: () => const ChannelsView()),
+    GetPage(name: AppRoutes.SIGNUP, page: () => const SignupView()),
   ];
 }

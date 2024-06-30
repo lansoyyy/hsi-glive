@@ -14,6 +14,8 @@ class GlobalVariables {
   static late GlobalKey<NavigatorState> navigatorKey;
 }
 
+int registrationIndexPage = 1;
+
 double widthScreen() {
   return GlobalVariables.width;
 }
@@ -21,3 +23,5 @@ double widthScreen() {
 double heightScreen() {
   return GlobalVariables.height;
 }
+
+List socialMediaImages = ['facebook', 'instagram', 'google', 'tiktok'];

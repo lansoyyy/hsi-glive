@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:glive/routes/AppRoutes.dart';
+import 'package:glive/services/auth_service.dart';
 import 'package:glive/widgets/TextWidget.dart';
 
 import '../../widgets/ButtonWidget.dart';
 
-class FaceIDView extends StatelessWidget {
+class FaceIDView extends StatefulWidget {
   const FaceIDView({super.key});
 
+  @override
+  State<FaceIDView> createState() => _FaceIDViewState();
+}
+
+class _FaceIDViewState extends State<FaceIDView> {
+  final AuthenticationService authService = AuthenticationService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +70,7 @@ class FaceIDView extends StatelessWidget {
               //     _controllers.map((controller) => controller.text).join();
               // print("Entered OTP: $otp");
 
-              Get.toNamed(AppRoutes.FACEIDSETUP);
+              authService.authchack(context, AppRoutes.FACEIDSETUP);
             },
           ),
           SizedBox(

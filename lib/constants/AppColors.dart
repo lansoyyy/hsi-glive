@@ -36,4 +36,8 @@ class AppColors {
     Color(0xFF00272A),
     Color(0xFF2F0032),
   ];
+  static List<Color> gradiants = [
+    const Color(0xFF8B008B), // Darker purple
+    const Color(0xFF008B8B), // Darker teal
+  ];
 }

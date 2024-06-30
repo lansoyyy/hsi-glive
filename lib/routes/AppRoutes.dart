@@ -24,4 +24,5 @@ class AppRoutes {
   static const String FACEIDSETUP = "/faceidsetup";
   static const String CHANNELS = "/channels";
   static const String OTP = "/otp";
+  static const String SIGNUP = "/signup";
 }
