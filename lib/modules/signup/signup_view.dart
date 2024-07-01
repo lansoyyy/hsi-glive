@@ -7,6 +7,8 @@ import 'package:glive/modules/signup/tabs/email_tab.dart';
 import 'package:glive/modules/signup/tabs/password_tab.dart';
 import 'package:glive/utils/GlobalVariables.dart';
 
+import 'tabs/referral_tab.dart';
+
 class SignupView extends StatefulWidget {
   const SignupView({super.key});
 
@@ -86,7 +88,7 @@ class _SignupViewState extends State<SignupView> {
                   children: const [
                     EmailTab(),
                     PasswordTab(),
-                    SizedBox(),
+                    ReferralTab(),
                     SizedBox(),
                     SizedBox(),
                   ],

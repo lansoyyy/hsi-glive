@@ -78,7 +78,63 @@ class _PasswordTabState extends State<PasswordTab> {
                 radius: 10,
                 width: 350.sp,
                 label: 'Save Password',
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Dialog(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(
+                              'assets/images/hand.png',
+                              height: 250.sp,
+                              width: 250.sp,
+                            ),
+                            TextWidget(
+                              text: 'Add a Referral Code?',
+                              fontSize: 24.sp,
+                            ),
+                            SizedBox(
+                              height: 10.sp,
+                            ),
+                            ButtonWidget(
+                              width: 200,
+                              radius: 15,
+                              color: const Color(0XFF0A9AAA),
+                              label: 'Yes',
+                              textColor: Colors.white,
+                              onPressed: () {
+                                Navigator.pop(context);
+                                setState(() {
+                                  registrationIndexPage++;
+                                });
+                              },
+                            ),
+                            SizedBox(
+                              height: 20.sp,
+                            ),
+                            ButtonWidget(
+                              width: 200,
+                              radius: 15,
+                              color: Colors.white,
+                              label: 'No',
+                              onPressed: () {
+                                Navigator.pop(context);
+                                setState(() {
+                                  registrationIndexPage = 4;
+                                });
+                              },
+                            ),
+                            SizedBox(
+                              height: 20.sp,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             ),
             SizedBox(
