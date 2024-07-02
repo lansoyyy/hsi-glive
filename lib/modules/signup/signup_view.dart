@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stepindicator/flutter_stepindicator.dart';
 import 'package:glive/constants/AppColors.dart';
+import 'package:glive/modules/security/channels_view.dart';
+import 'package:glive/modules/security/fingerprint_view.dart';
 import 'package:glive/modules/signup/tabs/email_tab.dart';
 import 'package:glive/modules/signup/tabs/password_tab.dart';
 import 'package:glive/utils/GlobalVariables.dart';
@@ -89,8 +91,8 @@ class _SignupViewState extends State<SignupView> {
                     EmailTab(),
                     PasswordTab(),
                     ReferralTab(),
-                    SizedBox(),
-                    SizedBox(),
+                    FingerprintView(),
+                    ChannelsView(),
                   ],
                 ),
               ],
