@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:glive/constants/AppColors.dart';
 import 'package:glive/modules/home/tabs/home_tab.dart';
+import 'package:glive/modules/home/tabs/profile_tab.dart';
 import 'package:glive/widgets/AppBottomNavbar.dart';
 
 import 'tabs/chat_tab.dart';
@@ -22,7 +23,7 @@ class _HomeViewState extends State<HomeView> {
     SizedBox(),
     SizedBox(),
     ChatTab(),
-    SizedBox()
+    ProfileTab()
   ];
 
   void _onItemTap(int newIndex) {
