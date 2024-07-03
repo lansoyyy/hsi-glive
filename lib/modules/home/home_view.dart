@@ -5,6 +5,8 @@ import 'package:glive/constants/AppColors.dart';
 import 'package:glive/modules/home/tabs/home_tab.dart';
 import 'package:glive/widgets/AppBottomNavbar.dart';
 
+import 'tabs/chat_tab.dart';
+
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -19,7 +21,7 @@ class _HomeViewState extends State<HomeView> {
     HomeTab(),
     SizedBox(),
     SizedBox(),
-    SizedBox(),
+    ChatTab(),
     SizedBox()
   ];
 

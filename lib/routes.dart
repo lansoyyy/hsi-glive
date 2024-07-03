@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glive/modules/chats/chat_screen.dart';
 
 import 'package:glive/modules/home/home_view.dart';
 import 'package:glive/modules/login/initial_login_view.dart';
@@ -36,6 +37,7 @@ class RouteNames {
   static const String faceidsetup = "/faceidsetup";
   static const String channels = "/channels";
   static const String signup = "/signup";
+  static const String chat = "/chat";
 }
 
 class AppRoutes {
@@ -50,5 +52,6 @@ class AppRoutes {
     RouteNames.faceidsetup: (context) => const FaceIDSetupView(),
     RouteNames.channels: (context) => const ChannelsView(),
     RouteNames.signup: (context) => const SignupView(),
+    RouteNames.chat: (context) => const ChatScreen(),
   };
 }

@@ -7,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:glive/models/app/GiftModel.dart';
 import 'package:glive/routes.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
+import 'package:glive/widgets/HeaderWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
 
 class HomeTab extends StatefulWidget {
@@ -28,44 +29,7 @@ class _HomeTabState extends State<HomeTab> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/images/logo.png',
-              width: 80.sp,
-              height: 80.sp,
-            ),
-            SizedBox(
-              width: 10.sp,
-            ),
-            TextWidget(
-              text: 'GVLive GoodVibes',
-              fontSize: 15.sp,
-              color: Colors.white,
-            ),
-            Expanded(
-              child: SizedBox(
-                width: 10.sp,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.search,
-                color: Colors.white,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.notifications_active_outlined,
-                color: Colors.white,
-              ),
-            ),
-          ],
-        ),
+        const HeaderWidget(),
         SizedBox(
           width: 20.sp,
         ),
