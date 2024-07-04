@@ -4,6 +4,7 @@ import 'package:glive/modules/chats/chat_screen.dart';
 import 'package:glive/modules/home/home_view.dart';
 import 'package:glive/modules/login/initial_login_view.dart';
 import 'package:glive/modules/login/login_view.dart';
+import 'package:glive/modules/profile/creator_center_view.dart';
 import 'package:glive/modules/security/channels_view.dart';
 import 'package:glive/modules/security/faceid_setup_view.dart';
 import 'package:glive/modules/security/faceid_view.dart';
@@ -38,6 +39,7 @@ class RouteNames {
   static const String channels = "/channels";
   static const String signup = "/signup";
   static const String chat = "/chat";
+  static const String creatorcenter = "/creatorcenter";
 }
 
 class AppRoutes {
@@ -53,5 +55,6 @@ class AppRoutes {
     RouteNames.channels: (context) => const ChannelsView(),
     RouteNames.signup: (context) => const SignupView(),
     RouteNames.chat: (context) => const ChatScreen(),
+    RouteNames.creatorcenter: (context) => const CreatorCenterView(),
   };
 }

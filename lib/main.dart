@@ -5,6 +5,7 @@ import 'package:glive/modules/chats/chat_screen.dart';
 import 'package:glive/modules/home/home_view.dart';
 import 'package:glive/modules/login/initial_login_view.dart';
 import 'package:glive/modules/login/login_view.dart';
+import 'package:glive/modules/profile/creator_center_view.dart';
 import 'package:glive/modules/security/channels_view.dart';
 import 'package:glive/modules/security/faceid_setup_view.dart';
 import 'package:glive/modules/security/faceid_view.dart';
@@ -48,6 +49,9 @@ class MyApp extends StatelessWidget {
                     name: '/faceidsetup', page: () => const FaceIDSetupView()),
                 GetPage(name: '/channels', page: () => const ChannelsView()),
                 GetPage(name: '/chat', page: () => const ChatScreen()),
+                GetPage(
+                    name: '/creatorcenter',
+                    page: () => const CreatorCenterView()),
               ],
               title: 'GLive',
             ),

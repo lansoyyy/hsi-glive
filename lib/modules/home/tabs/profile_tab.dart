@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:glive/widgets/TextWidget.dart';
+
+import '../../../routes.dart';
 
 class ProfileTab extends StatelessWidget {
   const ProfileTab({super.key});
@@ -164,19 +167,24 @@ class ProfileTab extends StatelessWidget {
                           padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
                           child: Column(
                             children: [
-                              Container(
-                                width: double.infinity,
-                                height: 55.sp,
-                                decoration: BoxDecoration(
-                                  color: Colors.white38,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 15.sp, right: 15.sp),
-                                  child: tileItem(
-                                    'Creator Center',
-                                    'image 119',
+                              GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(RouteNames.creatorcenter);
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 55.sp,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white38,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 15.sp, right: 15.sp),
+                                    child: tileItem(
+                                      'Creator Center',
+                                      'image 119',
+                                    ),
                                   ),
                                 ),
                               ),
