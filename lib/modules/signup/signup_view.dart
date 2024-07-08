@@ -7,9 +7,11 @@ import 'package:glive/modules/security/channels_view.dart';
 import 'package:glive/modules/security/fingerprint_view.dart';
 import 'package:glive/modules/signup/tabs/email_tab.dart';
 import 'package:glive/modules/signup/tabs/password_tab.dart';
+import 'package:glive/modules/signup/tabs/userinfo_tab.dart';
 import 'package:glive/utils/GlobalVariables.dart';
+import 'package:glive/widgets/TextWidget.dart';
 
-import 'tabs/referral_tab.dart';
+import 'tabs/interest_tab.dart';
 
 class SignupView extends StatefulWidget {
   const SignupView({super.key});
@@ -19,8 +21,15 @@ class SignupView extends StatefulWidget {
 }
 
 class _SignupViewState extends State<SignupView> {
-  int counter = 4;
-  List list = [0, 1, 2, 3, 4];
+  int counter = 3;
+  List list = [0, 1, 2, 3];
+
+  List features = [
+    'Verify Account',
+    'Create Password',
+    'Interest',
+    'Account Registration',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -39,24 +48,34 @@ class _SignupViewState extends State<SignupView> {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: 30.sp,
-                      width: 30.sp,
-                      decoration: const BoxDecoration(
-                          color: Colors.white38, shape: BoxShape.circle),
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: 20.sp,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 30.sp,
+                        width: 30.sp,
+                        decoration: const BoxDecoration(
+                            color: Colors.white38, shape: BoxShape.circle),
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: 20.sp,
+                        ),
                       ),
                     ),
-                  ),
+                    TextWidget(
+                      text: features[registrationIndexPage],
+                      fontSize: 18.sp,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(
+                      width: 50,
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 15.sp,
@@ -90,9 +109,9 @@ class _SignupViewState extends State<SignupView> {
                   children: const [
                     EmailTab(),
                     PasswordTab(),
-                    ReferralTab(),
-                    FingerprintView(),
-                    ChannelsView(),
+                    InterestTab(),
+                    UserInfoTab(),
+                    // ChannelsView(),
                   ],
                 ),
               ],
