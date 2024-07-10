@@ -169,7 +169,9 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(RouteNames.forgotpassword);
+                      },
                       child: TextWidget(
                         text: 'Forgot Password',
                         fontSize: 12.sp,

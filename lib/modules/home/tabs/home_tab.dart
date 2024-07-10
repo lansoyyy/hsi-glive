@@ -9,6 +9,7 @@ import 'package:glive/routes.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/HeaderWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
+import 'package:share_plus/share_plus.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -174,31 +175,36 @@ class _HomeTabState extends State<HomeTab> {
                                 height: 10.sp,
                               ),
                             ),
-                            Container(
-                              height: 30.sp,
-                              width: 70.sp,
-                              decoration: BoxDecoration(
-                                color: Colors.white38,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.remove_red_eye,
-                                    color: Colors.white,
-                                    size: 20.sp,
-                                  ),
-                                  SizedBox(
-                                    width: 5.sp,
-                                  ),
-                                  TextWidget(
-                                    text: '120k',
-                                    fontSize: 8.sp,
-                                    color: Colors.white,
-                                  ),
-                                ],
+                            GestureDetector(
+                              onTap: () {
+                                Share.share('<link here>');
+                              },
+                              child: Container(
+                                height: 30.sp,
+                                width: 70.sp,
+                                decoration: BoxDecoration(
+                                  color: Colors.white38,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.remove_red_eye,
+                                      color: Colors.white,
+                                      size: 20.sp,
+                                    ),
+                                    SizedBox(
+                                      width: 5.sp,
+                                    ),
+                                    TextWidget(
+                                      text: '120k',
+                                      fontSize: 8.sp,
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],

@@ -13,6 +13,7 @@ class GlobalVariables {
 }
 
 int registrationIndexPage = 0;
+int forgotpasswordIndexPage = 0;
 
 double widthScreen() {
   return GlobalVariables.width;

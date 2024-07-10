@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:glive/modules/chats/chat_screen.dart';
+import 'package:glive/modules/forgot_password/forgotpassword_view.dart';
 
 import 'package:glive/modules/home/home_view.dart';
 import 'package:glive/modules/login/initial_login_view.dart';
@@ -40,6 +41,7 @@ class RouteNames {
   static const String signup = "/signup";
   static const String chat = "/chat";
   static const String creatorcenter = "/creatorcenter";
+  static const String forgotpassword = "/forgotpassword";
 }
 
 class AppRoutes {
@@ -56,5 +58,6 @@ class AppRoutes {
     RouteNames.signup: (context) => const SignupView(),
     RouteNames.chat: (context) => const ChatScreen(),
     RouteNames.creatorcenter: (context) => const CreatorCenterView(),
+    RouteNames.forgotpassword: (context) => const ForgotPasswordView(),
   };
 }

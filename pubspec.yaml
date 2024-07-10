@@ -53,6 +53,7 @@ dependencies:
   flutter_screenutil:
   local_auth:
   flutter_stepindicator:
+  share_plus:
 
 dev_dependencies:
   flutter_test:
