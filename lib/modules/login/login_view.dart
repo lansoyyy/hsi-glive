@@ -80,6 +80,7 @@ class _LoginViewState extends State<LoginView> {
     LoadingUtil.show(context);
 
     Future.delayed(Duration(milliseconds: 1500), () {
+      LoadingUtil.hide(context);
       if (email == 'kurtsanmiguel@gmail.com' && password == '@kurt123') {
         Get.offNamed(RouteNames.home);
         // ToastHelper.success('Successfully Log in');
@@ -92,7 +93,6 @@ class _LoginViewState extends State<LoginView> {
           ToastHelper.error('Incorrect credentials, try again');
         }
       }
-      LoadingUtil.hide(context);
     });
   }
 
