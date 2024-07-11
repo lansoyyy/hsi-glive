@@ -8,35 +8,43 @@ import 'package:glive/utils/GlobalVariables.dart';
 class ToastHelper {
   static void error(String message) {
     showToastWidget(
-      Container(
-        width: 250.sp,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: Colors.red.withOpacity(0.25),
-          border: Border.all(
-            color: Colors.red,
-          ),
-        ),
+      SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.cancel_outlined,
-                color: Colors.red,
-                size: 18.sp,
+          padding: const EdgeInsets.only(top: 20),
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              width: 350.sp,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.red.withOpacity(0.25),
+                border: Border.all(
+                  color: Colors.red,
+                ),
               ),
-              SizedBox(
-                width: 10.sp,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.cancel_outlined,
+                      color: Colors.red,
+                      size: 18.sp,
+                    ),
+                    SizedBox(
+                      width: 10.sp,
+                    ),
+                    TextWidget(
+                      text: message,
+                      fontSize: 14,
+                      color: Colors.red,
+                    ),
+                  ],
+                ),
               ),
-              TextWidget(
-                text: message,
-                fontSize: 14,
-                color: Colors.red,
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -45,35 +53,43 @@ class ToastHelper {
 
   static void success(String message) {
     showToastWidget(
-      Container(
-        width: 250.sp,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: Colors.green.withOpacity(0.25),
-          border: Border.all(
-            color: Colors.green,
-          ),
-        ),
+      SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.check_circle_outline,
-                color: Colors.green,
-                size: 18.sp,
+          padding: const EdgeInsets.only(top: 20),
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              width: 350.sp,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.green.withOpacity(0.25),
+                border: Border.all(
+                  color: Colors.green,
+                ),
               ),
-              SizedBox(
-                width: 10.sp,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.check_circle_outline,
+                      color: Colors.green,
+                      size: 18.sp,
+                    ),
+                    SizedBox(
+                      width: 10.sp,
+                    ),
+                    TextWidget(
+                      text: message,
+                      fontSize: 14,
+                      color: Colors.green,
+                    ),
+                  ],
+                ),
               ),
-              TextWidget(
-                text: message,
-                fontSize: 14,
-                color: Colors.green,
-              ),
-            ],
+            ),
           ),
         ),
       ),

@@ -31,7 +31,7 @@ class AppBottomNavigationBar extends StatelessWidget {
         Map<String, String> icon = entry.value;
 
         return BottomNavigationBarItem(
-          backgroundColor: const Color(0xFF8B008B),
+          backgroundColor: const Color(0xFF2F0032),
           icon: index == 2
               ? Image.asset(
                   'assets/images/${icon['active']}.png',

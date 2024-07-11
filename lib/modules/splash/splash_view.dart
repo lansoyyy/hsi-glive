@@ -27,7 +27,7 @@ class _SplashViewState extends State<SplashView> {
       if (box.read('started') == 'true') {
         Get.offNamed(RouteNames.home);
       } else {
-        Get.offNamed(RouteNames.initiallogin);
+        Get.offNamed(RouteNames.login);
       }
     });
   }

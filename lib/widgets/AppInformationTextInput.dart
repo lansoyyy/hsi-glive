@@ -13,12 +13,15 @@ class AppInformationTextInput extends StatefulWidget {
       required this.width,
       required this.title,
       required this.controller,
+      this.validator, // Add validator parameter
       required this.icon});
 
   final double width;
   final String title;
   final IconData icon;
   final TextEditingController controller;
+
+  final String? Function(String?)? validator; // Add validator parameter
 
   @override
   State<AppInformationTextInput> createState() =>
@@ -88,7 +91,7 @@ class _AppInformationTextInputState extends State<AppInformationTextInput> {
     }
 
     return Container(
-      height: 65.sp,
+      height: 75.sp,
       width: myWidth,
       decoration: BoxDecoration(
           color: Colors.grey.withOpacity(0.30),
@@ -107,11 +110,16 @@ class _AppInformationTextInputState extends State<AppInformationTextInput> {
       child: Stack(
         children: [
           Container(
-            height: 60,
+            height: 70,
             width: myWidth,
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Center(
-              child: TextField(
+              child: TextFormField(
+                textCapitalization: TextCapitalization.words,
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+                validator: widget.validator,
                 controller: widget.controller,
                 focusNode: focusNode,
                 cursorColor: AppColors.primaryColor,

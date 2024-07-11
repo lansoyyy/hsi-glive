@@ -71,7 +71,9 @@ class _InterestTabState extends State<InterestTab> {
                       if (selectedInterests.contains(interests[i])) {
                         selectedInterests.remove(interests[i]);
                       } else {
-                        selectedInterests.add(interests[i]);
+                        if (selectedInterests.length <= 2) {
+                          selectedInterests.add(interests[i]);
+                        }
                       }
                     });
                   },
@@ -85,10 +87,7 @@ class _InterestTabState extends State<InterestTab> {
                           )
                         : BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
-                            gradient: LinearGradient(
-                              colors: AppColors.gradiants,
-                              stops: const [0.0, 0.1],
-                            ),
+                            color: Colors.pink,
                           ),
                     child: Padding(
                       padding: const EdgeInsets.only(
@@ -105,6 +104,9 @@ class _InterestTabState extends State<InterestTab> {
                           TextWidget(
                             text: interests[i],
                             fontSize: 14.sp,
+                            color: selectedInterests.contains(interests[i])
+                                ? Colors.white
+                                : Colors.black,
                           ),
                         ],
                       ),

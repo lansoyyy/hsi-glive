@@ -19,7 +19,7 @@ class AppColors {
   static Color bluegreen = HexColor("85ecf8");
 
   static List<Color> gradiants = [
-    const Color(0xFF8B008B), // Darker purple
-    const Color(0xFF008B8B), // Darker teal
+    const Color(0xFF2F0032), // Darker purple
+    const Color(0xFF00272A), // Darker teal
   ];
 }

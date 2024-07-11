@@ -23,4 +23,4 @@ double heightScreen() {
   return GlobalVariables.height;
 }
 
-List socialMediaImages = ['facebook', 'instagram', 'google', 'tiktok'];
+List socialMediaImages = ['facebook', 'instagram', 'apple'];

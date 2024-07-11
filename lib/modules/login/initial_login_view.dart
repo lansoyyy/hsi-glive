@@ -171,7 +171,7 @@ class _InitialLoginViewState extends State<InitialLoginView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextWidget(
-                  text: 'Don’t have an account?',
+                  text: 'Don’t have an aSSccount?',
                   fontSize: 16.sp,
                   color: Colors.white,
                 ),

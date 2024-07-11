@@ -16,12 +16,14 @@ class AppPasswordInput extends StatefulWidget {
       required this.width,
       required this.title,
       required this.controller,
+      this.validator, // Add validator parameter
       required this.icon});
 
   final double width;
   final String title;
   final IconData icon;
   final TextEditingController controller;
+  final String? Function(String?)? validator; // Add validator parameter
 
   @override
   State<AppPasswordInput> createState() => _AppPasswordInputState();
@@ -119,7 +121,7 @@ class _AppPasswordInputState extends State<AppPasswordInput> {
     return GestureDetector(
       onTapDown: (details) {},
       child: Container(
-        height: 70.sp,
+        height: 75.sp,
         width: myWidth,
         decoration: BoxDecoration(
             color: Colors.grey.withOpacity(0.30),
@@ -142,7 +144,11 @@ class _AppPasswordInputState extends State<AppPasswordInput> {
               width: myWidth,
               padding: const EdgeInsets.only(left: 60, right: 60),
               child: Center(
-                child: TextField(
+                child: TextFormField(
+                  validator: widget.validator,
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
                   controller: widget.controller,
                   obscureText: isFocused ? !isOpened : true,
                   focusNode: focusNode,
@@ -198,12 +204,15 @@ class _AppPasswordInputState extends State<AppPasswordInput> {
                     width: 40,
                     color: Colors.transparent,
                     child: Center(
-                      child: Image.asset(
-                        !isOpened ? Assets.eye_opened : Assets.eye_closed,
-                        color: AppColors.secondaryColor,
-                        height: 25,
-                        width: 25,
-                      ),
+                      child: !isOpened
+                          ? const Icon(
+                              Icons.visibility,
+                              color: Colors.white,
+                            )
+                          : const Icon(
+                              Icons.visibility_off,
+                              color: Colors.white,
+                            ),
                     ),
                   ),
                 ),

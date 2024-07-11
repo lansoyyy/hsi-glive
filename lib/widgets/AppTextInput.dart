@@ -8,17 +8,21 @@ import 'package:glive/constants/appColors.dart';
 import 'package:glive/constants/assets.dart';
 
 class AppTextInput extends StatefulWidget {
-  const AppTextInput(
-      {super.key,
-      required this.width,
-      required this.title,
-      required this.controller,
-      required this.icon});
+  const AppTextInput({
+    super.key,
+    required this.width,
+    required this.title,
+    required this.controller,
+    required this.icon,
+    this.validator, // Add validator parameter
+  });
 
   final double width;
   final String title;
   final IconData icon;
   final TextEditingController controller;
+
+  final String? Function(String?)? validator; // Add validator parameter
 
   @override
   State<AppTextInput> createState() => _AppTextInputState();
@@ -87,7 +91,7 @@ class _AppTextInputState extends State<AppTextInput> {
     }
 
     return Container(
-      height: 65.sp,
+      height: 75.sp,
       width: myWidth,
       decoration: BoxDecoration(
           color: Colors.grey.withOpacity(0.30),
@@ -110,7 +114,11 @@ class _AppTextInputState extends State<AppTextInput> {
             width: myWidth,
             padding: const EdgeInsets.only(left: 60, right: 10),
             child: Center(
-              child: TextField(
+              child: TextFormField(
+                validator: widget.validator,
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
                 controller: widget.controller,
                 focusNode: focusNode,
                 cursorColor: AppColors.primaryColor,

@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
             child: GetMaterialApp(
               initialRoute: '/',
               getPages: [
-                GetPage(name: '/', page: () => const LoginView()),
+                GetPage(name: '/', page: () => const SplashView()),
                 GetPage(name: '/signup', page: () => const SignupView()),
                 GetPage(name: '/login', page: () => const LoginView()),
                 GetPage(

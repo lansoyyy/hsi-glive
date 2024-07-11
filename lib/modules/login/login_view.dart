@@ -92,192 +92,222 @@ class _LoginViewState extends State<LoginView> {
 
   bool isChecked = false;
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: Colors.black,
-          image: DecorationImage(
-            opacity: 0.50,
-            fit: BoxFit.cover,
-            image: AssetImage(
-              'assets/images/login_bg.png',
-            ),
+          gradient: LinearGradient(
+            colors: AppColors.gradiants,
+            stops: const [0.0, 1.0],
           ),
         ),
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                height: 186,
-                'assets/images/logo.png',
-              ),
-              SizedBox(
-                height: 5.sp,
-              ),
-              TextWidget(
-                text: 'Log in to Unlock Best Experience!',
-                fontSize: 18.sp,
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 75.sp,
-              ),
-              AppTextInput(
-                width: 350.sp,
-                title: 'Email Address',
-                controller: emailController,
-                icon: Icons.email,
-              ),
-              SizedBox(
-                height: 20.sp,
-              ),
-              AppPasswordInput(
-                  width: 350.sp,
-                  title: "Password",
-                  controller: passwordController,
-                  icon: Icons.lock),
-              Padding(
-                padding: EdgeInsets.only(left: 25.sp, right: 25.sp),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: 150,
-                      child: Row(
-                        children: [
-                          Checkbox(
-                            checkColor: Colors.black,
-                            activeColor: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 50, bottom: 20),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    height: 186,
+                    'assets/images/logo.png',
+                  ),
+                  SizedBox(
+                    height: 5.sp,
+                  ),
+                  TextWidget(
+                    text: 'Log in to Unlock Best Experience!',
+                    fontSize: 18.sp,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 75.sp,
+                  ),
+                  AppTextInput(
+                    width: 350.sp,
+                    title: 'Email Address',
+                    controller: emailController,
+                    icon: Icons.email,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter an email address';
+                      }
+                      final emailRegex =
+                          RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                      if (!emailRegex.hasMatch(value)) {
+                        return 'Please enter a valid email address';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(
+                    height: 20.sp,
+                  ),
+                  AppPasswordInput(
+                      width: 350.sp,
+                      title: "Password",
+                      controller: passwordController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a password';
+                        }
+                        if (value.length < 8) {
+                          return 'Password must be at least 8 characters long';
+                        }
+                        if (!RegExp(r'[a-zA-Z]').hasMatch(value)) {
+                          return 'Password must contain at least one letter';
+                        }
+                        if (!RegExp(r'\d').hasMatch(value)) {
+                          return 'Password must contain at least one number';
+                        }
+                        if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]')
+                            .hasMatch(value)) {
+                          return 'Password must contain at least one special character';
+                        }
+
+                        return null;
+                      },
+                      icon: Icons.lock),
+                  SizedBox(
+                    height: 5.sp,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 25.sp, right: 25.sp),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: 200,
+                          child: SwitchListTile(
+                            activeColor: AppColors.bluegreen,
+                            controlAffinity: ListTileControlAffinity.leading,
+                            title: TextWidget(
+                              text: 'Remember-Me',
+                              fontSize: 12.sp,
+                              color: Colors.white,
+                            ),
                             value: isChecked,
                             onChanged: (value) {
                               setState(() {
-                                isChecked = value!;
+                                isChecked = value;
                               });
                             },
                           ),
-                          TextWidget(
-                            text: 'Remember-Me',
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Get.toNamed(RouteNames.forgotpassword);
+                          },
+                          child: TextWidget(
+                            text: 'Forgot Password',
                             fontSize: 12.sp,
-                            color: Colors.white,
+                            color: const Color(0XFF85ECF8),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Get.toNamed(RouteNames.forgotpassword);
-                      },
-                      child: TextWidget(
-                        text: 'Forgot Password',
-                        fontSize: 12.sp,
-                        color: const Color(0XFF85ECF8),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20.sp,
-              ),
-              ButtonWidget(
-                label: 'Sign In',
-                onPressed: () {
-                  Get.offNamed(RouteNames.home);
-                },
-              ),
-              SizedBox(
-                height: 10.sp,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextWidget(
-                    text: 'Don’t have an account?',
-                    fontSize: 14.sp,
-                    color: Colors.white,
                   ),
-                  TextButton(
+                  SizedBox(
+                    height: 20.sp,
+                  ),
+                  ButtonWidget(
+                    radius: 10,
+                    label: 'Log in',
                     onPressed: () {
-                      Get.toNamed(RouteNames.signup);
+                      if (_formKey.currentState!.validate()) {
+                        if (emailController.text == 'kurtsanmiguel@gmail.com' &&
+                            passwordController.text == '@kurt123') {
+                          Get.offNamed(RouteNames.home);
+                          ToastHelper.success('Successfully Log in');
+                        } else {
+                          if (emailController.text !=
+                              'kurtsanmiguel@gmail.com') {
+                            ToastHelper.error('Incorrect email, try again');
+                          } else if (passwordController.text != '@kurt123') {
+                            ToastHelper.error('Incorrect password, try again');
+                          } else {
+                            ToastHelper.error(
+                                'Incorrect credentials, try again');
+                          }
+                        }
+                      }
                     },
-                    child: TextWidget(
-                      text: 'Create Account',
-                      fontSize: 14.sp,
-                      color: AppColors.bluegreen,
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 50.sp,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 100.sp,
-                    child: const Divider(
-                      color: Colors.white,
-                    ),
                   ),
                   SizedBox(
-                    width: 10.sp,
+                    height: 10.sp,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextWidget(
+                        text: 'Don’t have an account?',
+                        fontSize: 14.sp,
+                        color: Colors.white,
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Get.toNamed(RouteNames.signup);
+                        },
+                        child: TextWidget(
+                          text: 'Create Account',
+                          fontSize: 14.sp,
+                          color: AppColors.bluegreen,
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30.sp,
                   ),
                   TextWidget(
-                    text: 'or continue with',
+                    text: 'Or sign in using',
                     fontSize: 12.sp,
                     color: Colors.white,
                   ),
                   SizedBox(
-                    width: 10.sp,
+                    height: 20.sp,
                   ),
-                  SizedBox(
-                    width: 100.sp,
-                    child: const Divider(
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 50.sp,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  for (int i = 0; i < 4; i++)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5, right: 5),
-                      child: GestureDetector(
-                        onTap: () {
-                          Get.offNamed(RouteNames.security);
-                        },
-                        child: Container(
-                          width: 55.sp,
-                          height: 55.sp,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white, width: 0.5),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Center(
-                            child: Image.asset(
-                              'assets/images/${socialMediaImages[i]}.png',
-                              height: 30.sp,
-                              width: 30.sp,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      for (int i = 0; i < 3; i++)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5, right: 5),
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.offNamed(RouteNames.security);
+                            },
+                            child: Container(
+                              width: 55.sp,
+                              height: 55.sp,
+                              decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.white, width: 0.5),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Center(
+                                child: Image.asset(
+                                  'assets/images/${socialMediaImages[i]}.png',
+                                  height: 30.sp,
+                                  width: 30.sp,
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
+                    ],
+                  ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),

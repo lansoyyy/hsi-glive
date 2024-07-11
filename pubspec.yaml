@@ -54,6 +54,7 @@ dependencies:
   local_auth:
   flutter_stepindicator:
   share_plus:
+  flutter_spinkit:
 
 dev_dependencies:
   flutter_test:
