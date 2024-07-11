@@ -17,9 +17,9 @@ class ToastHelper {
               width: 350.sp,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
-                color: Colors.red.withOpacity(0.25),
+                color: Colors.red,
                 border: Border.all(
-                  color: Colors.red,
+                  color: Colors.red.withOpacity(0.25),
                 ),
               ),
               child: Padding(
@@ -30,7 +30,7 @@ class ToastHelper {
                   children: [
                     Icon(
                       Icons.cancel_outlined,
-                      color: Colors.red,
+                      color: Colors.white,
                       size: 18.sp,
                     ),
                     SizedBox(
@@ -39,7 +39,7 @@ class ToastHelper {
                     TextWidget(
                       text: message,
                       fontSize: 14,
-                      color: Colors.red,
+                      color: Colors.white,
                     ),
                   ],
                 ),
@@ -62,9 +62,9 @@ class ToastHelper {
               width: 350.sp,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
-                color: Colors.green.withOpacity(0.25),
+                color: Colors.green,
                 border: Border.all(
-                  color: Colors.green,
+                  color: Colors.green.withOpacity(0.25),
                 ),
               ),
               child: Padding(
@@ -75,7 +75,7 @@ class ToastHelper {
                   children: [
                     Icon(
                       Icons.check_circle_outline,
-                      color: Colors.green,
+                      color: Colors.white,
                       size: 18.sp,
                     ),
                     SizedBox(
@@ -84,7 +84,7 @@ class ToastHelper {
                     TextWidget(
                       text: message,
                       fontSize: 14,
-                      color: Colors.green,
+                      color: Colors.white,
                     ),
                   ],
                 ),

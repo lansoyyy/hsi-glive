@@ -23,7 +23,7 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(const Duration(seconds: 5), () async {
+    Timer(const Duration(milliseconds: 1500), () async {
       if (box.read('started') == 'true') {
         Get.offNamed(RouteNames.home);
       } else {

@@ -39,7 +39,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         height: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: AppColors.gradiants,
+            colors: AppColors.gradients,
             stops: const [0.0, 1.0],
           ),
         ),

@@ -4,10 +4,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:glive/constants/AppColors.dart';
+import 'package:glive/utils/QuickDialog.dart';
 import 'package:glive/widgets/AppInformationTextInput.dart';
 import 'package:glive/widgets/AppTextInput.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
+import 'package:glive/widgets/TouchableOpacity.dart';
 
 import '../../../routes.dart';
 
@@ -326,11 +328,24 @@ class _ProfileTabState extends State<ProfileTab> {
                                             ),
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: tileItem(
-                                            'Logout',
-                                            'image 119 (1)',
+                                        TouchableOpacity(
+                                          onTap: () async {
+                                            bool willLogout = await QuickDialog
+                                                .logoutConfirmation(context);
+                                            if (willLogout) {
+                                              Get.offNamed(RouteNames.login);
+                                            }
+                                          },
+                                          child: Container(
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(20.0),
+                                              child: tileItem(
+                                                'Logout',
+                                                'image 119 (1)',
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ],

@@ -18,8 +18,8 @@ class AppColors {
   static Color pumpkin = HexColor("#d35400");
   static Color bluegreen = HexColor("85ecf8");
 
-  static List<Color> gradiants = [
-    const Color(0xFF2F0032), // Darker purple
-    const Color(0xFF00272A), // Darker teal
+  static List<Color> gradients = [
+    HexColor("#00272A"),
+    HexColor("#2F0032"),
   ];
 }
