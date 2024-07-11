@@ -47,7 +47,7 @@ class _SignupViewState extends State<SignupView> {
   // List list = [0, 1, 2, 3];
 
   List features = [
-    'Sign Up',
+    'Verify Account',
     'Create Password',
     'Interest',
     'Account Registration',
@@ -62,13 +62,13 @@ class _SignupViewState extends State<SignupView> {
   String passwordError = "";
   String cPasswordError = "";
   String verifyError = "";
-  Duration resendDuration = Duration(seconds: 60);
+  Duration resendDuration = const Duration(seconds: 60);
 
   Timer? codeTimer;
 
   @override
   void initState() {
-    Future.delayed(Duration(milliseconds: 100), () {
+    Future.delayed(const Duration(milliseconds: 100), () {
       setState(() {
         registrationAccomplishedPage = -1;
         registrationIndexPage = 0;
@@ -92,19 +92,19 @@ class _SignupViewState extends State<SignupView> {
     }
 
     setState(() {
-      resendDuration = Duration(seconds: 60);
+      resendDuration = const Duration(seconds: 60);
     });
 
-    codeTimer = Timer.periodic(Duration(milliseconds: 1000), (tick) {
+    codeTimer = Timer.periodic(const Duration(milliseconds: 1000), (tick) {
       setState(() {
-        resendDuration = resendDuration - Duration(milliseconds: 1000);
+        resendDuration = resendDuration - const Duration(milliseconds: 1000);
       });
     });
   }
 
   void resendCode() {
     LoadingUtil.show(context);
-    Future.delayed(Duration(milliseconds: 1500), () {
+    Future.delayed(const Duration(milliseconds: 1500), () {
       LoadingUtil.hide(context);
 
       resetCodeTimer();
@@ -121,7 +121,7 @@ class _SignupViewState extends State<SignupView> {
       setState(() {
         verifyError = message;
       });
-      Future.delayed(Duration(milliseconds: 3000), () {
+      Future.delayed(const Duration(milliseconds: 3000), () {
         setState(() {
           verifyError = "";
         });
@@ -134,7 +134,7 @@ class _SignupViewState extends State<SignupView> {
       setState(() {
         emailError = message;
       });
-      Future.delayed(Duration(milliseconds: 3000), () {
+      Future.delayed(const Duration(milliseconds: 3000), () {
         setState(() {
           emailError = "";
         });
@@ -147,7 +147,7 @@ class _SignupViewState extends State<SignupView> {
       setState(() {
         passwordError = message;
       });
-      Future.delayed(Duration(milliseconds: 3000), () {
+      Future.delayed(const Duration(milliseconds: 3000), () {
         setState(() {
           passwordError = "";
         });
@@ -160,7 +160,7 @@ class _SignupViewState extends State<SignupView> {
       setState(() {
         cPasswordError = message;
       });
-      Future.delayed(Duration(milliseconds: 3000), () {
+      Future.delayed(const Duration(milliseconds: 3000), () {
         if (!mounted) {
           return;
         }
@@ -173,7 +173,7 @@ class _SignupViewState extends State<SignupView> {
 
   void showFacebookLogin(BuildContext context) {
     LoadingUtil.show(context);
-    Future.delayed(Duration(milliseconds: 1500), () {
+    Future.delayed(const Duration(milliseconds: 1500), () {
       LoadingUtil.hide(context);
       showDialog(
         context: context,
@@ -181,7 +181,7 @@ class _SignupViewState extends State<SignupView> {
           return OAuthDialog(
             platform: 'Facebook',
             logoAsset: 'assets/images/facebook.png',
-            primaryColor: Color(0xFF1877F2),
+            primaryColor: const Color(0xFF1877F2),
             onLogin: (email, password) {
               socialLogin(email, password);
             },
@@ -193,7 +193,7 @@ class _SignupViewState extends State<SignupView> {
 
   void showGoogleLogin(BuildContext context) {
     LoadingUtil.show(context);
-    Future.delayed(Duration(milliseconds: 1500), () {
+    Future.delayed(const Duration(milliseconds: 1500), () {
       LoadingUtil.hide(context);
       showDialog(
         context: context,
@@ -201,7 +201,7 @@ class _SignupViewState extends State<SignupView> {
           return OAuthDialog(
             platform: 'Google',
             logoAsset: 'assets/images/google.png',
-            primaryColor: Color(0xFFDB4437),
+            primaryColor: const Color(0xFFDB4437),
             onLogin: (email, password) {
               socialLogin(email, password);
             },
@@ -213,7 +213,7 @@ class _SignupViewState extends State<SignupView> {
 
   void showAppleLogin(BuildContext context) {
     LoadingUtil.show(context);
-    Future.delayed(Duration(milliseconds: 1500), () {
+    Future.delayed(const Duration(milliseconds: 1500), () {
       LoadingUtil.hide(context);
       showDialog(
         context: context,
@@ -234,7 +234,7 @@ class _SignupViewState extends State<SignupView> {
   void socialLogin(String email, String password) {
     LoadingUtil.show(context);
 
-    Future.delayed(Duration(milliseconds: 1500), () {
+    Future.delayed(const Duration(milliseconds: 1500), () {
       LoadingUtil.hide(context);
       if (email == 'kurtsanmiguel@gmail.com' && password == '@kurt123') {
         showVerificationDialog();
@@ -336,27 +336,27 @@ class _SignupViewState extends State<SignupView> {
                         SizedBox(
                           height: 15.sp,
                         ),
-                        Container(
+                        SizedBox(
                           width: 278.sp,
                           height: 62.sp,
                           child: Column(
                             children: [
                               Stack(
                                 children: [
-                                  Container(
+                                  SizedBox(
                                     height: 25.sp,
                                     width: 278.sp,
                                   ),
                                   Positioned(
                                     left: 5.sp,
-                                    child: Container(
+                                    child: SizedBox(
                                       height: 25.sp,
                                       width: 278.sp,
                                       child: Row(
                                         children: [
                                           Container(
                                             height: 1,
-                                            width: 278.sp,
+                                            width: 260.sp,
                                             color: registrationIndexPage == 0
                                                 ? HexColor("#B9B9B9")
                                                 : HexColor("#3F86FE"),
@@ -367,7 +367,7 @@ class _SignupViewState extends State<SignupView> {
                                   ),
                                   Positioned(
                                     left: 5.sp,
-                                    child: Container(
+                                    child: SizedBox(
                                       height: 25.sp,
                                       width: 278.sp,
                                       child: Row(
@@ -380,8 +380,8 @@ class _SignupViewState extends State<SignupView> {
                                                         0
                                                     ? (((278.sp / 4) + 25.sp) *
                                                         lineMultiplier)
-                                                    : 15.sp) -
-                                                15.sp,
+                                                    : 22.sp) -
+                                                22.sp,
                                             // width: lineWidth,
                                             color: HexColor("#E630EF"),
                                           )
@@ -390,8 +390,8 @@ class _SignupViewState extends State<SignupView> {
                                     ),
                                   ),
                                   Positioned(
-                                    child: Container(
-                                      height: 25.sp,
+                                    child: SizedBox(
+                                      height: 60.sp,
                                       width: 278.sp,
                                       child: Row(
                                         children: [
@@ -405,29 +405,43 @@ class _SignupViewState extends State<SignupView> {
                                                 registrationIndexPage = 0;
                                               }); */
                                             },
-                                            child: Container(
-                                              height: 25.sp,
-                                              width: 25.sp,
-                                              decoration: BoxDecoration(
-                                                  color:
-                                                      registrationAccomplishedPage >=
-                                                              0
-                                                          ? HexColor("#C30FCC")
-                                                          : Colors.white,
-                                                  shape: BoxShape.circle,
-                                                  border:
-                                                      registrationIndexPage >= 0
-                                                          ? Border.all(
-                                                              width: 2.sp,
-                                                              color: HexColor(
-                                                                  "#C30FCC"))
-                                                          : null),
-                                              child: Center(
-                                                  child: Icon(
-                                                Icons.check,
-                                                color: Colors.white,
-                                                size: 18.sp,
-                                              )),
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  height: 30.sp,
+                                                  width: 30.sp,
+                                                  decoration: BoxDecoration(
+                                                      color:
+                                                          registrationAccomplishedPage >=
+                                                                  0
+                                                              ? HexColor(
+                                                                  "#C30FCC")
+                                                              : Colors.white,
+                                                      shape: BoxShape.circle,
+                                                      border:
+                                                          registrationIndexPage >=
+                                                                  0
+                                                              ? Border.all(
+                                                                  width: 2.sp,
+                                                                  color: HexColor(
+                                                                      "#C30FCC"))
+                                                              : null),
+                                                  child: Center(
+                                                      child: Icon(
+                                                    Icons.check,
+                                                    color: Colors.white,
+                                                    size: 18.sp,
+                                                  )),
+                                                ),
+                                                const SizedBox(
+                                                  height: 3,
+                                                ),
+                                                TextWidget(
+                                                  text: 'Verify\nAccount',
+                                                  fontSize: 8,
+                                                  color: Colors.white,
+                                                ),
+                                              ],
                                             ),
                                           ),
                                           const Spacer(),
@@ -441,29 +455,43 @@ class _SignupViewState extends State<SignupView> {
                                                 registrationIndexPage = 1;
                                               });
                                             },
-                                            child: Container(
-                                              height: 25.sp,
-                                              width: 25.sp,
-                                              decoration: BoxDecoration(
-                                                  color:
-                                                      registrationAccomplishedPage >=
-                                                              1
-                                                          ? HexColor("#C30FCC")
-                                                          : Colors.white,
-                                                  shape: BoxShape.circle,
-                                                  border:
-                                                      registrationIndexPage >= 1
-                                                          ? Border.all(
-                                                              width: 2.sp,
-                                                              color: HexColor(
-                                                                  "#C30FCC"))
-                                                          : null),
-                                              child: Center(
-                                                  child: Icon(
-                                                Icons.check,
-                                                color: Colors.white,
-                                                size: 18.sp,
-                                              )),
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  height: 30.sp,
+                                                  width: 30.sp,
+                                                  decoration: BoxDecoration(
+                                                      color:
+                                                          registrationAccomplishedPage >=
+                                                                  1
+                                                              ? HexColor(
+                                                                  "#C30FCC")
+                                                              : Colors.white,
+                                                      shape: BoxShape.circle,
+                                                      border:
+                                                          registrationIndexPage >=
+                                                                  1
+                                                              ? Border.all(
+                                                                  width: 2.sp,
+                                                                  color: HexColor(
+                                                                      "#C30FCC"))
+                                                              : null),
+                                                  child: Center(
+                                                      child: Icon(
+                                                    Icons.check,
+                                                    color: Colors.white,
+                                                    size: 18.sp,
+                                                  )),
+                                                ),
+                                                const SizedBox(
+                                                  height: 3,
+                                                ),
+                                                TextWidget(
+                                                  text: 'Password',
+                                                  fontSize: 8,
+                                                  color: Colors.white,
+                                                ),
+                                              ],
                                             ),
                                           ),
                                           const Spacer(),
@@ -477,29 +505,43 @@ class _SignupViewState extends State<SignupView> {
                                                 registrationIndexPage = 2;
                                               });
                                             },
-                                            child: Container(
-                                              height: 25.sp,
-                                              width: 25.sp,
-                                              decoration: BoxDecoration(
-                                                  color:
-                                                      registrationAccomplishedPage >=
-                                                              2
-                                                          ? HexColor("#C30FCC")
-                                                          : Colors.white,
-                                                  shape: BoxShape.circle,
-                                                  border:
-                                                      registrationIndexPage >= 2
-                                                          ? Border.all(
-                                                              width: 2.sp,
-                                                              color: HexColor(
-                                                                  "#C30FCC"))
-                                                          : null),
-                                              child: Center(
-                                                  child: Icon(
-                                                Icons.check,
-                                                color: Colors.white,
-                                                size: 18.sp,
-                                              )),
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  height: 30.sp,
+                                                  width: 30.sp,
+                                                  decoration: BoxDecoration(
+                                                      color:
+                                                          registrationAccomplishedPage >=
+                                                                  2
+                                                              ? HexColor(
+                                                                  "#C30FCC")
+                                                              : Colors.white,
+                                                      shape: BoxShape.circle,
+                                                      border:
+                                                          registrationIndexPage >=
+                                                                  2
+                                                              ? Border.all(
+                                                                  width: 2.sp,
+                                                                  color: HexColor(
+                                                                      "#C30FCC"))
+                                                              : null),
+                                                  child: Center(
+                                                      child: Icon(
+                                                    Icons.check,
+                                                    color: Colors.white,
+                                                    size: 18.sp,
+                                                  )),
+                                                ),
+                                                const SizedBox(
+                                                  height: 3,
+                                                ),
+                                                TextWidget(
+                                                  text: 'Interest',
+                                                  fontSize: 8,
+                                                  color: Colors.white,
+                                                ),
+                                              ],
                                             ),
                                           ),
                                           const Spacer(),
@@ -513,29 +555,43 @@ class _SignupViewState extends State<SignupView> {
                                                 registrationIndexPage = 3;
                                               });
                                             },
-                                            child: Container(
-                                              height: 25.sp,
-                                              width: 25.sp,
-                                              decoration: BoxDecoration(
-                                                  color:
-                                                      registrationAccomplishedPage >=
-                                                              3
-                                                          ? HexColor("#C30FCC")
-                                                          : Colors.white,
-                                                  shape: BoxShape.circle,
-                                                  border:
-                                                      registrationIndexPage >= 3
-                                                          ? Border.all(
-                                                              width: 2.sp,
-                                                              color: HexColor(
-                                                                  "#C30FCC"))
-                                                          : null),
-                                              child: Center(
-                                                  child: Icon(
-                                                Icons.check,
-                                                color: Colors.white,
-                                                size: 18.sp,
-                                              )),
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  height: 30.sp,
+                                                  width: 30.sp,
+                                                  decoration: BoxDecoration(
+                                                      color:
+                                                          registrationAccomplishedPage >=
+                                                                  3
+                                                              ? HexColor(
+                                                                  "#C30FCC")
+                                                              : Colors.white,
+                                                      shape: BoxShape.circle,
+                                                      border:
+                                                          registrationIndexPage >=
+                                                                  3
+                                                              ? Border.all(
+                                                                  width: 2.sp,
+                                                                  color: HexColor(
+                                                                      "#C30FCC"))
+                                                              : null),
+                                                  child: Center(
+                                                      child: Icon(
+                                                    Icons.check,
+                                                    color: Colors.white,
+                                                    size: 18.sp,
+                                                  )),
+                                                ),
+                                                const SizedBox(
+                                                  height: 3,
+                                                ),
+                                                TextWidget(
+                                                  text: 'User\nInformation',
+                                                  fontSize: 8,
+                                                  color: Colors.white,
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ],
@@ -573,13 +629,7 @@ class _SignupViewState extends State<SignupView> {
                           });
                         }
                       },
-                       
-
-                      onRegister: () {
-
-                        
-
-                      },
+                      onRegister: () {},
                     ),
                     // ChannelsView(),
                   ],
@@ -716,7 +766,7 @@ class _SignupViewState extends State<SignupView> {
                           return;
                         }
                         LoadingUtil.show(context);
-                        Future.delayed(Duration(milliseconds: 1500), () {
+                        Future.delayed(const Duration(milliseconds: 1500), () {
                           LoadingUtil.hide(context);
                           showVerificationDialog();
                           setState(() {
@@ -901,7 +951,7 @@ class _SignupViewState extends State<SignupView> {
               for (int i = 0; i < _focusNodes.length; i++) {
                 _focusNodes[i].unfocus();
               }
-              _controllers.forEach((con) {});
+              for (var con in _controllers) {}
               String otp =
                   _controllers.map((controller) => controller.text).join();
               onVerify(otp);
@@ -914,7 +964,10 @@ class _SignupViewState extends State<SignupView> {
               child: Center(
                 child: Text(
                   "Verify",
-                  style: TextStyle(color: HexColor("#262626"), fontSize: 20.sp),
+                  style: TextStyle(
+                    color: HexColor("#262626"),
+                    fontSize: 20.sp,
+                  ),
                 ),
               ),
             ),
@@ -1006,7 +1059,7 @@ class _SignupViewState extends State<SignupView> {
   }
 
   void onVerify(String otp) {
-    log("My OTP... ${otp}");
+    log("My OTP... $otp");
     if (otp == "123456" || otp == "000000" || otp == "111111") {
       setState(() {
         registrationAccomplishedPage = 0;
@@ -1032,6 +1085,7 @@ class _SignupViewState extends State<SignupView> {
       context: context,
       builder: (context) {
         return Dialog(
+          backgroundColor: Colors.white.withOpacity(0.85),
           child: SizedBox(
             child: Padding(
               padding: const EdgeInsets.all(30.0),
@@ -1045,6 +1099,7 @@ class _SignupViewState extends State<SignupView> {
                     height: 25.sp,
                   ),
                   TextWidget(
+                    isBold: true,
                     text: '''
 Verification Code
 has been sent to your email
@@ -1188,7 +1243,7 @@ has been sent to your email
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                  Container(
+                                  SizedBox(
                                     height: 30.sp,
                                     child: Row(
                                       children: [
@@ -1255,7 +1310,7 @@ has been sent to your email
                           ),
                           Visibility(
                             visible: passwordController.text.isNotEmpty,
-                            child: Container(
+                            child: SizedBox(
                               width: 30.sp,
                               height: 30,
                               child: TouchableOpacity(
@@ -1348,7 +1403,7 @@ has been sent to your email
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                  Container(
+                                  SizedBox(
                                     height: 30.sp,
                                     child: Row(
                                       children: [
@@ -1416,7 +1471,7 @@ has been sent to your email
                           ),
                           Visibility(
                             visible: confirmPasswordController.text.isNotEmpty,
-                            child: Container(
+                            child: SizedBox(
                               width: 30.sp,
                               height: 30,
                               child: TouchableOpacity(
@@ -1477,7 +1532,7 @@ has been sent to your email
                   child: Row(
                     children: [
                       Image.asset(
-                        "assets/images/password${passwordStrength}.png",
+                        "assets/images/password$passwordStrength.png",
                         width: 88.sp,
                       ),
                       SizedBox(
@@ -1597,7 +1652,7 @@ has been sent to your email
                             : Container(
                                 height: 17.sp,
                                 width: 17.sp,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     color: Colors.white,
                                     shape: BoxShape.circle),
                               ),
@@ -1631,7 +1686,7 @@ has been sent to your email
                             : Container(
                                 height: 17.sp,
                                 width: 17.sp,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     color: Colors.white,
                                     shape: BoxShape.circle),
                               ),
@@ -1680,24 +1735,24 @@ has been sent to your email
     setState(() {
       selectedLeft = 1.1.sp;
     });
-    Future.delayed(Duration(milliseconds: 100), () {
+    Future.delayed(const Duration(milliseconds: 100), () {
       setState(() {
         selectedLeft = 1.sp;
       });
 
-      Future.delayed(Duration(milliseconds: 100), () {
+      Future.delayed(const Duration(milliseconds: 100), () {
         setState(() {
           selectedLeft = 1.1.sp;
         });
-        Future.delayed(Duration(milliseconds: 100), () {
+        Future.delayed(const Duration(milliseconds: 100), () {
           setState(() {
             selectedLeft = 1.sp;
           });
-          Future.delayed(Duration(milliseconds: 100), () {
+          Future.delayed(const Duration(milliseconds: 100), () {
             setState(() {
               selectedLeft = 1.1.sp;
             });
-            Future.delayed(Duration(milliseconds: 100), () {
+            Future.delayed(const Duration(milliseconds: 100), () {
               setState(() {
                 selectedLeft = 1.sp;
               });
@@ -1761,7 +1816,7 @@ has been sent to your email
 
                         return AnimatedScale(
                           scale: isSelected ? selectedLeft : 1,
-                          duration: Duration(milliseconds: 100),
+                          duration: const Duration(milliseconds: 100),
                           child: Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: GestureDetector(
@@ -1814,7 +1869,7 @@ has been sent to your email
                                             size: 20.sp,
                                           )
                                         : Image.asset(
-                                            'assets/images/interest/${interest}.png',
+                                            'assets/images/interest/$interest.png',
                                             height: 24.sp,
                                             width: 24.sp,
                                           ),
