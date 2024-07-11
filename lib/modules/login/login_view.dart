@@ -53,7 +53,7 @@ class _LoginViewState extends State<LoginView> {
       setState(() {
         emailError = message;
       });
-      Future.delayed(Duration(milliseconds: 3000), () {
+      Future.delayed(const Duration(milliseconds: 3000), () {
         setState(() {
           emailError = "";
         });
@@ -66,7 +66,7 @@ class _LoginViewState extends State<LoginView> {
       setState(() {
         passwordError = message;
       });
-      Future.delayed(Duration(milliseconds: 3000), () {
+      Future.delayed(const Duration(milliseconds: 3000), () {
         setState(() {
           passwordError = "";
         });
@@ -79,7 +79,7 @@ class _LoginViewState extends State<LoginView> {
   void socialLogin(String email, String password) {
     LoadingUtil.show(context);
 
-    Future.delayed(Duration(milliseconds: 1500), () {
+    Future.delayed(const Duration(milliseconds: 1500), () {
       if (email == 'kurtsanmiguel@gmail.com' && password == '@kurt123') {
         Get.offNamed(RouteNames.home);
         // ToastHelper.success('Successfully Log in');
@@ -147,7 +147,7 @@ class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
   void showFacebookLogin(BuildContext context) {
     LoadingUtil.show(context);
-    Future.delayed(Duration(milliseconds: 1500), () {
+    Future.delayed(const Duration(milliseconds: 1500), () {
       LoadingUtil.hide(context);
       showDialog(
         context: context,
@@ -155,7 +155,7 @@ class _LoginViewState extends State<LoginView> {
           return OAuthDialog(
             platform: 'Facebook',
             logoAsset: 'assets/images/facebook.png',
-            primaryColor: Color(0xFF1877F2),
+            primaryColor: const Color(0xFF1877F2),
             onLogin: (email, password) {
               socialLogin(email, password);
             },
@@ -167,7 +167,7 @@ class _LoginViewState extends State<LoginView> {
 
   void showGoogleLogin(BuildContext context) {
     LoadingUtil.show(context);
-    Future.delayed(Duration(milliseconds: 1500), () {
+    Future.delayed(const Duration(milliseconds: 1500), () {
       LoadingUtil.hide(context);
       showDialog(
         context: context,
@@ -175,7 +175,7 @@ class _LoginViewState extends State<LoginView> {
           return OAuthDialog(
             platform: 'Google',
             logoAsset: 'assets/images/google.png',
-            primaryColor: Color(0xFFDB4437),
+            primaryColor: const Color(0xFFDB4437),
             onLogin: (email, password) {
               socialLogin(email, password);
             },
@@ -187,7 +187,7 @@ class _LoginViewState extends State<LoginView> {
 
   void showAppleLogin(BuildContext context) {
     LoadingUtil.show(context);
-    Future.delayed(Duration(milliseconds: 1500), () {
+    Future.delayed(const Duration(milliseconds: 1500), () {
       LoadingUtil.hide(context);
       showDialog(
         context: context,
@@ -383,7 +383,7 @@ class _LoginViewState extends State<LoginView> {
                                                 fontWeight: FontWeight.w400,
                                               ),
                                             ),
-                                            Container(
+                                            SizedBox(
                                               height: 30.sp,
                                               child: Row(
                                                 children: [
@@ -544,28 +544,29 @@ class _LoginViewState extends State<LoginView> {
                                       });
                                     },
                                     child: AnimatedContainer(
-                                      duration: Duration(milliseconds: 300),
+                                      duration:
+                                          const Duration(milliseconds: 300),
                                       width: 47.sp,
                                       height: 24.sp,
                                       decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(12.sp),
                                         color: !isChecked
-                                            ? Color(0xFF00A2AC)
+                                            ? const Color(0xFF00A2AC)
                                             : Colors.grey,
                                       ),
                                       child: Stack(
                                         children: [
                                           AnimatedPositioned(
-                                            duration:
-                                                Duration(milliseconds: 300),
+                                            duration: const Duration(
+                                                milliseconds: 300),
                                             curve: Curves.easeIn,
                                             left: !isChecked ? 23.sp : 0.sp,
                                             right: !isChecked ? 0.sp : 23.sp,
                                             child: Container(
                                               width: 24.sp,
                                               height: 24.sp,
-                                              decoration: BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 color: Colors.transparent,
                                               ),
@@ -573,9 +574,11 @@ class _LoginViewState extends State<LoginView> {
                                                 child: Container(
                                                   height: 16.sp,
                                                   width: 16.sp,
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color: Colors.white),
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          color: Colors.white),
                                                 ),
                                               ),
                                             ),
@@ -648,8 +651,8 @@ class _LoginViewState extends State<LoginView> {
 
                                   LoadingUtil.show(context);
 
-                                  Future.delayed(Duration(milliseconds: 1500),
-                                      () {
+                                  Future.delayed(
+                                      const Duration(milliseconds: 1500), () {
                                     LoadingUtil.hide(context);
 
                                     if (emailController.text ==
@@ -813,7 +816,8 @@ class OAuthDialog extends StatefulWidget {
   final Color primaryColor;
   final Function onLogin;
 
-  OAuthDialog({
+  const OAuthDialog({
+    super.key,
     required this.platform,
     required this.logoAsset,
     required this.primaryColor,
@@ -828,73 +832,152 @@ class _OAuthDialogState extends State<OAuthDialog> {
   TextEditingController emailCon = TextEditingController();
   TextEditingController passwordCon = TextEditingController();
 
+  bool _isObscure = true;
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.all(0),
-      child: Container(
-        color: Colors.white,
-        padding: EdgeInsets.all(16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              widget.logoAsset,
-              height: 50,
-              color: widget.logoAsset.contains("apple")
-                  ? widget.primaryColor
-                  : null,
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Log in with ${widget.platform}',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: widget.primaryColor,
+      insetPadding: const EdgeInsets.all(0),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Image.asset(
+                      widget.logoAsset,
+                      height: 20,
+                      color: widget.logoAsset.contains("apple")
+                          ? widget.primaryColor
+                          : null,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'Use GVLive with ${widget.platform}',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const Expanded(
+                      child: SizedBox(
+                        width: 10,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(
+                        Icons.close,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            TextField(
-              controller: emailCon,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
+              Divider(
+                color: Colors.grey[200],
+                thickness: 2,
               ),
-            ),
-            SizedBox(height: 20),
-            TextField(
-              controller: passwordCon,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
+              SizedBox(
+                height: 15.sp,
               ),
-              obscureText: true,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Handle login logic here
-                Navigator.pop(context);
-                widget.onLogin(emailCon.text, passwordCon.text);
-              },
-              child: Text(
-                'Login',
-                style: TextStyle(color: Colors.white),
+              Image.asset(
+                'assets/images/logo.png',
+                height: 60,
               ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: widget.primaryColor,
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40),
+              const SizedBox(height: 10),
+              const Text(
+                'Log in your account',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
               ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel'),
-            ),
-          ],
+              const Text(
+                'to continue to GVLive',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                child: TextFormField(
+                  controller: emailCon,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey[100],
+                    labelText: 'Username',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                child: TextField(
+                  controller: passwordCon,
+                  obscureText: _isObscure,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey[100],
+                    labelText: 'Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                      borderSide: BorderSide.none,
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isObscure ? Icons.visibility : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isObscure = !_isObscure;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+                child: ButtonWidget(
+                  textColor: Colors.white,
+                  radius: 100,
+                  color: const Color(0XFF0A9AAA),
+                  label: 'Continue',
+                  onPressed: () {},
+                ),
+              ),
+              // TextButton(
+              //   onPressed: () {
+              //     Navigator.of(context).pop();
+              //   },
+              //   child: const Text('Cancel'),
+              // ),
+            ],
+          ),
         ),
       ),
     );
