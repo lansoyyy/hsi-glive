@@ -356,7 +356,7 @@ class _SignupViewState extends State<SignupView> {
                                         children: [
                                           Container(
                                             height: 1,
-                                            width: 260.sp,
+                                            width: 255.sp,
                                             color: registrationIndexPage == 0
                                                 ? HexColor("#B9B9B9")
                                                 : HexColor("#3F86FE"),
@@ -380,8 +380,8 @@ class _SignupViewState extends State<SignupView> {
                                                         0
                                                     ? (((278.sp / 4) + 25.sp) *
                                                         lineMultiplier)
-                                                    : 17.sp) -
-                                                17.sp,
+                                                    : 25.sp) -
+                                                25.sp,
                                             // width: lineWidth,
                                             color: HexColor("#E630EF"),
                                           )
