@@ -967,7 +967,14 @@ class _OAuthDialogState extends State<OAuthDialog> {
                   radius: 100,
                   color: const Color(0XFF0A9AAA),
                   label: 'Continue',
-                  onPressed: () {},
+                  onPressed: () {
+                    if (emailCon.text.isNotEmpty &&
+                        passwordCon.text.isNotEmpty) {
+                      widget.onLogin(emailCon.text, passwordCon.text);
+                    } else {
+                      ToastHelper.error("Invalid username/password");
+                    }
+                  },
                 ),
               ),
               // TextButton(
