@@ -67,239 +67,236 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           ),
         ),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                MeasureSize(
-                  onChange: (size) {
-                    setState(() {
-                      headerHeight = size.height;
-                    });
-                  },
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 10.sp, right: 10.sp, top: 20.sp),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Container(
-                                  height: 44.sp,
-                                  width: 44.sp,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.1),
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          width: 1,
-                                          color: HexColor("#5A5A5A"))),
-                                  child: Icon(
-                                    Icons.arrow_back,
-                                    color: Colors.white,
-                                    size: 24.sp,
-                                  ),
-                                ),
-                              ),
-                              TextWidget(
-                                text: features[registrationIndexPage],
-                                fontSize: 18.sp,
-                                color: Colors.white,
-                              ),
-                              SizedBox(
+          child: Column(
+            children: [
+              MeasureSize(
+                onChange: (size) {
+                  setState(() {
+                    headerHeight = size.height;
+                  });
+                },
+                child: Container(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 10.sp, right: 10.sp, top: 20.sp),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Container(
                                 height: 44.sp,
                                 width: 44.sp,
+                                decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.1),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        width: 1, color: HexColor("#5A5A5A"))),
+                                child: Icon(
+                                  Icons.arrow_back,
+                                  color: Colors.white,
+                                  size: 24.sp,
+                                ),
+                              ),
+                            ),
+                            TextWidget(
+                              text: features[registrationIndexPage],
+                              fontSize: 18.sp,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              height: 44.sp,
+                              width: 44.sp,
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15.sp,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 87.5, right: 87.5),
+                        child: SizedBox(
+                          width: 278.sp,
+                          height: 62.sp,
+                          child: Column(
+                            children: [
+                              Stack(
+                                children: [
+                                  SizedBox(
+                                    height: 25.sp,
+                                    width: 278.sp,
+                                  ),
+                                  Positioned(
+                                    left: 5.sp,
+                                    child: SizedBox(
+                                      height: 25.sp,
+                                      width: 278.sp,
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            height: 1,
+                                            width: 175.sp,
+                                            color: registrationIndexPage == 0
+                                                ? HexColor("#B9B9B9")
+                                                : HexColor("#3F86FE"),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: 5.sp,
+                                    child: SizedBox(
+                                      height: 25.sp,
+                                      width: 278.sp,
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            height: 1,
+                                            width: ((((278.sp / 2) +
+                                                                25.sp) *
+                                                            lineMultiplier) >
+                                                        0
+                                                    ? (((300.sp / 2) + 25.sp) *
+                                                        lineMultiplier)
+                                                    : 25.sp) -
+                                                0.sp,
+                                            // width: lineWidth,
+                                            color: HexColor("#E630EF"),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    child: SizedBox(
+                                      height: 60.sp,
+                                      width: 278.sp,
+                                      child: Row(
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              /* if (!(registrationAccomplishedPage >=
+                                                  0)) {
+                                                return;
+                                              }
+                                              setState(() {
+                                                registrationIndexPage = 0;
+                                              }); */
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  height: 30.sp,
+                                                  width: 30.sp,
+                                                  decoration: BoxDecoration(
+                                                      color:
+                                                          registrationAccomplishedPage >=
+                                                                  0
+                                                              ? HexColor(
+                                                                  "#C30FCC")
+                                                              : Colors.white,
+                                                      shape: BoxShape.circle,
+                                                      border:
+                                                          registrationIndexPage >=
+                                                                  0
+                                                              ? Border.all(
+                                                                  width: 2.sp,
+                                                                  color: HexColor(
+                                                                      "#C30FCC"))
+                                                              : null),
+                                                  child: Center(
+                                                      child: Icon(
+                                                    Icons.check,
+                                                    color: Colors.white,
+                                                    size: 18.sp,
+                                                  )),
+                                                ),
+                                                const SizedBox(
+                                                  height: 3,
+                                                ),
+                                                TextWidget(
+                                                  text: 'Verify\nAccount',
+                                                  fontSize: 8,
+                                                  color: Colors.white,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          InkWell(
+                                            onTap: () {
+                                              if (!(registrationAccomplishedPage >=
+                                                  1)) {
+                                                return;
+                                              }
+                                              setState(() {
+                                                registrationIndexPage = 1;
+                                              });
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  height: 30.sp,
+                                                  width: 30.sp,
+                                                  decoration: BoxDecoration(
+                                                      color:
+                                                          registrationAccomplishedPage >=
+                                                                  1
+                                                              ? HexColor(
+                                                                  "#C30FCC")
+                                                              : Colors.white,
+                                                      shape: BoxShape.circle,
+                                                      border:
+                                                          registrationIndexPage >=
+                                                                  1
+                                                              ? Border.all(
+                                                                  width: 2.sp,
+                                                                  color: HexColor(
+                                                                      "#C30FCC"))
+                                                              : null),
+                                                  child: Center(
+                                                      child: Icon(
+                                                    Icons.check,
+                                                    color: Colors.white,
+                                                    size: 18.sp,
+                                                  )),
+                                                ),
+                                                const SizedBox(
+                                                  height: 3,
+                                                ),
+                                                TextWidget(
+                                                  text: 'Create New\nPassword',
+                                                  fontSize: 8,
+                                                  color: Colors.white,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               )
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 15.sp,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 75, right: 75),
-                          child: SizedBox(
-                            width: 278.sp,
-                            height: 62.sp,
-                            child: Column(
-                              children: [
-                                Stack(
-                                  children: [
-                                    SizedBox(
-                                      height: 25.sp,
-                                      width: 278.sp,
-                                    ),
-                                    Positioned(
-                                      left: 5.sp,
-                                      child: SizedBox(
-                                        height: 25.sp,
-                                        width: 278.sp,
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              height: 1,
-                                              width: 175.sp,
-                                              color: registrationIndexPage == 0
-                                                  ? HexColor("#B9B9B9")
-                                                  : HexColor("#3F86FE"),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      left: 5.sp,
-                                      child: SizedBox(
-                                        height: 25.sp,
-                                        width: 278.sp,
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              height: 1,
-                                              width: ((((278.sp / 2) + 25.sp) *
-                                                              lineMultiplier) >
-                                                          0
-                                                      ? (((255.sp / 2) +
-                                                              25.sp) *
-                                                          lineMultiplier)
-                                                      : 15.sp) -
-                                                  0.sp,
-                                              // width: lineWidth,
-                                              color: HexColor("#E630EF"),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      child: SizedBox(
-                                        height: 60.sp,
-                                        width: 278.sp,
-                                        child: Row(
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                /* if (!(registrationAccomplishedPage >=
-                                                    0)) {
-                                                  return;
-                                                }
-                                                setState(() {
-                                                  registrationIndexPage = 0;
-                                                }); */
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    height: 30.sp,
-                                                    width: 30.sp,
-                                                    decoration: BoxDecoration(
-                                                        color:
-                                                            registrationAccomplishedPage >=
-                                                                    0
-                                                                ? HexColor(
-                                                                    "#C30FCC")
-                                                                : Colors.white,
-                                                        shape: BoxShape.circle,
-                                                        border: registrationIndexPage >=
-                                                                0
-                                                            ? Border.all(
-                                                                width: 2.sp,
-                                                                color: HexColor(
-                                                                    "#C30FCC"))
-                                                            : null),
-                                                    child: Center(
-                                                        child: Icon(
-                                                      Icons.check,
-                                                      color: Colors.white,
-                                                      size: 18.sp,
-                                                    )),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 3,
-                                                  ),
-                                                  TextWidget(
-                                                    text: 'Verify\nAccount',
-                                                    fontSize: 8,
-                                                    color: Colors.white,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            const Spacer(),
-                                            InkWell(
-                                              onTap: () {
-                                                if (!(registrationAccomplishedPage >=
-                                                    1)) {
-                                                  return;
-                                                }
-                                                setState(() {
-                                                  registrationIndexPage = 1;
-                                                });
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    height: 30.sp,
-                                                    width: 30.sp,
-                                                    decoration: BoxDecoration(
-                                                        color:
-                                                            registrationAccomplishedPage >=
-                                                                    1
-                                                                ? HexColor(
-                                                                    "#C30FCC")
-                                                                : Colors.white,
-                                                        shape: BoxShape.circle,
-                                                        border: registrationIndexPage >=
-                                                                1
-                                                            ? Border.all(
-                                                                width: 2.sp,
-                                                                color: HexColor(
-                                                                    "#C30FCC"))
-                                                            : null),
-                                                    child: Center(
-                                                        child: Icon(
-                                                      Icons.check,
-                                                      color: Colors.white,
-                                                      size: 18.sp,
-                                                    )),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 3,
-                                                  ),
-                                                  TextWidget(
-                                                    text:
-                                                        'Create New\nPassword',
-                                                    fontSize: 8,
-                                                    color: Colors.white,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-                IndexedStack(
-                  index: forgotpasswordIndexPage,
-                  children: [_emailTab(), _passwordTab()],
-                ),
-              ],
-            ),
+              ),
+              IndexedStack(
+                index: forgotpasswordIndexPage,
+                children: [_emailTab(), _passwordTab()],
+              ),
+            ],
           ),
         ),
       ),
@@ -767,8 +764,16 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                           confirmPasswordController.text) {
                         setState(() {
                           // dialog here
-                          successPasswordDialog();
+
+                          // registrationIndexPage = 0;
+                          // registrationAccomplishedPage = -1;
+
+                          registrationIndexPage = 0;
+                          registrationAccomplishedPage = -1;
+                          forgotpasswordIndexPage = 0;
                         });
+
+                        successPasswordDialog();
                       } else {
                         // ToastHelper.error('Password do not match!');
                         setPasswordError("Passwords do not match!");
@@ -1109,7 +1114,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           children: List.generate(6, (index) {
             return Container(
               width: 60.sp,
-              height: 60.sp,
+              height: 65.sp,
               decoration: BoxDecoration(
                 color: (verifyError.isNotEmpty
                         ? HexColor("#FF6363")

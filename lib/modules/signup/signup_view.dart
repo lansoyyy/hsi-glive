@@ -906,7 +906,7 @@ class _SignupViewState extends State<SignupView> {
           children: List.generate(6, (index) {
             return Container(
               width: 60.sp,
-              height: 60.sp,
+              height: 65.sp,
               decoration: BoxDecoration(
                 color: (verifyError.isNotEmpty
                         ? HexColor("#FF6363")
@@ -919,27 +919,29 @@ class _SignupViewState extends State<SignupView> {
                     width: 1.sp),
                 borderRadius: BorderRadius.circular(5),
               ),
-              child: TextField(
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 30.sp,
+              child: Center(
+                child: TextField(
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 30.sp,
+                  ),
+                  controller: _controllers[index],
+                  focusNode: _focusNodes[index],
+                  maxLength: 1,
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      counterText: '',
+                      hintText: "0",
+                      hintStyle: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 30.sp,
+                          color: HexColor("#878686"))),
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  onChanged: (value) => _onSubmit(value, index),
                 ),
-                controller: _controllers[index],
-                focusNode: _focusNodes[index],
-                maxLength: 1,
-                textAlign: TextAlign.center,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    counterText: '',
-                    hintText: "0",
-                    hintStyle: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 30.sp,
-                        color: HexColor("#878686"))),
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                onChanged: (value) => _onSubmit(value, index),
               ),
             );
           }),
