@@ -272,6 +272,8 @@ class _SignupViewState extends State<SignupView> {
       lineMultiplier = 3;
     }
 
+    print('index $registrationIndexPage');
+
     return Scaffold(
       body: Container(
         width: widthScreen(),
@@ -372,16 +374,17 @@ class _SignupViewState extends State<SignupView> {
                                       width: 278.sp,
                                       child: Row(
                                         children: [
+                                          // fix here
                                           Container(
                                             height: 1,
                                             width: ((((278.sp / 4) +
                                                                 25.sp) *
                                                             lineMultiplier) >
                                                         0
-                                                    ? (((278.sp / 4) + 25.sp) *
+                                                    ? (((300.sp / 4) + 18.sp) *
                                                         lineMultiplier)
-                                                    : 25.sp) -
-                                                25.sp,
+                                                    : 20.sp) -
+                                                18.sp,
                                             // width: lineWidth,
                                             color: HexColor("#E630EF"),
                                           )

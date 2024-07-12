@@ -52,7 +52,7 @@ class _UserInfoTabState extends State<UserInfoTab> {
       setState(() {
         profileError = message;
       });
-      Future.delayed(Duration(milliseconds: 3000), () {
+      Future.delayed(const Duration(milliseconds: 3000), () {
         setState(() {
           profileError = "";
         });
@@ -65,7 +65,7 @@ class _UserInfoTabState extends State<UserInfoTab> {
       setState(() {
         genderError = message;
       });
-      Future.delayed(Duration(milliseconds: 3000), () {
+      Future.delayed(const Duration(milliseconds: 3000), () {
         setState(() {
           genderError = "";
         });
@@ -78,7 +78,7 @@ class _UserInfoTabState extends State<UserInfoTab> {
       setState(() {
         lastNameError = message;
       });
-      Future.delayed(Duration(milliseconds: 3000), () {
+      Future.delayed(const Duration(milliseconds: 3000), () {
         setState(() {
           lastNameError = "";
         });
@@ -91,7 +91,7 @@ class _UserInfoTabState extends State<UserInfoTab> {
       setState(() {
         middleNameError = message;
       });
-      Future.delayed(Duration(milliseconds: 3000), () {
+      Future.delayed(const Duration(milliseconds: 3000), () {
         setState(() {
           middleNameError = "";
         });
@@ -104,7 +104,7 @@ class _UserInfoTabState extends State<UserInfoTab> {
       setState(() {
         firstNameError = message;
       });
-      Future.delayed(Duration(milliseconds: 3000), () {
+      Future.delayed(const Duration(milliseconds: 3000), () {
         setState(() {
           firstNameError = "";
         });
@@ -250,7 +250,7 @@ class _UserInfoTabState extends State<UserInfoTab> {
                               setLastNameError("Please enter last name");
                               //return 'Please enter an email address';
                             }
-                            if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!)) {
+                            if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(value!)) {
                               setLastNameError(
                                   "Please enter a valid last name");
                             }
@@ -325,7 +325,7 @@ class _UserInfoTabState extends State<UserInfoTab> {
                               setMiddleNameError("Please enter middle name");
                               //return 'Please enter an email address';
                             }
-                            if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!)) {
+                            if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(value!)) {
                               setMiddleNameError(
                                   "Please enter a valid middle name");
                             }
@@ -400,7 +400,7 @@ class _UserInfoTabState extends State<UserInfoTab> {
                               setFirstNameError("Please enter first name");
                               //return 'Please enter an email address';
                             }
-                            if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!)) {
+                            if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(value!)) {
                               setFirstNameError(
                                   "Please enter a valid first name");
                             }
@@ -474,7 +474,7 @@ class _UserInfoTabState extends State<UserInfoTab> {
                             ),
                             icon: Transform.rotate(
                               angle: -1.6,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.chevron_left,
                                 color: Colors.white,
                               ),
