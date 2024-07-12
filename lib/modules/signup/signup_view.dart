@@ -380,8 +380,8 @@ class _SignupViewState extends State<SignupView> {
                                                         0
                                                     ? (((278.sp / 4) + 25.sp) *
                                                         lineMultiplier)
-                                                    : 22.sp) -
-                                                22.sp,
+                                                    : 17.sp) -
+                                                17.sp,
                                             // width: lineWidth,
                                             color: HexColor("#E630EF"),
                                           )
@@ -1729,32 +1729,32 @@ has been sent to your email
 
   double interestContentHeight = 300.sp;
 
-  double selectedLeft = 1.sp;
+  double selectedLeft = 1;
 
   void playSelectedAnimation() {
     setState(() {
-      selectedLeft = 1.1.sp;
+      selectedLeft = 1.05;
     });
     Future.delayed(const Duration(milliseconds: 100), () {
       setState(() {
-        selectedLeft = 1.sp;
+        selectedLeft = 1;
       });
 
       Future.delayed(const Duration(milliseconds: 100), () {
         setState(() {
-          selectedLeft = 1.1.sp;
+          selectedLeft = 1.05;
         });
         Future.delayed(const Duration(milliseconds: 100), () {
           setState(() {
-            selectedLeft = 1.sp;
+            selectedLeft = 1;
           });
           Future.delayed(const Duration(milliseconds: 100), () {
             setState(() {
-              selectedLeft = 1.1.sp;
+              selectedLeft = 1.05;
             });
             Future.delayed(const Duration(milliseconds: 100), () {
               setState(() {
-                selectedLeft = 1.sp;
+                selectedLeft = 1;
               });
             });
           });
@@ -1863,10 +1863,16 @@ has been sent to your email
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     isSelected
-                                        ? Icon(
-                                            Icons.check_circle,
-                                            color: Colors.white,
-                                            size: 20.sp,
+                                        ? SizedBox(
+                                            height: 24.sp,
+                                            width: 24.sp,
+                                            child: Center(
+                                              child: Icon(
+                                                Icons.check_circle,
+                                                color: Colors.white,
+                                                size: 20.sp,
+                                              ),
+                                            ),
                                           )
                                         : Image.asset(
                                             'assets/images/interest/$interest.png',

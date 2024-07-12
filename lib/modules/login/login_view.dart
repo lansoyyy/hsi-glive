@@ -80,6 +80,7 @@ class _LoginViewState extends State<LoginView> {
     LoadingUtil.show(context);
 
     Future.delayed(const Duration(milliseconds: 1500), () {
+      LoadingUtil.hide(context);
       if (email == 'kurtsanmiguel@gmail.com' && password == '@kurt123') {
         Get.offNamed(RouteNames.home);
         // ToastHelper.success('Successfully Log in');
@@ -92,7 +93,6 @@ class _LoginViewState extends State<LoginView> {
           ToastHelper.error('Incorrect credentials, try again');
         }
       }
-      LoadingUtil.hide(context);
     });
   }
 
@@ -967,7 +967,14 @@ class _OAuthDialogState extends State<OAuthDialog> {
                   radius: 100,
                   color: const Color(0XFF0A9AAA),
                   label: 'Continue',
-                  onPressed: () {},
+                  onPressed: () {
+                    if (emailCon.text.isNotEmpty &&
+                        passwordCon.text.isNotEmpty) {
+                      widget.onLogin(emailCon.text, passwordCon.text);
+                    } else {
+                      ToastHelper.error("Invalid username/password");
+                    }
+                  },
                 ),
               ),
               // TextButton(
