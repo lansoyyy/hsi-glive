@@ -301,7 +301,7 @@ class _UserInfoTabState extends State<UserInfoTab> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Middle Initial",
+                          "Middle Name",
                           style: TextStyle(
                               color: HexColor("#989898"),
                               fontSize: 12.sp,
@@ -317,7 +317,7 @@ class _UserInfoTabState extends State<UserInfoTab> {
                           decoration: InputDecoration(
                               isDense: true,
                               border: InputBorder.none,
-                              hintText: "Enter Middle Initial",
+                              hintText: "Enter Middle Name",
                               hintStyle: TextStyle(
                                   color: HexColor("#5B5B5B"), fontSize: 15.sp)),
                           validator: (value) {
