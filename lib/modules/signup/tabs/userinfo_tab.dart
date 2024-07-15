@@ -574,15 +574,15 @@ class _UserInfoTabState extends State<UserInfoTab> {
                   if (_formKey2.currentState!.validate()) {
                     // showSuccessDialog();
 
-                    if (!RegExp(r'^[a-zA-Z]+$').hasMatch(fname.text) ||
+                    if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(fname.text) ||
                         fname.text.isEmpty) {
                       return;
                     }
-                    if (!RegExp(r'^[a-zA-Z]+$').hasMatch(mname.text) ||
+                    if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(mname.text) ||
                         mname.text.isEmpty) {
                       return;
                     }
-                    if (!RegExp(r'^[a-zA-Z]+$').hasMatch(lname.text) ||
+                    if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(lname.text) ||
                         lname.text.isEmpty) {
                       return;
                     }
