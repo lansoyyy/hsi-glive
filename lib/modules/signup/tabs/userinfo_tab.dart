@@ -16,7 +16,8 @@ import 'package:glive/widgets/AppTextInput.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
 import 'package:glive/widgets/TouchableOpacity.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:image_picker/image_picker.dart';
+// import 'package:share_plus/share_plus.dart';
 
 import '../../../widgets/AppInformationTextInput.dart';
 
@@ -541,7 +542,7 @@ class _UserInfoTabState extends State<UserInfoTab> {
               ),
             ),
             SizedBox(
-              height: 20.sp,
+              height: 75.sp,
             ),
             /* ButtonWidget(
               height: 55,
