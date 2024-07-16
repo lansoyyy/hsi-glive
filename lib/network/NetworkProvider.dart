@@ -72,9 +72,6 @@ class NetworkProvider {
 
   Future<String> post(String uri,
       {dynamic body, Map<String, dynamic>? queryParams}) async {
-    print('Response $uri');
-    print('Response $body');
-    print('Response $queryParams');
     try {
       log("POST >>> $uri");
       Response<String> response = await _dio.post(
@@ -84,10 +81,8 @@ class NetworkProvider {
         options: Options(responseType: ResponseType.plain),
       );
 
-      print('Response $response');
       return response.data ?? "";
     } on DioException catch (e) {
-      print('Response 1 $e');
       // log("post error ${uri} --> $e");
       try {
         Map errorMap = jsonDecode(e.response.toString());
@@ -96,10 +91,49 @@ class NetworkProvider {
         checkAPIError(errorMessage);
 
         log("POST Error: ${e.response}");
+      } catch (_) {}
+      return "";
+    }
+  }
 
-        print('Response 11 $e');
-      } catch (_) {
-        print('Response 222 $e');
+  Future<String> setpassword(String uri,
+      {dynamic body, Map<String, dynamic>? queryParams, String? token}) async {
+    print("Token: $token");
+    try {
+      log("POST >>> $uri");
+      log("Body: $body");
+      log("Query Params: $queryParams");
+      log("Headers: Authorization: Bearer $token");
+
+      Response<String> response = await _dio.post(
+        uri,
+        data: body,
+        queryParameters: queryParams,
+        options: Options(
+          responseType: ResponseType.plain,
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      return response.data ?? "";
+    } on DioException catch (e) {
+      print("DioException: $e");
+      if (e.response != null) {
+        print("Response Status Code: ${e.response?.statusCode}");
+        print("Response Data: ${e.response?.data}");
+      }
+      // log("post error ${uri} --> $e");
+      try {
+        Map errorMap = jsonDecode(e.response.toString());
+        String errorMessage = errorMap["error"]["message"];
+        ToastHelper.error(errorMessage);
+        checkAPIError(errorMessage);
+
+        log("POST Error: ${e.response}");
+      } catch (e) {
+        print("Error decoding response: $e");
       }
       return "";
     }

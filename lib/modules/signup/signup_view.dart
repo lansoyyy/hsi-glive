@@ -110,6 +110,8 @@ class _SignupViewState extends State<SignupView> {
     Future.delayed(const Duration(milliseconds: 1500), () {
       LoadingUtil.hide(context);
 
+      sendOtp(userId);
+
       resetCodeTimer();
       for (int i = 0; i < _controllers.length; i++) {
         _controllers[i].clear();
@@ -1586,10 +1588,8 @@ has been sent to your email
 
                       if (passwordController.text ==
                           confirmPasswordController.text) {
-                        setState(() {
-                          registrationIndexPage = 2;
-                          registrationAccomplishedPage = 1;
-                        });
+                        setpassword(passwordController.text,
+                            confirmPasswordController.text);
                       } else {
                         // ToastHelper.error('Password do not match!');
                         setPasswordError("Passwords do not match!");
@@ -1967,6 +1967,9 @@ has been sent to your email
 
   String userId = '';
 
+  String accesstoken = '';
+  String refreshtoken = '';
+
   verifyEmail(String email) async {
     try {
       String response =
@@ -1997,6 +2000,7 @@ has been sent to your email
         'userId': userId,
       });
       if (jsonDecode(response)['c'] == 200) {
+        ToastHelper.error('OTP has been sent!');
         setState(() {});
       } else {
         ToastHelper.error(jsonDecode(response)['m']);
@@ -2011,12 +2015,15 @@ has been sent to your email
         'userId': userId,
         'otpNumber': otpNumber,
       });
+
       if (jsonDecode(response)['c'] == 200) {
         if (codeTimer != null) {
           codeTimer!.cancel();
         }
 
         setState(() {
+          accesstoken = jsonDecode(response)['d']['tokens']['access'];
+          refreshtoken = jsonDecode(response)['d']['tokens']['refresh'];
           registrationAccomplishedPage = 0;
           registrationIndexPage = 1;
           isVerified = false;
@@ -2027,6 +2034,41 @@ has been sent to your email
         ToastHelper.error(
             "You have entered the wrong verification code.\nPlease try again.");
       }
-    } catch (e) {}
+    } catch (e) {
+      setVerifyError(
+          "You have entered the wrong verification code.\nPlease try again.");
+      // ToastHelper.error(
+      //     "You have entered the wrong verification code.\nPlease try again.");
+    }
+  }
+
+  setpassword(String password, String cpassword) async {
+    try {
+      String response =
+          await networkProvider.setpassword(ApiEndpoints.setpassword,
+              body: {
+                'password': password,
+                'cpassword': cpassword,
+              },
+              token: refreshtoken);
+      if (jsonDecode(response)['c'] == 200) {
+        if (codeTimer != null) {
+          codeTimer!.cancel();
+        }
+
+        setState(() {
+          registrationIndexPage = 2;
+          registrationAccomplishedPage = 1;
+        });
+      } else {
+        setVerifyError("Invalid password");
+        ToastHelper.error("Invalid password");
+      }
+    } catch (e) {
+      setVerifyError("Something went wrong!");
+      ToastHelper.error("Something went wrong!");
+      // ToastHelper.error(
+      //     "You have entered the wrong verification code.\nPlease try again.");
+    }
   }
 }

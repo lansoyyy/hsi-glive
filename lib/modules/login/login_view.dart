@@ -97,41 +97,13 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void login() async {
-    String username = emailController.text;
-    String password = passwordController.text;
-
-    print('Response $username');
-    print('Response $password');
-    if (username.isEmpty) {
-      ToastHelper.error("Username is required");
-      return;
-    }
-    if (password.isEmpty) {
-      ToastHelper.error("Password is required");
-      return;
-    }
-    // LoadingUtil.show(context);
-
     String response = await networkProvider.post(ApiEndpoints.login,
-        body: LoginParameter(email: username, password: password).toJson());
-
-    print('Response $response');
+        body: LoginParameter(
+                email: emailController.text, password: passwordController.text)
+            .toJson());
 
     if (jsonDecode(response)['c'] == 200) {
       try {
-        // LoginResponse loginResponse =
-        //     LoginResponse.fromJson(jsonDecode(response));
-
-        // await LocalStorage.save(
-        //     StorageCodes.token, loginResponse.token.toString());
-        // await LocalStorage.save(StorageCodes.isLoggedIn, "true");
-        // GlobalVariables.currentUser = loginResponse.user!;
-        // GlobalVariables.isUserReady = true;
-        // await LocalStorage.save(
-        //     StorageCodes.currentUser, jsonEncode(loginResponse.user!.toJson()));
-        // await AdminRepository.save(GlobalVariables.currentUser);
-        // await SyncHelper.checkSync();
-
         box.write('started', 'true');
 
         Get.offNamed(RouteNames.home);
@@ -656,11 +628,11 @@ class _LoginViewState extends State<LoginView> {
                                     return;
                                   }
 
-                                  // LoadingUtil.show(context);
+                                  LoadingUtil.show(context);
 
                                   Future.delayed(
                                       const Duration(milliseconds: 1500), () {
-                                    // LoadingUtil.hide(context);
+                                    LoadingUtil.hide(context);
 
                                     try {
                                       login();
