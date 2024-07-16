@@ -99,6 +99,9 @@ class _LoginViewState extends State<LoginView> {
   void login() async {
     String username = emailController.text;
     String password = passwordController.text;
+
+    print('Response $username');
+    print('Response $password');
     if (username.isEmpty) {
       ToastHelper.error("Username is required");
       return;
@@ -107,10 +110,12 @@ class _LoginViewState extends State<LoginView> {
       ToastHelper.error("Password is required");
       return;
     }
-    LoadingUtil.show(context);
+    // LoadingUtil.show(context);
 
     String response = await networkProvider.post(ApiEndpoints.login,
-        body: LoginParameter(email: username, password: password));
+        body: LoginParameter(email: username, password: password).toJson());
+
+    print('Response $response');
 
     if (jsonDecode(response)['c'] == 200) {
       try {
@@ -130,6 +135,8 @@ class _LoginViewState extends State<LoginView> {
         box.write('started', 'true');
 
         Get.offNamed(RouteNames.home);
+
+        ToastHelper.success('Successfully Log in');
       } catch (e) {
         showToast(e.toString());
       }
@@ -649,31 +656,17 @@ class _LoginViewState extends State<LoginView> {
                                     return;
                                   }
 
-                                  LoadingUtil.show(context);
+                                  // LoadingUtil.show(context);
 
                                   Future.delayed(
                                       const Duration(milliseconds: 1500), () {
-                                    LoadingUtil.hide(context);
+                                    // LoadingUtil.hide(context);
 
-                                    if (emailController.text ==
-                                            'kurtsanmiguel@gmail.com' &&
-                                        passwordController.text == '@kurt123') {
-                                      Get.offNamed(RouteNames.home);
-                                      /*  ToastHelper.success(
-                                          'Successfully Log in'); */
-                                    } else {
-                                      if (emailController.text !=
-                                          'kurtsanmiguel@gmail.com') {
-                                        ToastHelper.error(
-                                            'Incorrect email, try again');
-                                      } else if (passwordController.text !=
-                                          '@kurt123') {
-                                        ToastHelper.error(
-                                            'Incorrect password, try again');
-                                      } else {
-                                        ToastHelper.error(
-                                            'Incorrect credentials, try again');
-                                      }
+                                    try {
+                                      login();
+                                    } catch (e) {
+                                      ToastHelper.error(
+                                          'Incorrect credentials, try again');
                                     }
                                   });
                                 }

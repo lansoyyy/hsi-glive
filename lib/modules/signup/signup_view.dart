@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -14,6 +15,8 @@ import 'package:glive/modules/security/fingerprint_view.dart';
 import 'package:glive/modules/signup/tabs/email_tab.dart';
 import 'package:glive/modules/signup/tabs/password_tab.dart';
 import 'package:glive/modules/signup/tabs/userinfo_tab.dart';
+import 'package:glive/network/ApiEndpoints.dart';
+import 'package:glive/network/NetworkProvider.dart';
 import 'package:glive/utils/CommonFunctions.dart';
 import 'package:glive/utils/GlobalVariables.dart';
 import 'package:glive/utils/LoadingUtil.dart';
@@ -771,10 +774,8 @@ class _SignupViewState extends State<SignupView> {
                         LoadingUtil.show(context);
                         Future.delayed(const Duration(milliseconds: 1500), () {
                           LoadingUtil.hide(context);
-                          showVerificationDialog();
-                          setState(() {
-                            isVerified = true;
-                          });
+
+                          verifyEmail(emailController.text);
                         });
                       }
                     },
@@ -1063,26 +1064,10 @@ class _SignupViewState extends State<SignupView> {
     }
   }
 
-  void onVerify(String otp) {
+  void onVerify(String otp1) {
     log("My OTP... $otp");
-    if (otp == "123456" || otp == "000000" || otp == "111111") {
-      setState(() {
-        registrationAccomplishedPage = 0;
-        registrationIndexPage = 1;
-      });
 
-      if (codeTimer != null) {
-        codeTimer!.cancel();
-      }
-
-      setState(() {
-        isVerified = false;
-      });
-    } else {
-      //error here
-      setVerifyError(
-          "You have entered the wrong verification code.\nPlease try again.");
-    }
+    verifyOtp(otp1, userId);
   }
 
   showVerificationDialog() async {
@@ -1976,5 +1961,75 @@ has been sent to your email
         ],
       ),
     );
+  }
+
+  NetworkProvider networkProvider = NetworkProvider();
+
+  String userId = '';
+  String otp = '';
+
+  verifyEmail(String email) async {
+    try {
+      String response =
+          await networkProvider.post(ApiEndpoints.verifyemail, body: {
+        'email': email,
+      });
+      if (jsonDecode(response)['c'] == 200) {
+        showVerificationDialog();
+
+        print('Response otp ${jsonDecode(response)['d']['userId']}');
+
+        sendOtp(jsonDecode(response)['d']['userId']);
+        setState(() {
+          userId = jsonDecode(response)['d']['userId'];
+          isVerified = true;
+        });
+      } else {
+        ToastHelper.error(jsonDecode(response)['m']);
+      }
+    } catch (e) {
+      ToastHelper.error('Invalid email provided.');
+    }
+  }
+
+  sendOtp(String userId) async {
+    try {
+      String response = await networkProvider.post(ApiEndpoints.sendotp, body: {
+        'userId': userId,
+      });
+      if (jsonDecode(response)['c'] == 200) {
+        setState(() {
+          otp = jsonDecode(response)['d']['otp'];
+        });
+      } else {
+        ToastHelper.error(jsonDecode(response)['m']);
+      }
+    } catch (e) {}
+  }
+
+  verifyOtp(String otpNumber, String userId) async {
+    try {
+      String response =
+          await networkProvider.post(ApiEndpoints.verifyotp, body: {
+        'userId': userId,
+        'otpNumber': otpNumber,
+      });
+      if (jsonDecode(response)['c'] == 200) {
+        if (codeTimer != null) {
+          codeTimer!.cancel();
+        }
+
+        setState(() {
+          registrationAccomplishedPage = 0;
+          registrationIndexPage = 1;
+          isVerified = false;
+        });
+      } else {
+        setVerifyError(
+            "You have entered the wrong verification code.\nPlease try again.");
+        ToastHelper.error(
+            "You have entered the wrong verification code.\nPlease try again.");
+      }
+    } catch (e) {}
   }
 }
