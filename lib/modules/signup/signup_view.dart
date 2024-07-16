@@ -819,7 +819,7 @@ class _SignupViewState extends State<SignupView> {
                   ],
                 ),
                 SizedBox(
-                  height: 70.sp,
+                  height: 125.sp,
                 ),
                 TextWidget(
                   text: 'Or sign in using',

@@ -16,7 +16,8 @@ import 'package:glive/widgets/AppTextInput.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
 import 'package:glive/widgets/TouchableOpacity.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:image_picker/image_picker.dart';
+// import 'package:share_plus/share_plus.dart';
 
 import '../../../widgets/AppInformationTextInput.dart';
 
@@ -541,7 +542,7 @@ class _UserInfoTabState extends State<UserInfoTab> {
               ),
             ),
             SizedBox(
-              height: 20.sp,
+              height: 75.sp,
             ),
             /* ButtonWidget(
               height: 55,
@@ -573,15 +574,15 @@ class _UserInfoTabState extends State<UserInfoTab> {
                   if (_formKey2.currentState!.validate()) {
                     // showSuccessDialog();
 
-                    if (!RegExp(r'^[a-zA-Z]+$').hasMatch(fname.text) ||
+                    if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(fname.text) ||
                         fname.text.isEmpty) {
                       return;
                     }
-                    if (!RegExp(r'^[a-zA-Z]+$').hasMatch(mname.text) ||
+                    if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(mname.text) ||
                         mname.text.isEmpty) {
                       return;
                     }
-                    if (!RegExp(r'^[a-zA-Z]+$').hasMatch(lname.text) ||
+                    if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(lname.text) ||
                         lname.text.isEmpty) {
                       return;
                     }
