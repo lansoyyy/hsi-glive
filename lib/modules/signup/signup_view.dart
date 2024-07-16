@@ -1065,7 +1065,7 @@ class _SignupViewState extends State<SignupView> {
   }
 
   void onVerify(String otp1) {
-    log("My OTP... $otp");
+    log("My OTP... $otp1");
 
     verifyOtp(otp1, userId);
   }
@@ -1966,7 +1966,6 @@ has been sent to your email
   NetworkProvider networkProvider = NetworkProvider();
 
   String userId = '';
-  String otp = '';
 
   verifyEmail(String email) async {
     try {
@@ -1998,9 +1997,7 @@ has been sent to your email
         'userId': userId,
       });
       if (jsonDecode(response)['c'] == 200) {
-        setState(() {
-          otp = jsonDecode(response)['d']['otp'];
-        });
+        setState(() {});
       } else {
         ToastHelper.error(jsonDecode(response)['m']);
       }
