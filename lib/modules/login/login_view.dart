@@ -97,28 +97,34 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void login() async {
-    String response = await networkProvider.post(ApiEndpoints.login,
-        body: LoginParameter(
-                email: emailController.text, password: passwordController.text)
-            .toJson());
+    try {
+      String response = await networkProvider.post(ApiEndpoints.login,
+          body: LoginParameter(
+                  email: emailController.text,
+                  password: passwordController.text)
+              .toJson());
 
-    if (jsonDecode(response)['c'] == 200) {
-      try {
-        box.write('started', 'true');
+      if (jsonDecode(response)['c'] == 200) {
+        try {
+          box.write('started', 'true');
 
-        Get.offNamed(RouteNames.home);
+          Get.offNamed(RouteNames.home);
 
-        ToastHelper.success('Successfully Log in');
-      } catch (e) {
-        showToast(e.toString());
+          ToastHelper.success('Successfully Log in');
+        } catch (e) {
+          showToast(e.toString());
+        }
+
+        return;
+      } else {
+        showToast('Invalid email or password');
       }
 
-      return;
-    } else {
-      showToast('Invalid email or password');
+      LoadingUtil.hide(context);
+    } catch (e) {
+      ToastHelper.error("Invalid email or password.");
+      LoadingUtil.hide(context);
     }
-
-    LoadingUtil.hide(context);
   }
 
   bool isChecked = false;

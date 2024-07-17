@@ -36,6 +36,7 @@ import 'package:glive/widgets/AppTextInput.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
 import 'package:glive/widgets/TouchableOpacity.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'tabs/interest_tab.dart';
 
 class SignupView extends StatefulWidget {
@@ -1979,8 +1980,6 @@ has been sent to your email
       if (jsonDecode(response)['c'] == 200) {
         showVerificationDialog();
 
-        print('Response otp ${jsonDecode(response)['d']['userId']}');
-
         sendOtp(jsonDecode(response)['d']['userId']);
         setState(() {
           userId = jsonDecode(response)['d']['userId'];
@@ -2000,8 +1999,7 @@ has been sent to your email
         'userId': userId,
       });
       if (jsonDecode(response)['c'] == 200) {
-        ToastHelper.error('OTP has been sent!');
-        setState(() {});
+        // ToastHelper.success('OTP has been sent!');
       } else {
         ToastHelper.error(jsonDecode(response)['m']);
       }
@@ -2009,6 +2007,8 @@ has been sent to your email
   }
 
   verifyOtp(String otpNumber, String userId) async {
+    final prefs = await SharedPreferences.getInstance();
+
     try {
       String response =
           await networkProvider.post(ApiEndpoints.verifyotp, body: {
@@ -2016,14 +2016,22 @@ has been sent to your email
         'otpNumber': otpNumber,
       });
 
-      if (jsonDecode(response)['c'] == 200) {
+      final data = jsonDecode(response);
+      if (data['c'] == 200) {
         if (codeTimer != null) {
           codeTimer!.cancel();
         }
 
-        setState(() {
-          accesstoken = jsonDecode(response)['d']['tokens']['access'];
-          refreshtoken = jsonDecode(response)['d']['tokens']['refresh'];
+        setState(() async {
+          final tokens = data['d']['tokens'];
+          if (tokens != null &&
+              tokens.containsKey('access') &&
+              tokens.containsKey('refresh')) {
+            await prefs.setString('access', tokens['access']);
+            await prefs.setString('refresh', tokens['refresh']);
+          } else {
+            throw Exception("Invalid tokens structure");
+          }
           registrationAccomplishedPage = 0;
           registrationIndexPage = 1;
           isVerified = false;
@@ -2034,23 +2042,24 @@ has been sent to your email
         ToastHelper.error(
             "You have entered the wrong verification code.\nPlease try again.");
       }
-    } catch (e) {
-      setVerifyError(
-          "You have entered the wrong verification code.\nPlease try again.");
-      // ToastHelper.error(
-      //     "You have entered the wrong verification code.\nPlease try again.");
-    }
+    } catch (e) {}
   }
 
   setpassword(String password, String cpassword) async {
+    final prefs = await SharedPreferences.getInstance();
+
     try {
-      String response =
-          await networkProvider.setpassword(ApiEndpoints.setpassword,
-              body: {
-                'password': password,
-                'cpassword': cpassword,
-              },
-              token: refreshtoken);
+      String response = await networkProvider.setpassword(
+        ApiEndpoints.setpassword,
+        body: {
+          'password': password,
+          'cpassword': cpassword,
+        },
+        token: prefs.getString('access'),
+        cpassword: cpassword,
+        password: password,
+      );
+
       if (jsonDecode(response)['c'] == 200) {
         if (codeTimer != null) {
           codeTimer!.cancel();
@@ -2060,6 +2069,9 @@ has been sent to your email
           registrationIndexPage = 2;
           registrationAccomplishedPage = 1;
         });
+      } else if (jsonDecode(response)['c'] == 401) {
+        setVerifyError("Invalid password");
+        ToastHelper.error("Invalid password");
       } else {
         setVerifyError("Invalid password");
         ToastHelper.error("Invalid password");
@@ -2067,8 +2079,34 @@ has been sent to your email
     } catch (e) {
       setVerifyError("Something went wrong!");
       ToastHelper.error("Something went wrong!");
-      // ToastHelper.error(
-      //     "You have entered the wrong verification code.\nPlease try again.");
+    }
+  }
+
+  Future<void> refreshToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final refreshToken = prefs.getString('refresh');
+
+    if (refreshToken == null) {
+      // Handle missing refresh token (e.g., prompt the user to log in again)
+      return;
+    }
+
+    try {
+      String response =
+          await networkProvider.post(ApiEndpoints.refreshToken, body: {
+        'refreshToken': refreshToken,
+      });
+
+      if (jsonDecode(response)['c'] == 200) {
+        await prefs.setString(
+            'access', jsonDecode(response)['d']['tokens']['access']);
+        await prefs.setString(
+            'refresh', jsonDecode(response)['d']['tokens']['refresh']);
+      } else {
+        // Handle refresh token failure (e.g., prompt the user to log in again)
+      }
+    } catch (e) {
+      // Handle error (e.g., prompt the user to log in again)
     }
   }
 }

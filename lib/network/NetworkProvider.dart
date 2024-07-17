@@ -97,44 +97,31 @@ class NetworkProvider {
   }
 
   Future<String> setpassword(String uri,
-      {dynamic body, Map<String, dynamic>? queryParams, String? token}) async {
-    print("Token: $token");
+      {dynamic body,
+      Map<String, dynamic>? queryParams,
+      String? token,
+      String? password,
+      String? cpassword}) async {
     try {
-      log("POST >>> $uri");
-      log("Body: $body");
-      log("Query Params: $queryParams");
-      log("Headers: Authorization: Bearer $token");
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
 
-      Response<String> response = await _dio.post(
-        uri,
-        data: body,
-        queryParameters: queryParams,
-        options: Options(
-          responseType: ResponseType.plain,
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-        ),
-      );
+      var data =
+          '{\n    "password": "$password",\n    "cpassword": "$cpassword"\n}';
 
-      return response.data ?? "";
+      final res = await http.post(Uri.parse(uri), headers: headers, body: data);
+      final status = res.statusCode;
+
+      print(status);
+      if (status != 200) {
+        throw Exception('http.post error: statusCode= $status');
+      }
+
+      return res.body;
     } on DioException catch (e) {
-      print("DioException: $e");
-      if (e.response != null) {
-        print("Response Status Code: ${e.response?.statusCode}");
-        print("Response Data: ${e.response?.data}");
-      }
-      // log("post error ${uri} --> $e");
-      try {
-        Map errorMap = jsonDecode(e.response.toString());
-        String errorMessage = errorMap["error"]["message"];
-        ToastHelper.error(errorMessage);
-        checkAPIError(errorMessage);
-
-        log("POST Error: ${e.response}");
-      } catch (e) {
-        print("Error decoding response: $e");
-      }
+      print('toto $e');
       return "";
     }
   }
