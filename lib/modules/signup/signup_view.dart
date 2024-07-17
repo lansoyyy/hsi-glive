@@ -960,7 +960,7 @@ class _SignupViewState extends State<SignupView> {
               for (int i = 0; i < _focusNodes.length; i++) {
                 _focusNodes[i].unfocus();
               }
-              for (var con in _controllers) {}
+
               String otp =
                   _controllers.map((controller) => controller.text).join();
               onVerify(otp);
@@ -2010,6 +2010,7 @@ has been sent to your email
     final prefs = await SharedPreferences.getInstance();
 
     try {
+      print('11');
       String response =
           await networkProvider.post(ApiEndpoints.verifyotp, body: {
         'userId': userId,
@@ -2018,31 +2019,37 @@ has been sent to your email
 
       final data = jsonDecode(response);
       if (data['c'] == 200) {
+        print('22');
         if (codeTimer != null) {
           codeTimer!.cancel();
         }
 
         setState(() async {
+          registrationAccomplishedPage = 0;
+          registrationIndexPage = 1;
+          isVerified = false;
           final tokens = data['d']['tokens'];
           if (tokens != null &&
               tokens.containsKey('access') &&
               tokens.containsKey('refresh')) {
+            print('55');
             await prefs.setString('access', tokens['access']);
             await prefs.setString('refresh', tokens['refresh']);
           } else {
+            print('44');
             throw Exception("Invalid tokens structure");
           }
-          registrationAccomplishedPage = 0;
-          registrationIndexPage = 1;
-          isVerified = false;
         });
       } else {
+        print('33');
         setVerifyError(
             "You have entered the wrong verification code.\nPlease try again.");
         ToastHelper.error(
             "You have entered the wrong verification code.\nPlease try again.");
       }
-    } catch (e) {}
+    } catch (e) {
+      print('123');
+    }
   }
 
   setpassword(String password, String cpassword) async {
@@ -2079,34 +2086,6 @@ has been sent to your email
     } catch (e) {
       setVerifyError("Something went wrong!");
       ToastHelper.error("Something went wrong!");
-    }
-  }
-
-  Future<void> refreshToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    final refreshToken = prefs.getString('refresh');
-
-    if (refreshToken == null) {
-      // Handle missing refresh token (e.g., prompt the user to log in again)
-      return;
-    }
-
-    try {
-      String response =
-          await networkProvider.post(ApiEndpoints.refreshToken, body: {
-        'refreshToken': refreshToken,
-      });
-
-      if (jsonDecode(response)['c'] == 200) {
-        await prefs.setString(
-            'access', jsonDecode(response)['d']['tokens']['access']);
-        await prefs.setString(
-            'refresh', jsonDecode(response)['d']['tokens']['refresh']);
-      } else {
-        // Handle refresh token failure (e.g., prompt the user to log in again)
-      }
-    } catch (e) {
-      // Handle error (e.g., prompt the user to log in again)
     }
   }
 }

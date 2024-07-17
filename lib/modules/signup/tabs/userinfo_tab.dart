@@ -673,7 +673,76 @@ Enjoy using our app!
       const Duration(milliseconds: 3000),
     );
 
-    Get.offNamed(RouteNames.login);
+    Navigator.pop(context);
+
+    showtermsandconditionsDialog();
+  }
+
+  showtermsandconditionsDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(15, 50, 15, 20),
+            child: SizedBox(
+              height: 170,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: const TextSpan(
+                        style: TextStyle(fontSize: 16, color: Colors.black),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text:
+                                'By tapping "Agree and continue", you agree to our ',
+                          ),
+                          TextSpan(
+                            text: 'Terms of Service',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(
+                            text: ' and acknowledge that you have read our ',
+                          ),
+                          TextSpan(
+                            text: 'Privacy Policy',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(
+                            text:
+                                ' to learn how we collect, use, and share your data.',
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ButtonWidget(
+                    height: 43,
+                    width: 166,
+                    fontSize: 14,
+                    color: const Color(0XFF0A9AAA),
+                    radius: 10,
+                    textColor: Colors.white,
+                    label: 'Agree and Continue',
+                    onPressed: () {
+                      Get.offNamed(RouteNames.login);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 

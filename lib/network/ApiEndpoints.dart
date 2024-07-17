@@ -16,4 +16,10 @@ class ApiEndpoints {
   static const String verifyotp = "$baseUrl/signup/verify-otp-email";
   static const String setpassword = "$baseUrl/signup/password";
   static const String refreshToken = "$baseUrl/signin/refresh-token";
+  static const String forgotpassword1 =
+      "$baseUrl/signin/email/forgot-password-step-1";
+  static const String forgotpassword2 =
+      "$baseUrl/signin/email/forgot-password-step-2";
+  static const String forgotpassword3 =
+      "$baseUrl/signin/email/forgot-password-step-3";
 }

@@ -126,6 +126,29 @@ class NetworkProvider {
     }
   }
 
+  Future<String> setforgotpassword(String uri,
+      {dynamic body,
+      Map<String, dynamic>? queryParams,
+      String? token,
+      String? password,
+      String? cpassword,
+      String? userId}) async {
+    try {
+      final res = await http.post(Uri.parse(uri), body: body);
+      final status = res.statusCode;
+
+      print(res.body);
+      if (status != 200) {
+        throw Exception('http.post error: statusCode= $status');
+      }
+
+      return res.body;
+    } on DioException catch (e) {
+      print('toto $e');
+      return "";
+    }
+  }
+
   Future<String> putImage(String uri,
       {dynamic body, Map<String, dynamic>? queryParams}) async {
     try {

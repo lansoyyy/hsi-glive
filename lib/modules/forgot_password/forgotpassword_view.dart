@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,13 +15,17 @@ import 'package:glive/modules/security/channels_view.dart';
 import 'package:glive/modules/security/fingerprint_view.dart';
 import 'package:glive/modules/signup/tabs/email_tab.dart';
 import 'package:glive/modules/signup/tabs/password_tab.dart';
+import 'package:glive/network/ApiEndpoints.dart';
+import 'package:glive/network/NetworkProvider.dart';
 import 'package:glive/utils/CommonFunctions.dart';
 import 'package:glive/utils/GlobalVariables.dart';
 import 'package:glive/utils/LoadingUtil.dart';
 import 'package:glive/utils/MeasureSize.dart';
+import 'package:glive/utils/ToastHelper.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
 import 'package:glive/widgets/TouchableOpacity.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../routes.dart';
 
@@ -32,6 +37,12 @@ class ForgotPasswordView extends StatefulWidget {
 }
 
 class _ForgotPasswordViewState extends State<ForgotPasswordView> {
+  @override
+  void initState() {
+    super.initState();
+    registrationAccomplishedPage = -1;
+  }
+
   int counter = 2;
   List list = [
     0,
@@ -67,236 +78,240 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           ),
         ),
         child: SafeArea(
-          child: Column(
-            children: [
-              MeasureSize(
-                onChange: (size) {
-                  setState(() {
-                    headerHeight = size.height;
-                  });
-                },
-                child: Container(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: 10.sp, right: 10.sp, top: 20.sp),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Container(
-                                height: 44.sp,
-                                width: 44.sp,
-                                decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.1),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        width: 1, color: HexColor("#5A5A5A"))),
-                                child: Icon(
-                                  Icons.arrow_back,
-                                  color: Colors.white,
-                                  size: 24.sp,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                MeasureSize(
+                  onChange: (size) {
+                    setState(() {
+                      headerHeight = size.height;
+                    });
+                  },
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 10.sp, right: 10.sp, top: 20.sp),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  height: 44.sp,
+                                  width: 44.sp,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.1),
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                          width: 1,
+                                          color: HexColor("#5A5A5A"))),
+                                  child: Icon(
+                                    Icons.arrow_back,
+                                    color: Colors.white,
+                                    size: 24.sp,
+                                  ),
                                 ),
                               ),
-                            ),
-                            TextWidget(
-                              text: features[registrationIndexPage],
-                              fontSize: 18.sp,
-                              color: Colors.white,
-                            ),
-                            SizedBox(
-                              height: 44.sp,
-                              width: 44.sp,
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15.sp,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 87.5, right: 87.5),
-                        child: SizedBox(
-                          width: 278.sp,
-                          height: 62.sp,
-                          child: Column(
-                            children: [
-                              Stack(
-                                children: [
-                                  SizedBox(
-                                    height: 25.sp,
-                                    width: 278.sp,
-                                  ),
-                                  Positioned(
-                                    left: 5.sp,
-                                    child: SizedBox(
-                                      height: 25.sp,
-                                      width: 278.sp,
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            height: 1,
-                                            width: 175.sp,
-                                            color: registrationIndexPage == 0
-                                                ? HexColor("#B9B9B9")
-                                                : HexColor("#3F86FE"),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    left: 5.sp,
-                                    child: SizedBox(
-                                      height: 25.sp,
-                                      width: 278.sp,
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            height: 1,
-                                            width: ((((278.sp / 2) +
-                                                                25.sp) *
-                                                            lineMultiplier) >
-                                                        0
-                                                    ? (((300.sp / 2) + 25.sp) *
-                                                        lineMultiplier)
-                                                    : 25.sp) -
-                                                0.sp,
-                                            // width: lineWidth,
-                                            color: HexColor("#E630EF"),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    child: SizedBox(
-                                      height: 60.sp,
-                                      width: 278.sp,
-                                      child: Row(
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              /* if (!(registrationAccomplishedPage >=
-                                                  0)) {
-                                                return;
-                                              }
-                                              setState(() {
-                                                registrationIndexPage = 0;
-                                              }); */
-                                            },
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  height: 30.sp,
-                                                  width: 30.sp,
-                                                  decoration: BoxDecoration(
-                                                      color:
-                                                          registrationAccomplishedPage >=
-                                                                  0
-                                                              ? HexColor(
-                                                                  "#C30FCC")
-                                                              : Colors.white,
-                                                      shape: BoxShape.circle,
-                                                      border:
-                                                          registrationIndexPage >=
-                                                                  0
-                                                              ? Border.all(
-                                                                  width: 2.sp,
-                                                                  color: HexColor(
-                                                                      "#C30FCC"))
-                                                              : null),
-                                                  child: Center(
-                                                      child: Icon(
-                                                    Icons.check,
-                                                    color: Colors.white,
-                                                    size: 18.sp,
-                                                  )),
-                                                ),
-                                                const SizedBox(
-                                                  height: 3,
-                                                ),
-                                                TextWidget(
-                                                  text: 'Verify\nAccount',
-                                                  fontSize: 8,
-                                                  color: Colors.white,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const Spacer(),
-                                          InkWell(
-                                            onTap: () {
-                                              if (!(registrationAccomplishedPage >=
-                                                  1)) {
-                                                return;
-                                              }
-                                              setState(() {
-                                                registrationIndexPage = 1;
-                                              });
-                                            },
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  height: 30.sp,
-                                                  width: 30.sp,
-                                                  decoration: BoxDecoration(
-                                                      color:
-                                                          registrationAccomplishedPage >=
-                                                                  1
-                                                              ? HexColor(
-                                                                  "#C30FCC")
-                                                              : Colors.white,
-                                                      shape: BoxShape.circle,
-                                                      border:
-                                                          registrationIndexPage >=
-                                                                  1
-                                                              ? Border.all(
-                                                                  width: 2.sp,
-                                                                  color: HexColor(
-                                                                      "#C30FCC"))
-                                                              : null),
-                                                  child: Center(
-                                                      child: Icon(
-                                                    Icons.check,
-                                                    color: Colors.white,
-                                                    size: 18.sp,
-                                                  )),
-                                                ),
-                                                const SizedBox(
-                                                  height: 3,
-                                                ),
-                                                TextWidget(
-                                                  text: 'Create New\nPassword',
-                                                  fontSize: 8,
-                                                  color: Colors.white,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              TextWidget(
+                                text: features[forgotpasswordIndexPage],
+                                fontSize: 18.sp,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                height: 44.sp,
+                                width: 44.sp,
                               )
                             ],
                           ),
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          height: 15.sp,
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 87.5, right: 87.5),
+                          child: SizedBox(
+                            width: 278.sp,
+                            height: 62.sp,
+                            child: Column(
+                              children: [
+                                Stack(
+                                  children: [
+                                    SizedBox(
+                                      height: 25.sp,
+                                      width: 278.sp,
+                                    ),
+                                    Positioned(
+                                      left: 5.sp,
+                                      child: SizedBox(
+                                        height: 25.sp,
+                                        width: 278.sp,
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              height: 1,
+                                              width: 175.sp,
+                                              color:
+                                                  forgotpasswordIndexPage == 0
+                                                      ? HexColor("#B9B9B9")
+                                                      : HexColor("#3F86FE"),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: 5.sp,
+                                      child: SizedBox(
+                                        height: 25.sp,
+                                        width: 278.sp,
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              height: 1,
+                                              width: ((((278.sp / 2) + 25.sp) *
+                                                              lineMultiplier) >
+                                                          0
+                                                      ? (((300.sp / 2) +
+                                                              25.sp) *
+                                                          lineMultiplier)
+                                                      : 25.sp) -
+                                                  0.sp,
+                                              // width: lineWidth,
+                                              color: HexColor("#E630EF"),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      child: SizedBox(
+                                        height: 60.sp,
+                                        width: 278.sp,
+                                        child: Row(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                /* if (!(registrationAccomplishedPage >=
+                                                    0)) {
+                                                  return;
+                                                }
+                                                setState(() {
+                                                  registrationIndexPage = 0;
+                                                }); */
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                    height: 30.sp,
+                                                    width: 30.sp,
+                                                    decoration: BoxDecoration(
+                                                        color:
+                                                            registrationAccomplishedPage >=
+                                                                    0
+                                                                ? HexColor(
+                                                                    "#C30FCC")
+                                                                : Colors.white,
+                                                        shape: BoxShape.circle,
+                                                        border: forgotpasswordIndexPage >=
+                                                                0
+                                                            ? Border.all(
+                                                                width: 2.sp,
+                                                                color: HexColor(
+                                                                    "#C30FCC"))
+                                                            : null),
+                                                    child: Center(
+                                                        child: Icon(
+                                                      Icons.check,
+                                                      color: Colors.white,
+                                                      size: 18.sp,
+                                                    )),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 3,
+                                                  ),
+                                                  TextWidget(
+                                                    text: 'Verify\nAccount',
+                                                    fontSize: 8,
+                                                    color: Colors.white,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            InkWell(
+                                              onTap: () {
+                                                if (!(registrationAccomplishedPage >=
+                                                    1)) {
+                                                  return;
+                                                }
+                                                setState(() {
+                                                  forgotpasswordIndexPage = 1;
+                                                });
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                    height: 30.sp,
+                                                    width: 30.sp,
+                                                    decoration: BoxDecoration(
+                                                        color:
+                                                            registrationAccomplishedPage >=
+                                                                    1
+                                                                ? HexColor(
+                                                                    "#C30FCC")
+                                                                : Colors.white,
+                                                        shape: BoxShape.circle,
+                                                        border: forgotpasswordIndexPage >=
+                                                                1
+                                                            ? Border.all(
+                                                                width: 2.sp,
+                                                                color: HexColor(
+                                                                    "#C30FCC"))
+                                                            : null),
+                                                    child: Center(
+                                                        child: Icon(
+                                                      Icons.check,
+                                                      color: Colors.white,
+                                                      size: 18.sp,
+                                                    )),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 3,
+                                                  ),
+                                                  TextWidget(
+                                                    text:
+                                                        'Create New\nPassword',
+                                                    fontSize: 8,
+                                                    color: Colors.white,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              IndexedStack(
-                index: forgotpasswordIndexPage,
-                children: [_emailTab(), _passwordTab()],
-              ),
-            ],
+                IndexedStack(
+                  index: forgotpasswordIndexPage,
+                  children: [_emailTab(), _passwordTab()],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -762,18 +777,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
 
                       if (passwordController.text ==
                           confirmPasswordController.text) {
-                        setState(() {
-                          // dialog here
-
-                          // registrationIndexPage = 0;
-                          // registrationAccomplishedPage = -1;
-
-                          registrationIndexPage = 0;
-                          registrationAccomplishedPage = -1;
-                          forgotpasswordIndexPage = 0;
-                        });
-
-                        successPasswordDialog();
+                        setpassword(passwordController.text,
+                            confirmPasswordController.text);
                       } else {
                         // ToastHelper.error('Password do not match!');
                         setPasswordError("Passwords do not match!");
@@ -1047,10 +1052,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                           Future.delayed(const Duration(milliseconds: 1500),
                               () {
                             LoadingUtil.hide(context);
-                            showVerificationDialog();
-                            setState(() {
-                              isVerified = true;
-                            });
+
+                            verifyEmail(emailController.text);
                           });
                         }
                       },
@@ -1283,26 +1286,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   }
 
   void onVerify(String otp) {
-    if (otp == "123456" || otp == "000000" || otp == "111111") {
-      setState(() {
-        registrationAccomplishedPage++;
-        registrationIndexPage++;
-
-        forgotpasswordIndexPage++;
-      });
-
-      if (codeTimer != null) {
-        codeTimer!.cancel();
-      }
-
-      setState(() {
-        isVerified = false;
-      });
-    } else {
-      //error here
-      setVerifyError(
-          "You have entered the wrong verification code.\nPlease try again.");
-    }
+    verifyOtp(otp, userId);
   }
 
   void setVerifyError(String message) {
@@ -1464,6 +1448,126 @@ updated
       }
 
       _focusNodes[0].requestFocus();
+
+      sendOtp(userId);
     });
+  }
+
+  NetworkProvider networkProvider = NetworkProvider();
+
+  String userId = '';
+
+  String accesstoken = '';
+  String refreshtoken = '';
+
+  verifyEmail(String email) async {
+    try {
+      String response = await networkProvider.post(ApiEndpoints.forgotpassword1,
+          body: {'email': email, "type": "verify"});
+      if (jsonDecode(response)['c'] == 200) {
+        showVerificationDialog();
+
+        sendOtp(jsonDecode(response)['d']['userId']);
+        showVerificationDialog();
+        setState(() {
+          userId = jsonDecode(response)['d']['userId'];
+          isVerified = true;
+        });
+      } else {
+        ToastHelper.error(jsonDecode(response)['m']);
+      }
+    } catch (e) {
+      ToastHelper.error('Invalid email provided.');
+    }
+  }
+
+  sendOtp(String userId) async {
+    try {
+      String response = await networkProvider.post(ApiEndpoints.sendotp, body: {
+        'userId': userId,
+      });
+      if (jsonDecode(response)['c'] == 200) {
+        // ToastHelper.success('OTP has been sent!');
+      } else {
+        ToastHelper.error(jsonDecode(response)['m']);
+      }
+    } catch (e) {}
+  }
+
+  verifyOtp(String otpNumber, String userId) async {
+    try {
+      String response =
+          await networkProvider.post(ApiEndpoints.forgotpassword2, body: {
+        'userId': userId,
+        'otpNumber': otpNumber,
+      });
+
+      final data = jsonDecode(response);
+      if (data['c'] == 200) {
+        print('22');
+        if (codeTimer != null) {
+          codeTimer!.cancel();
+        }
+
+        // Perform the state updates within a synchronous setState call
+        setState(() {
+          registrationAccomplishedPage++;
+
+          isVerified = false;
+          forgotpasswordIndexPage++;
+        });
+      } else {
+        print('33');
+        setVerifyError(
+            "You have entered the wrong verification code.\nPlease try again.");
+        ToastHelper.error(
+            "You have entered the wrong verification code.\nPlease try again.");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  setpassword(String password, String cpassword) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    try {
+      String response = await networkProvider.setforgotpassword(
+        ApiEndpoints.forgotpassword3,
+        body: {
+          'password': password,
+          'cpassword': cpassword,
+          'userId': userId,
+          'token': prefs.getString('access'),
+        },
+        token: prefs.getString('access'),
+        cpassword: cpassword,
+        password: password,
+        userId: userId,
+      );
+
+      if (jsonDecode(response)['c'] == 200) {
+        setState(() {
+          // dialog here
+
+          // registrationIndexPage = 0;
+          // registrationAccomplishedPage = -1;
+
+          registrationAccomplishedPage = -1;
+          forgotpasswordIndexPage = 0;
+        });
+
+        successPasswordDialog();
+      } else if (jsonDecode(response)['c'] == 401) {
+        setVerifyError("Invalid password");
+        ToastHelper.error("Invalid password");
+      } else {
+        setVerifyError("Invalid password");
+        ToastHelper.error("Invalid password");
+      }
+    } catch (e) {
+      setVerifyError("Something went wrong!");
+      ToastHelper.error("Something went wrong!");
+    }
   }
 }
