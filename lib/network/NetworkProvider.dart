@@ -84,6 +84,7 @@ class NetworkProvider {
       return response.data ?? "";
     } on DioException catch (e) {
       // log("post error ${uri} --> $e");
+
       try {
         Map errorMap = jsonDecode(e.response.toString());
         String errorMessage = errorMap["error"]["message"];

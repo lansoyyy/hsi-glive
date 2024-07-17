@@ -22,4 +22,6 @@ class ApiEndpoints {
       "$baseUrl/signin/email/forgot-password-step-2";
   static const String forgotpassword3 =
       "$baseUrl/signin/email/forgot-password-step-3";
+
+  static const String updateprofile = "$baseUrl/users/me";
 }

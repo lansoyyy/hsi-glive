@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:glive/constants/AppColors.dart';
+import 'package:glive/network/ApiEndpoints.dart';
 import 'package:glive/routes.dart';
 import 'package:glive/utils/CommonFunctions.dart';
 import 'package:glive/utils/GlobalVariables.dart';
@@ -18,7 +20,8 @@ import 'package:glive/widgets/TextWidget.dart';
 import 'package:glive/widgets/TouchableOpacity.dart';
 import 'package:image_picker/image_picker.dart';
 // import 'package:share_plus/share_plus.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../widgets/AppInformationTextInput.dart';
 
 class UserInfoTab extends StatefulWidget {
@@ -497,8 +500,8 @@ class _UserInfoTabState extends State<UserInfoTab> {
 
                             items: <String>[
                               'Select',
-                              'Male',
-                              'Female',
+                              'male',
+                              'female',
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -595,7 +598,7 @@ class _UserInfoTabState extends State<UserInfoTab> {
                       return;
                     }
 
-                    showSuccessDialog();
+                    updateUserProfile();
                   }
                 },
                 child: Container(
@@ -743,6 +746,43 @@ Enjoy using our app!
         );
       },
     );
+  }
+
+  Future<void> updateUserProfile() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    var url = Uri.parse(ApiEndpoints.updateprofile);
+    final req = http.MultipartRequest('PUT', url)
+      ..fields['firstName'] = fname.text
+      ..fields['lastName'] = lname.text
+      ..fields['birthday'] = ''
+      ..fields['gender'] = dropdownValue
+      ..fields['address[houseNumber]'] = ''
+      ..fields['address[street]'] = ''
+      ..fields['address[stateOrRegion]'] = ''
+      ..fields['address[province]'] = ''
+      ..fields['address[townCity]'] = ''
+      ..fields['address[barangay]'] = ''
+      ..fields['address[zipCode]'] = ''
+      ..fields['bio'] = ''
+      ..fields['sign'] = ''
+      ..fields['languages[0]'] = ''
+      ..fields['languages[1]'] = '';
+
+    req.headers['Ocp-Apim-Subscription-Key'] =
+        'f3afff9001fd47ea9ea6e11255d8445c';
+    req.headers['Authorization'] = 'Bearer ${prefs.get('access')}';
+
+    final stream = await req.send();
+    final res = await http.Response.fromStream(stream);
+    final status = res.statusCode;
+    if (status == 200) {
+      showSuccessDialog();
+    } else {
+      ToastHelper.error('Something went wrong!');
+    }
+
+    print(jsonDecode(res.body));
   }
 }
 
