@@ -755,19 +755,8 @@ Enjoy using our app!
     final req = http.MultipartRequest('PUT', url)
       ..fields['firstName'] = fname.text
       ..fields['lastName'] = lname.text
-      ..fields['birthday'] = ''
-      ..fields['gender'] = dropdownValue
-      ..fields['address[houseNumber]'] = ''
-      ..fields['address[street]'] = ''
-      ..fields['address[stateOrRegion]'] = ''
-      ..fields['address[province]'] = ''
-      ..fields['address[townCity]'] = ''
-      ..fields['address[barangay]'] = ''
-      ..fields['address[zipCode]'] = ''
-      ..fields['bio'] = ''
-      ..fields['sign'] = ''
-      ..fields['languages[0]'] = ''
-      ..fields['languages[1]'] = '';
+      ..fields['middleName'] = mname.text
+      ..fields['gender'] = dropdownValue;
 
     req.headers['Ocp-Apim-Subscription-Key'] =
         'f3afff9001fd47ea9ea6e11255d8445c';
