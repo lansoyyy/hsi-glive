@@ -1466,7 +1466,6 @@ updated
         sendOtp(jsonDecode(response)['d']['userId']);
         showVerificationDialog();
         setState(() {
-          registrationAccomplishedPage++;
           userId = jsonDecode(response)['d']['userId'];
           isVerified = true;
         });
@@ -1508,6 +1507,7 @@ updated
 
         // Perform the state updates within a synchronous setState call
         setState(() {
+          registrationAccomplishedPage++;
           isVerified = false;
           forgotpasswordIndexPage++;
         });

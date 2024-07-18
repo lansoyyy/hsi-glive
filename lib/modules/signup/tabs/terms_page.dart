@@ -31,7 +31,9 @@ class _TermsPageState extends State<TermsPage> {
         width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(
+          color: Colors.white,
           image: DecorationImage(
+            opacity: 0.975,
             fit: BoxFit.cover,
             image: AssetImage(
               'assets/images/new_bg.png',

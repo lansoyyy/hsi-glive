@@ -686,19 +686,9 @@ class _SignupViewState extends State<SignupView> {
                   color: HexColor("#CACACA"),
                   fontWeight: FontWeight.w400,
                 ),
+                // Adjust
                 SizedBox(
-                  height: (heightScreen() -
-                              (headerHeight +
-                                  interestContentHeight +
-                                  50.sp +
-                                  80.sp)) >
-                          0
-                      ? heightScreen() -
-                          (headerHeight +
-                              interestContentHeight +
-                              50.sp +
-                              105.sp)
-                      : 0,
+                  height: 85.sp,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.sp),

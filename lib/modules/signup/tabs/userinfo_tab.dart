@@ -698,12 +698,13 @@ Enjoy using our app!
       context: context,
       builder: (context) {
         return Dialog(
+          backgroundColor: Colors.white.withOpacity(0.75),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(15, 50, 15, 20),
+            padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
             child: SizedBox(
-              height: 170,
+              height: 200,
               child: Column(
                 children: [
                   Padding(
