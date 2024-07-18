@@ -17,6 +17,7 @@ import 'package:glive/modules/security/faceid_view.dart';
 import 'package:glive/modules/security/fingerprint_view.dart';
 import 'package:glive/modules/security/otp_view.dart';
 import 'package:glive/modules/signup/signup_view.dart';
+import 'package:glive/modules/signup/tabs/terms_page.dart';
 import 'package:glive/modules/splash/splash_view.dart';
 import 'package:glive/utils/GlobalVariables.dart';
 import 'package:glive/utils/MeasureSize.dart';
@@ -25,7 +26,7 @@ import 'package:oktoast/oktoast.dart';
 bool isTablet(BuildContext context) {
   final mediaQuery = MediaQuery.of(context);
   final aspectRatio = mediaQuery.size.aspectRatio;
-  log("Aspect: ${aspectRatio}");
+  log("Aspect: $aspectRatio");
   final isTablet = aspectRatio < 1.6 && aspectRatio > 0.7;
   return isTablet;
 }
@@ -36,7 +37,7 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]).then((_) {
-    runApp(MyApp());
+    runApp(const MyApp());
   });
 }
 
@@ -90,6 +91,7 @@ class _MyAppState extends State<MyApp> {
                   GetPage(
                       name: '/forgotpassword',
                       page: () => const ForgotPasswordView()),
+                  GetPage(name: '/termspage', page: () => const TermsPage()),
                 ],
                 title: 'GLive',
               ),

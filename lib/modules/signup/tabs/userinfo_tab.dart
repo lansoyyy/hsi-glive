@@ -121,6 +121,9 @@ class _UserInfoTabState extends State<UserInfoTab> {
         imagePath, lname.text, mname.text, fname.text, dropdownValue);
   }
 
+  double headerHeight = 135.5;
+
+  double interestContentHeight = 300.sp;
   final _formKey2 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -545,7 +548,15 @@ class _UserInfoTabState extends State<UserInfoTab> {
               ),
             ),
             SizedBox(
-              height: 75.sp,
+              height: (heightScreen() -
+                          (headerHeight +
+                              interestContentHeight +
+                              50.sp +
+                              80.sp)) >
+                      0
+                  ? heightScreen() -
+                      (headerHeight + interestContentHeight + 200.sp + 150.sp)
+                  : 0,
             ),
             /* ButtonWidget(
               height: 55,
@@ -617,9 +628,6 @@ class _UserInfoTabState extends State<UserInfoTab> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 50.sp,
-            ),
           ],
         ),
       ),
@@ -678,11 +686,15 @@ Enjoy using our app!
 
     Navigator.pop(context);
 
+    // Here
+
+    Get.toNamed(RouteNames.termspage);
     showtermsandconditionsDialog();
   }
 
   showtermsandconditionsDialog() {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return Dialog(

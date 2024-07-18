@@ -12,6 +12,7 @@ import 'package:glive/modules/security/faceid_view.dart';
 import 'package:glive/modules/security/fingerprint_view.dart';
 import 'package:glive/modules/security/otp_view.dart';
 import 'package:glive/modules/signup/signup_view.dart';
+import 'package:glive/modules/signup/tabs/terms_page.dart';
 
 import 'package:glive/modules/splash/splash_view.dart';
 
@@ -42,6 +43,7 @@ class RouteNames {
   static const String chat = "/chat";
   static const String creatorcenter = "/creatorcenter";
   static const String forgotpassword = "/forgotpassword";
+  static const String termspage = "/termspage";
 }
 
 class AppRoutes {
@@ -59,5 +61,6 @@ class AppRoutes {
     RouteNames.chat: (context) => const ChatScreen(),
     RouteNames.creatorcenter: (context) => const CreatorCenterView(),
     RouteNames.forgotpassword: (context) => const ForgotPasswordView(),
+    RouteNames.termspage: (context) => const TermsPage(),
   };
 }

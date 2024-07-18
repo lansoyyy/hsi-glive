@@ -640,6 +640,7 @@ class _SignupViewState extends State<SignupView> {
                       },
                       onRegister: () {},
                     ),
+
                     // ChannelsView(),
                   ],
                 ),
@@ -686,7 +687,15 @@ class _SignupViewState extends State<SignupView> {
                   fontWeight: FontWeight.w400,
                 ),
                 SizedBox(
-                  height: 50.sp,
+                  height: (heightScreen() -
+                              (headerHeight +
+                                  interestContentHeight +
+                                  50.sp +
+                                  80.sp)) >
+                          0
+                      ? heightScreen() -
+                          (headerHeight + interestContentHeight + 50.sp + 80.sp)
+                      : 0,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.sp),
@@ -774,11 +783,11 @@ class _SignupViewState extends State<SignupView> {
                         if (!emailRegex.hasMatch(emailController.text)) {
                           return;
                         }
-                        LoadingUtil.show(context);
-                        Future.delayed(const Duration(milliseconds: 1500), () {
-                          LoadingUtil.hide(context);
 
-                          verifyEmail(emailController.text);
+                        verifyEmail(emailController.text);
+                        LoadingUtil.show(context);
+                        Future.delayed(const Duration(milliseconds: 3000), () {
+                          LoadingUtil.hide(context);
                         });
                       }
                     },
@@ -822,7 +831,15 @@ class _SignupViewState extends State<SignupView> {
                   ],
                 ),
                 SizedBox(
-                  height: 125.sp,
+                  height: (heightScreen() -
+                              (headerHeight +
+                                  interestContentHeight +
+                                  50.sp +
+                                  80.sp)) >
+                          0
+                      ? heightScreen() -
+                          (headerHeight + interestContentHeight + 80.sp + 80.sp)
+                      : 0,
                 ),
                 TextWidget(
                   text: 'Or sign in using',
@@ -1114,7 +1131,7 @@ has been sent to your email
     );
 
     await Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(seconds: 2),
     );
 
     Navigator.pop(context);

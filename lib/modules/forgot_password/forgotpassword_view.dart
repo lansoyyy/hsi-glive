@@ -960,7 +960,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     color: Colors.white,
                   ),
                   SizedBox(
-                    height: 50.sp,
+                    height: 100.sp,
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10.sp),
@@ -1048,12 +1048,10 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                           if (!emailRegex.hasMatch(emailController.text)) {
                             return;
                           }
+                          verifyEmail(emailController.text);
                           LoadingUtil.show(context);
-                          Future.delayed(const Duration(milliseconds: 1500),
-                              () {
+                          Future.delayed(const Duration(milliseconds: 300), () {
                             LoadingUtil.hide(context);
-
-                            verifyEmail(emailController.text);
                           });
                         }
                       },
@@ -1343,7 +1341,7 @@ has been sent to your email
     );
 
     await Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(seconds: 2),
     );
 
     Navigator.pop(context);
@@ -1465,11 +1463,10 @@ updated
       String response = await networkProvider.post(ApiEndpoints.forgotpassword1,
           body: {'email': email, "type": "verify"});
       if (jsonDecode(response)['c'] == 200) {
-        showVerificationDialog();
-
         sendOtp(jsonDecode(response)['d']['userId']);
         showVerificationDialog();
         setState(() {
+          registrationAccomplishedPage++;
           userId = jsonDecode(response)['d']['userId'];
           isVerified = true;
         });
@@ -1511,8 +1508,6 @@ updated
 
         // Perform the state updates within a synchronous setState call
         setState(() {
-          registrationAccomplishedPage++;
-
           isVerified = false;
           forgotpasswordIndexPage++;
         });
@@ -1524,7 +1519,8 @@ updated
             "You have entered the wrong verification code.\nPlease try again.");
       }
     } catch (e) {
-      print(e);
+      setVerifyError(
+          "You have entered the wrong verification code.\nPlease try again.");
     }
   }
 

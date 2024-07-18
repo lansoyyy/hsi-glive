@@ -117,13 +117,10 @@ class _LoginViewState extends State<LoginView> {
 
         return;
       } else {
-        showToast('Invalid email or password');
+        // showToast('Invalid email or password');
       }
-
-      LoadingUtil.hide(context);
     } catch (e) {
       ToastHelper.error("Invalid email or password.");
-      LoadingUtil.hide(context);
     }
   }
 
@@ -403,30 +400,30 @@ class _LoginViewState extends State<LoginView> {
                                                               "Please enter a password");
                                                           //return 'Please enter a password';
                                                         }
-                                                        if (value!.length < 8) {
-                                                          setPasswordError(
-                                                              "Password must be at least 8 characters long");
-                                                          //return 'Password must be at least 8 characters long';
-                                                        }
-                                                        if (!RegExp(r'[a-zA-Z]')
-                                                            .hasMatch(value)) {
-                                                          setPasswordError(
-                                                              "Password must contain at least one letter");
-                                                          //return 'Password must contain at least one letter';
-                                                        }
-                                                        if (!RegExp(r'\d')
-                                                            .hasMatch(value)) {
-                                                          setPasswordError(
-                                                              "Password must contain at least one number");
-                                                          //return 'Password must contain at least one number';
-                                                        }
-                                                        if (!RegExp(
-                                                                r'[!@#$%^&*(),.?":{}|<>]')
-                                                            .hasMatch(value)) {
-                                                          setPasswordError(
-                                                              "Password must contain at least one special character");
-                                                          //return 'Password must contain at least one special character';
-                                                        }
+                                                        // if (value!.length < 8) {
+                                                        //   setPasswordError(
+                                                        //       "Password must be at least 8 characters long");
+                                                        //   //return 'Password must be at least 8 characters long';
+                                                        // }
+                                                        // if (!RegExp(r'[a-zA-Z]')
+                                                        //     .hasMatch(value)) {
+                                                        //   setPasswordError(
+                                                        //       "Password must contain at least one letter");
+                                                        //   //return 'Password must contain at least one letter';
+                                                        // }
+                                                        // if (!RegExp(r'\d')
+                                                        //     .hasMatch(value)) {
+                                                        //   setPasswordError(
+                                                        //       "Password must contain at least one number");
+                                                        //   //return 'Password must contain at least one number';
+                                                        // }
+                                                        // if (!RegExp(
+                                                        //         r'[!@#$%^&*(),.?":{}|<>]')
+                                                        //     .hasMatch(value)) {
+                                                        //   setPasswordError(
+                                                        //       "Password must contain at least one special character");
+                                                        //   //return 'Password must contain at least one special character';
+                                                        // }
                                                         return null;
                                                       },
                                                     ),
@@ -617,35 +614,29 @@ class _LoginViewState extends State<LoginView> {
                                     return;
                                   }
 
-                                  if (passwordController.text.length < 8) {
-                                    //return 'Password must be at least 8 characters long';
-                                    return;
-                                  }
-                                  if (!RegExp(r'[a-zA-Z]')
-                                      .hasMatch(passwordController.text)) {
-                                    return;
-                                  }
-                                  if (!RegExp(r'\d')
-                                      .hasMatch(passwordController.text)) {
-                                    return;
-                                  }
-                                  if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]')
-                                      .hasMatch(passwordController.text)) {
-                                    return;
-                                  }
+                                  // if (passwordController.text.length < 8) {
+                                  //   //return 'Password must be at least 8 characters long';
+                                  //   return;
+                                  // }
+                                  // if (!RegExp(r'[a-zA-Z]')
+                                  //     .hasMatch(passwordController.text)) {
+                                  //   return;
+                                  // }
+                                  // if (!RegExp(r'\d')
+                                  //     .hasMatch(passwordController.text)) {
+                                  //   return;
+                                  // }
+                                  // if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]')
+                                  //     .hasMatch(passwordController.text)) {
+                                  //   return;
+                                  // }
 
                                   LoadingUtil.show(context);
+                                  login();
 
-                                  Future.delayed(
-                                      const Duration(milliseconds: 1500), () {
+                                  Future.delayed(const Duration(seconds: 2),
+                                      () {
                                     LoadingUtil.hide(context);
-
-                                    try {
-                                      login();
-                                    } catch (e) {
-                                      ToastHelper.error(
-                                          'Incorrect credentials, try again');
-                                    }
                                   });
                                 }
                               }
