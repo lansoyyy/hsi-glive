@@ -67,6 +67,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       lineMultiplier = 2;
     }
 
+    print(forgotpasswordIndexPage);
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -1509,7 +1511,7 @@ updated
         setState(() {
           registrationAccomplishedPage++;
           isVerified = false;
-          forgotpasswordIndexPage++;
+          forgotpasswordIndexPage = 1;
         });
       } else {
         print('33');
@@ -1534,7 +1536,7 @@ updated
           'password': password,
           'cpassword': cpassword,
           'userId': userId,
-          'token': prefs.getString('access'),
+          'token': 'qweqwe',
         },
         token: prefs.getString('access'),
         cpassword: cpassword,
