@@ -694,7 +694,10 @@ class _SignupViewState extends State<SignupView> {
                                   80.sp)) >
                           0
                       ? heightScreen() -
-                          (headerHeight + interestContentHeight + 50.sp + 80.sp)
+                          (headerHeight +
+                              interestContentHeight +
+                              50.sp +
+                              105.sp)
                       : 0,
                 ),
                 Padding(

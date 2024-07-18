@@ -768,6 +768,7 @@ Enjoy using our app!
       ..fields['firstName'] = fname.text
       ..fields['lastName'] = lname.text
       ..fields['middleName'] = mname.text
+      ..fields['address[houseNumber]'] = ' '
       ..fields['gender'] = dropdownValue;
 
     req.headers['Ocp-Apim-Subscription-Key'] =
