@@ -2065,6 +2065,8 @@ has been sent to your email
   setpassword(String password, String cpassword) async {
     final prefs = await SharedPreferences.getInstance();
 
+    print('Token ${prefs.getString('access')}');
+
     try {
       String response = await networkProvider.setpassword(
         ApiEndpoints.setpassword,

@@ -17,10 +17,10 @@ class HeaderWidget extends StatelessWidget {
           height: 80.sp,
         ),
         SizedBox(
-          width: 10.sp,
+          width: 5.sp,
         ),
         TextWidget(
-          text: 'GVLive GoodVibes',
+          text: 'GoodVibes Live',
           fontSize: 15.sp,
           color: Colors.white,
         ),

@@ -110,7 +110,7 @@ class _HomeTabState extends State<HomeTab> {
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(10),
                     image: const DecorationImage(
-                      opacity: 0.5,
+                      opacity: 0.8,
                       fit: BoxFit.cover,
                       image: AssetImage(
                         'assets/images/image 12.png',
@@ -121,19 +121,38 @@ class _HomeTabState extends State<HomeTab> {
                     padding: const EdgeInsets.all(10.0),
                     child: Column(
                       children: [
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: Container(
-                            height: 30.sp,
-                            width: 30.sp,
-                            decoration: const BoxDecoration(
-                                color: Colors.white38, shape: BoxShape.circle),
-                            child: Icon(
-                              Icons.favorite,
-                              color: Colors.white,
-                              size: 20.sp,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Image.asset(
+                                  'assets/images/Frame 48096137.png',
+                                  height: 17.5,
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Image.asset(
+                                  'assets/images/Frame 48096138.png',
+                                  height: 17.5,
+                                ),
+                              ],
                             ),
-                          ),
+                            Container(
+                              height: 30.sp,
+                              width: 30.sp,
+                              decoration: const BoxDecoration(
+                                  color: Colors.white38,
+                                  shape: BoxShape.circle),
+                              child: Icon(
+                                Icons.favorite,
+                                color: Colors.white,
+                                size: 20.sp,
+                              ),
+                            ),
+                          ],
                         ),
                         Expanded(
                           child: SizedBox(

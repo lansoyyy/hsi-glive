@@ -37,10 +37,13 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: AppColors.gradients,
-              stops: const [0.0, 1.0],
+              colors: [
+                Color(0XFF2F0032),
+                Color(0XFF00272A),
+              ],
+              stops: [0.0, 1.0],
             ),
           ),
           width: double.infinity,
