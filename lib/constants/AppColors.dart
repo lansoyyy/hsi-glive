@@ -32,12 +32,21 @@ class AppColors {
   static const Color bgEndGradientColor = Color(0xFF2F0032);
 
   static const Color liveBackgroundColor = Color(0xFFF11B43);
+
+  static List<Color> gradients = [
+    HexColor("#00272A"),
+    HexColor("#2F0032"),
+  ];
   static const List<Color> bgGradientColors = [
     Color(0xFF00272A),
     Color(0xFF2F0032),
   ];
-  static List<Color> gradiants = [
-    const Color(0xFF8B008B), // Darker purple
-    const Color(0xFF008B8B), // Darker teal
+  static const List<Color> gradiants = [
+    Color(0xFF8B008B), // Darker purple
+    Color(0xFF008B8B), // Darker teal
+  ];
+  static List<Color> gradiants2 = [
+    const Color(0xFF8B008B).withOpacity(0.6),
+    const Color(0xFF008B8B).withOpacity(0.6),
   ];
 }

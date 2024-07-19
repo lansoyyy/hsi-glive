@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:glive/constants/AppColors.dart';
-import 'package:glive/models/app/PostModel.dart';
+import 'package:glive/models/app/ForYouModel.dart';
 
 class TopBarWidget extends StatelessWidget {
-  final PostModel postModel;
+  // final PostModel postModel;
+  final ForYouModel postModel;
 
   const TopBarWidget({super.key, required this.postModel});
 
@@ -31,11 +32,11 @@ class TopBarWidget extends StatelessWidget {
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: postModel.userModel.isActive == true ? AppColors.liveBackgroundColor : Colors.white,
+                              color: postModel.isLike == true ? AppColors.liveBackgroundColor : Colors.white,
                             )),
-                        child: CircleAvatar(backgroundImage: NetworkImage(postModel.userModel.avatar), radius: 24.r),
+                        child: CircleAvatar(backgroundImage: NetworkImage(postModel.author.profilePicture.toString()), radius: 24.r),
                       ),
-                      postModel.userModel.isActive == true
+                      postModel.isLike == true
                           ? Positioned(
                               bottom: 0,
                               left: 0,
@@ -60,7 +61,7 @@ class TopBarWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        postModel.userModel.firstName,
+                        postModel.author.firstName.toString(),
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: Colors.white,
@@ -75,7 +76,7 @@ class TopBarWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Text("${postModel.userModel.followersCount} Followers",
+                      Text("140k Followers",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 12.sp,

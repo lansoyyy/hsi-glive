@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:glive/modules/video/controller/video_controller.dart';
+import 'package:glive/network/ApiEndpoints.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class VideoPlayerItem extends StatefulWidget {
@@ -31,9 +32,10 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
   }
 
   void initializeVidePleyer() {
-    var postMediaUrl = videoController.postModelItems[widget.postIndex].postMedias[widget.mediaIndex].postMediaUrl.mediaUrls;
+    var postMediaUrl = videoController.postsForYouData[widget.postIndex].media[widget.mediaIndex].url;
+    log("postsForYouResponse URL https://${postMediaUrl.toString()}");
     cachedVideoPlayerPlusController = CachedVideoPlayerPlusController.networkUrl(
-      Uri.parse(postMediaUrl),
+      Uri.parse("https://${postMediaUrl.toString()}"),
       videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
       invalidateCacheIfOlderThan: const Duration(days: 1),
     )..initialize().then((value) {
@@ -115,7 +117,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
               decoration: BoxDecoration(
                 color: Colors.black,
                 image: DecorationImage(
-                    image: NetworkImage(videoController.postModelItems[widget.postIndex].postMedias[widget.mediaIndex].postMediaUrl.mediaThumbnail),
+                    image: NetworkImage("https://${videoController.postsForYouData[widget.postIndex].media[widget.mediaIndex].thumbnail.toString()}"),
                     fit: BoxFit.cover),
               ),
               child: Stack(

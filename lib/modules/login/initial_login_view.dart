@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glive/routes/AppRoutes.dart';
-
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -145,7 +144,7 @@ class _InitialLoginViewState extends State<InitialLoginView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextWidget(
-                  text: 'Don’t have an account?',
+                  text: 'Don’t have an aSSccount?',
                   fontSize: 16.sp,
                   color: Colors.white,
                 ),

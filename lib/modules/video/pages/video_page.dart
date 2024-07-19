@@ -1,15 +1,12 @@
-// ignore_for_file: unused_import
-
-import 'dart:developer';
+// ignore_for_file:
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glive/constants/AppColors.dart';
 import 'package:glive/modules/video/controller/video_controller.dart';
+import 'package:glive/modules/video/widgets/group_media_widget.dart';
 import 'package:glive/modules/video/widgets/main_body_widget.dart';
 import 'package:glive/modules/video/widgets/top_bar_widget.dart';
-import 'package:glive/modules/video/widgets/video_player_item.dart';
-import 'package:glive/modules/video/widgets/video_player_widget.dart';
 
 class VideoPage extends StatefulWidget {
   final String pageName;
@@ -30,7 +27,7 @@ class _VideoPageState extends State<VideoPage> with AutomaticKeepAliveClientMixi
   void initState() {
     // TODO: implement initState
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      videoController.pageController2.value.jumpToPage(videoController.currentVideoIndex.value);
+      videoController.pageController1.value.jumpToPage(videoController.currentForYouIndex.value);
       videoController.tapCount.value = 0;
     });
 
@@ -62,25 +59,25 @@ class _VideoPageState extends State<VideoPage> with AutomaticKeepAliveClientMixi
           height: double.infinity,
           child: Obx(() {
             return PageView.builder(
-                controller: videoController.pageController2.value,
+                controller: videoController.pageController1.value,
                 // itemCount: videoController.videoUrls.length,
-                itemCount: videoController.postModelItems.length,
+                itemCount: videoController.postsForYouData.length,
                 scrollDirection: Axis.vertical,
                 onPageChanged: (index) {
-                  videoController.currentVideoIndex.value = index;
+                  videoController.currentForYouIndex.value = index;
                 },
                 itemBuilder: (context, index) {
                   return Stack(
                     children: [
                       Obx(() => Column(
-                          children: videoController.postModelItems[index].postMedias
+                          children: videoController.postsForYouData[index].media
                               .asMap()
                               .entries
-                              .map((entry) => Expanded(child: VideoPlayerItem(postIndex: index, mediaIndex: entry.key)))
+                              .map((entry) => Expanded(child: GroupMediaWidget(postIndex: index, mediaIndex: entry.key)))
                               .toList())),
                       // VideoPlayerWidget(videoUrl: videoController.videoUrls[index], index: index),
-                      TopBarWidget(postModel: videoController.postModelItems[index]),
-                      MainBodyWidget(postModel: videoController.postModelItems[index]),
+                      TopBarWidget(postModel: videoController.postsForYouData[index]),
+                      MainBodyWidget(postModel: videoController.postsForYouData[index]),
                     ],
                   );
                 });

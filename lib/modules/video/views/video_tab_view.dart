@@ -5,7 +5,6 @@ import 'package:glive/constants/AppColors.dart';
 import 'package:glive/modules/video/controller/video_controller.dart';
 import 'package:glive/modules/video/pages/following_page.dart';
 import 'package:glive/modules/video/pages/for_you_page.dart';
-import 'package:glive/modules/video/pages/video_page.dart';
 
 class VideoTabView extends StatefulWidget {
   const VideoTabView({super.key});
@@ -44,8 +43,7 @@ class _VideoTabViewState extends State<VideoTabView> with AutomaticKeepAliveClie
                 onPageChanged: videoController.onPageChanged,
                 children: const [
                   FollowingPage(pageName: "Following", index: 0),
-                  ForYouPage(pageName: "For You'", index: 1),
-                  VideoPage(key: Key('video_screen'), pageName: "Video", index: 2),
+                  ForYouPage(key: Key('for_you'), pageName: "For You'", index: 1),
                 ],
               ),
               Positioned(
@@ -57,7 +55,6 @@ class _VideoTabViewState extends State<VideoTabView> with AutomaticKeepAliveClie
                   children: [
                     _buildTabText('Following', 0).paddingOnly(right: 20.w),
                     _buildTabText('For You', 1).paddingOnly(right: 20.w),
-                    _buildTabText('Video', 2),
                   ],
                 ),
               ),

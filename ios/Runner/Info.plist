@@ -24,6 +24,20 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library to save and retrieve photos and videos.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to your camera to enable photo and video capture features.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Need to access local network</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We need access to your microphone to enable voice recording features.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This lets you upload your media that are already save</string>
+	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -41,9 +55,27 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+        <key>NSAllowsArbitraryLoadsForMedia</key>
+        <true/>
+        <key>NSExceptionDomains</key>
+        <dict>
+            <key>http://stream.ksmiguel.com/live/glivetest.m3u8</key>
+            <dict>
+                <key>NSIncludesSubdomains</key>
+				<dict>
+               		<key>NSExceptionAllowsInsecureHTTPLoads</key>
+					<true/>
+				</dict>
+                	<key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+                <false/>
+            </dict>
+       </dict>
+  </dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 </dict>
 </plist>

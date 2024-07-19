@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:glive/constants/AppColors.dart';
+import 'package:get/get.dart';
 import 'package:glive/models/app/GiftModel.dart';
+import 'package:glive/modules/home/controller/home_controller.dart';
+import 'package:glive/widgets/AppPageBackground.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
 
@@ -13,6 +15,7 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
+  final HomeController homeController = Get.put(HomeController());
   List categories = ['Nearby', 'Popular', 'Explore', 'Events'];
 
   List categoryImages = ['image 97', 'image 98', 'image 99', 'image 100'];
@@ -23,18 +26,7 @@ class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: AppColors.bgGradientColors,
-            stops: [0.0891, 0.9926],
-            transform: GradientRotation(263.49 * (3.14159 / 180)),
-          ),
-        ),
-        width: double.infinity,
-        height: double.infinity,
+      body: AppPageBackground(
         child: SafeArea(
           child: Column(
             children: [
@@ -44,8 +36,8 @@ class _HomeTabState extends State<HomeTab> {
                 children: [
                   Image.asset(
                     'assets/images/logo.png',
-                    width: 80.sp,
-                    height: 80.sp,
+                    width: 65.sp,
+                    height: 70.sp,
                   ),
                   SizedBox(
                     width: 10.sp,
@@ -69,7 +61,9 @@ class _HomeTabState extends State<HomeTab> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      homeController.getInterestList();
+                    },
                     icon: Icon(
                       Icons.notifications_active_outlined,
                       color: Colors.white,

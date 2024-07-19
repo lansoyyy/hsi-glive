@@ -10,12 +10,21 @@ import 'package:glive/constants/assets.dart';
 import 'package:glive/widgets/TouchableOpacity.dart';
 
 class AppPasswordInput extends StatefulWidget {
-  const AppPasswordInput({super.key, required this.width, required this.title, required this.controller, required this.icon});
+  const AppPasswordInput({
+    super.key,
+    required this.width,
+    required this.title,
+    required this.controller,
+    this.validator, // Add validator parameter
+
+    required this.icon,
+  });
 
   final double width;
   final String title;
   final IconData icon;
   final TextEditingController controller;
+  final String? Function(String?)? validator; // Add validator parameter
 
   @override
   State<AppPasswordInput> createState() => _AppPasswordInputState();
@@ -113,7 +122,7 @@ class _AppPasswordInputState extends State<AppPasswordInput> {
     return GestureDetector(
       onTapDown: (details) {},
       child: Container(
-        height: 70.sp,
+        height: 65.sp,
         width: myWidth,
         decoration: BoxDecoration(
             color: Colors.grey.withOpacity(0.30),
@@ -126,7 +135,7 @@ class _AppPasswordInputState extends State<AppPasswordInput> {
               ),
             ],
             border: Border.all(color: Colors.white, width: 0.30),
-            borderRadius: BorderRadius.circular(5)),
+            borderRadius: BorderRadius.circular(8.sp)),
         child: Stack(
           children: [
             Container(
@@ -134,7 +143,8 @@ class _AppPasswordInputState extends State<AppPasswordInput> {
               width: myWidth,
               padding: const EdgeInsets.only(left: 60, right: 60),
               child: Center(
-                child: TextField(
+                child: TextFormField(
+                  validator: widget.validator,
                   controller: widget.controller,
                   obscureText: isFocused ? !isOpened : true,
                   focusNode: focusNode,

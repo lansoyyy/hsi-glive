@@ -15,7 +15,8 @@ class GlobalVariables {
 }
 
 int registrationIndexPage = 1;
-
+int registrationAccomplishedPage = -1;
+int forgotpasswordIndexPage = 0;
 double widthScreen() {
   return GlobalVariables.width;
 }
@@ -24,4 +25,4 @@ double heightScreen() {
   return GlobalVariables.height;
 }
 
-List socialMediaImages = ['facebook', 'instagram', 'google', 'tiktok'];
+List socialMediaImages = ['facebook', 'google', 'apple'];

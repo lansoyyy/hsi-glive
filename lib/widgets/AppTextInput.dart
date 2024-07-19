@@ -5,12 +5,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glive/constants/appColors.dart';
 
 class AppTextInput extends StatefulWidget {
-  const AppTextInput({super.key, required this.width, required this.title, required this.controller, required this.icon});
+  const AppTextInput({
+    super.key,
+    required this.width,
+    required this.title,
+    required this.controller,
+    required this.icon,
+    this.validator, // Add validator parameter
+  });
 
   final double width;
   final String title;
   final IconData icon;
   final TextEditingController controller;
+  final String? Function(String?)? validator; // Add validator parameter
 
   @override
   State<AppTextInput> createState() => _AppTextInputState();
@@ -92,7 +100,7 @@ class _AppTextInputState extends State<AppTextInput> {
             ),
           ],
           border: Border.all(color: Colors.white, width: 0.30),
-          borderRadius: BorderRadius.circular(5)),
+          borderRadius: BorderRadius.circular(8.sp)),
       child: Stack(
         children: [
           Container(
@@ -100,7 +108,8 @@ class _AppTextInputState extends State<AppTextInput> {
             width: myWidth,
             padding: const EdgeInsets.only(left: 60, right: 10),
             child: Center(
-              child: TextField(
+              child: TextFormField(
+                validator: widget.validator,
                 controller: widget.controller,
                 focusNode: focusNode,
                 cursorColor: AppColors.primaryColor,

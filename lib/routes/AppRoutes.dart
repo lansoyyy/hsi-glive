@@ -9,6 +9,8 @@ class AppRoutes {
   static const String DIGITALAIDS = "/digital-ids";
   static const String CASHHISTORY = "/cash-history";
   static const String MANAGEADMIN = "/manage-admin";
+  static const String FORGOTPASSWORD = "/forgotpassword";
+
   static const String MANAGEDIGITALID = "/manage-digital-id";
   static const String QRSCANNER = "/qr-scanner";
   static const String DISBURSEUSER = "/disburse-user";
@@ -25,4 +27,8 @@ class AppRoutes {
   static const String CHANNELS = "/channels";
   static const String OTP = "/otp";
   static const String SIGNUP = "/signup";
+  static const String MEDIAPOST = "/mediapost";
+  static const String POSTCAMERA = "/postcamera";
+  static const String CHAT = "/chat";
+  static const String CREATORCENTER = "/creatorcenter";
 }

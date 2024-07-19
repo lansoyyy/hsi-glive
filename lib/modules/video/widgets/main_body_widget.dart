@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:glive/constants/AppColors.dart';
-import 'package:glive/models/app/PostModel.dart';
+import 'package:glive/models/app/ForYouModel.dart';
 
 class MainBodyWidget extends StatelessWidget {
-  final PostModel postModel;
+  // final PostModel postModel;
+  final ForYouModel postModel;
 
   const MainBodyWidget({super.key, required this.postModel});
 
@@ -28,7 +29,7 @@ class MainBodyWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        postModel.postTitle, //   "Liveeeee na!!! ✨❤️",
+                        postModel.title, //   "Liveeeee na!!! ✨❤️",
                         style: TextStyle(
                           fontSize: 20.sp,
                           color: Colors.white,
@@ -36,7 +37,7 @@ class MainBodyWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        postModel.postDescription,
+                        postModel.tags.toString(),
                         style: TextStyle(
                           fontSize: 15.sp,
                           color: Colors.white,
@@ -69,11 +70,11 @@ class MainBodyWidget extends StatelessWidget {
                       children: [
                         InkWell(
                           onTap: () {},
-                          child: Icon(Icons.favorite, size: 40.r, color: Colors.red),
+                          child: Icon(Icons.favorite, size: 40.r, color: postModel.isLike == true ? Colors.red : Colors.red),
                         ),
                         SizedBox(height: 7.h),
                         Text(
-                          postModel.likesCount,
+                          postModel.likes.toString(),
                           style: TextStyle(fontSize: 15.sp, color: Colors.white, fontWeight: FontWeight.bold),
                         )
                       ],
@@ -85,7 +86,7 @@ class MainBodyWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 7),
                         Text(
-                          postModel.commentsCount,
+                          postModel.comments.toString(),
                           style: TextStyle(fontSize: 15.sp, color: Colors.white, fontWeight: FontWeight.bold),
                         )
                       ],
@@ -98,7 +99,7 @@ class MainBodyWidget extends StatelessWidget {
                         ),
                         SizedBox(height: 7.h),
                         Text(
-                          postModel.giftCount,
+                          "0", //postModel.giftCount,
                           style: TextStyle(fontSize: 15.sp, color: Colors.white, fontWeight: FontWeight.bold, fontFamily: "Dm sans"),
                         )
                       ],
@@ -111,7 +112,7 @@ class MainBodyWidget extends StatelessWidget {
                         ),
                         SizedBox(height: 7.h),
                         Text(
-                          postModel.shareCount,
+                          postModel.shares.toString(),
                           style: TextStyle(fontSize: 15.sp, color: Colors.white, fontWeight: FontWeight.bold),
                         )
                       ],
