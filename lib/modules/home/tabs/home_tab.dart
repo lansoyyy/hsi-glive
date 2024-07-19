@@ -175,7 +175,7 @@ class _HomeTabState extends State<HomeTab> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 TextWidget(
-                                  text: 'Carla Cruz',
+                                  text: 'Christine',
                                   fontSize: 12.sp,
                                   color: Colors.white,
                                 ),
