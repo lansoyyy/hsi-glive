@@ -1,15 +1,17 @@
+// ignore_for_file: unused_local_variable
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:glive/modules/create_post/controller/create_post_controller.dart';
+import 'package:glive/modules/create_post/modals/media_post_dialog.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 
 class MediaPostBottomSheet {
-  static final CreatePostController controller = Get.find();
-
   static void showPrivacySettings(BuildContext context) {
+    final CreatePostController controller = Get.find();
     Get.bottomSheet(
       Container(
         padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 16.sp),
@@ -94,6 +96,7 @@ class MediaPostBottomSheet {
   }
 
   static void showStreamQualitySettings(BuildContext context) {
+    final CreatePostController controller = Get.find();
     Get.bottomSheet(
         Container(
           padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 16.sp),
@@ -169,6 +172,7 @@ class MediaPostBottomSheet {
 
   static void showAddSoundsBottomSheet(BuildContext context) {
     double topPadding = MediaQuery.of(context).padding.top;
+    final CreatePostController controller = Get.find();
 
     controller.initSoundCategories();
     Get.bottomSheet(
@@ -348,11 +352,17 @@ class MediaPostBottomSheet {
       isDismissible: false,
       isScrollControlled: true,
     ).whenComplete(() {
-      controller.processVideoData();
+      if (controller.selectedPostPageIndex.value == 0) {
+        if (controller.selectedSoundAudio.value.isNotEmpty) {
+          // controller.processVideoData();
+        }
+      }
     });
   }
 
   static void showAddHashtagBottomSheet(BuildContext context) {
+    final CreatePostController controller = Get.find();
+
     double topPadding = MediaQuery.of(context).padding.top;
     log(" Get.statusBarHeight ${Get.statusBarHeight} TOP $topPadding");
     controller.initHashtagData();
@@ -481,6 +491,8 @@ class MediaPostBottomSheet {
   }
 
   static void showAddDescriptionBottomSheet(BuildContext context) {
+    final CreatePostController controller = Get.find();
+
     double topPadding = MediaQuery.of(context).padding.top;
     controller.descController.value.clear();
 
@@ -507,8 +519,13 @@ class MediaPostBottomSheet {
                             icon: Icon(Icons.close, size: 26.r),
                             color: Colors.black,
                             style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
-                            onPressed: () {
-                              Get.back();
+                            onPressed: () async {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              bool resultValue = await MediaPostDialog.showDiscardDescriptionDialog(context);
+                              if (resultValue == true) {
+                                controller.descController.value.clear();
+                                Get.back();
+                              }
                             }),
                         Text("Description", style: TextStyle(color: Colors.black, fontSize: 15.sp, fontWeight: FontWeight.w500)),
                         IconButton(
@@ -562,7 +579,7 @@ class MediaPostBottomSheet {
               onPressed: () {
                 controller.video.isVideoPlaying.value = false;
                 FocusManager.instance.primaryFocus?.unfocus();
-                log("Save");
+                Get.back();
               },
             ).paddingSymmetric(horizontal: 15.sp),
           )

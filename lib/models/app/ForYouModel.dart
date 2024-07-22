@@ -9,6 +9,7 @@ class ForYouModel {
   final String title;
   final List<String> tags;
   final List<Media> media;
+  final String music;
   final int likes;
   final int comments;
   final int views;
@@ -21,6 +22,7 @@ class ForYouModel {
       required this.title,
       required this.tags,
       required this.media,
+      required this.music,
       required this.likes,
       required this.comments,
       required this.views,
@@ -36,6 +38,7 @@ class ForYouModel {
         title: json["title"],
         tags: List<String>.from(json["tags"].map((x) => x)),
         media: List<Media>.from(json["media"].map((x) => Media.fromJson(x))),
+        music: json["music"],
         likes: json["likes"],
         comments: json["comments"],
         views: json["views"],
@@ -49,6 +52,7 @@ class ForYouModel {
         "title": instance.title,
         "tags": instance.tags,
         "media": instance.media,
+        "music": instance.music,
         "likes": instance.likes,
         "comments": instance.comments,
         "views": instance.views,
@@ -61,6 +65,7 @@ class ForYouModel {
         title,
         tags,
         media,
+        music,
         likes,
         comments,
         views,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:glive/modules/home/controller/home_controller.dart';
 import 'package:glive/modules/home/tabs/chat_tab.dart';
 import 'package:glive/modules/home/tabs/home_tab.dart';
 // import 'package:glive/modules/live/views/live_view.dart';
@@ -18,6 +19,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  final HomeController homeController = Get.put(HomeController());
   final VideoController videoController = Get.put(VideoController());
 
   @override
@@ -28,7 +30,6 @@ class _HomeViewState extends State<HomeView> {
     videoController.getPostsForYou(page: videoController.pageForYouCount.value, limit: videoController.limitForYouCount.value);
   }
 
-  final RxInt selectedIndex = 0.obs;
   Rx isLivePageFullScreen = false.obs;
 
   final List<Widget> _pages = const [
@@ -41,10 +42,10 @@ class _HomeViewState extends State<HomeView> {
 
   void _onItemTap(int newIndex) {
     setState(() {
-      selectedIndex.value = newIndex;
-      if (selectedIndex.value == 1) {
+      homeController.selectedIndex.value = newIndex;
+      if (homeController.selectedIndex.value == 1) {
         videoController.handleBottomNavigationTap();
-      } else if (selectedIndex.value == 2) {
+      } else if (homeController.selectedIndex.value == 2) {
         _openLivePage();
       } else {
         videoController.tapCount.value = 0;
@@ -62,7 +63,7 @@ class _HomeViewState extends State<HomeView> {
     );
 
     setState(() {
-      selectedIndex.value = 0;
+      homeController.selectedIndex.value = 0;
     });
   }
 
@@ -85,10 +86,10 @@ class _HomeViewState extends State<HomeView> {
       //   child: _pages[_currentIndex],
       // ),
       bottomNavigationBar: AppBottomNavigationBar(
-        currentIndex: selectedIndex.value,
+        currentIndex: homeController.selectedIndex.value,
         onTap: _onItemTap,
       ),
-      body: _pages[selectedIndex.value],
+      body: _pages[homeController.selectedIndex.value],
     );
   }
 }

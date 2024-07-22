@@ -10,6 +10,7 @@ class PostsDetailsResponse {
   final List<String> tags;
   final List<Media> media;
   final int likes;
+  final String music;
   final int comments;
   final int views;
   final int shares;
@@ -23,6 +24,7 @@ class PostsDetailsResponse {
     required this.title,
     required this.tags,
     required this.media,
+    required this.music,
     required this.likes,
     required this.comments,
     required this.views,
@@ -43,6 +45,7 @@ class PostsDetailsResponse {
         tags: List<String>.from(json["tags"].map((x) => x)).toList(),
         media: List<Media>.from(json["media"].map((x) => Media.fromJson(x))).toList(),
         likes: json["likes"],
+        music: json["music"],
         comments: json["comments"],
         views: json["views"],
         shares: json["shares"],
@@ -57,6 +60,7 @@ class PostsDetailsResponse {
         "title": instance.title,
         "tags": instance.tags,
         "media": instance.media,
+        "music": instance.music,
         "likes": instance.likes,
         "comments": instance.comments,
         "views": instance.views,
@@ -71,6 +75,7 @@ class PostsDetailsResponse {
         title,
         tags,
         media,
+        music,
         likes,
         comments,
         views,

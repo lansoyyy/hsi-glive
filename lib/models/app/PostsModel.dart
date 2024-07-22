@@ -9,6 +9,7 @@ class PostsModel {
   final String title;
   final List<String> tags;
   final List<Media> media;
+  final String music;
   final int likes;
   final int comments;
   final int views;
@@ -23,6 +24,7 @@ class PostsModel {
       required this.title,
       required this.tags,
       required this.media,
+      required this.music,
       required this.likes,
       required this.comments,
       required this.views,
@@ -40,6 +42,7 @@ class PostsModel {
         title: json["title"] ?? "",
         tags: List<String>.from(json["tags"].map((x) => x)),
         media: List<Media>.from(json["media"].map((x) => Media.fromJson(x))),
+        music: json["music"],
         likes: json["likes"] as int,
         comments: json["comments"] as int,
         views: json["views"] as int,
@@ -55,6 +58,7 @@ class PostsModel {
         "title": instance.title,
         "tags": instance.tags,
         "media": instance.media,
+        "music": instance.music,
         "likes": instance.likes,
         "comments": instance.comments,
         "views": instance.views,
@@ -70,6 +74,7 @@ class PostsModel {
         tags,
         media,
         likes,
+        music,
         comments,
         views,
         shares,

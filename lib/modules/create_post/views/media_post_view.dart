@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:glive/modules/create_post/controller/create_post_controller.dart';
 import 'package:glive/modules/create_post/widgets/media_bottom_widget.dart';
+import 'package:glive/modules/create_post/widgets/media_content_widget.dart';
 import 'package:glive/modules/create_post/widgets/media_top_widget.dart';
 import 'package:glive/widgets/AppPageBackground.dart';
 import 'package:photo_view/photo_view.dart';
@@ -24,17 +25,22 @@ class MediaPostView extends StatelessWidget {
     // log("IMAGE PATH ${controller.camera.imageFile!.path}");
     return Scaffold(
       body: AppPageBackground(
-        child: Obx(() => controller.selectedPostPageIndex.value == 0
+        child: Obx(() => controller.selectedPostPageIndex.value == 0 || controller.selectedVideoFiles.isNotEmpty
             ? GestureDetector(
                 onTap: () {
                   controller.onVideoTapped();
                 },
                 child: Stack(
+                  alignment: Alignment.center,
                   children: [
                     if (controller.video.cachedVideoPlayerPlusController == null)
                       Container()
                     else
-                      CachedVideoPlayerPlus(controller.video.cachedVideoPlayerPlusController!).paddingOnly(bottom: 80.sp),
+                      Expanded(
+                        child: AspectRatio(
+                            aspectRatio: controller.video.cachedVideoPlayerPlusController!.value.aspectRatio,
+                            child: CachedVideoPlayerPlus(controller.video.cachedVideoPlayerPlusController!)),
+                      ),
                     Obx(() => controller.video.isVideoPlaying.value
                         ? Icon(Icons.play_arrow_rounded, color: Colors.transparent, size: 55.r)
                         : Center(
@@ -45,6 +51,7 @@ class MediaPostView extends StatelessWidget {
                                     BoxDecoration(shape: BoxShape.circle, color: Colors.white38, border: Border.all(color: Colors.white, width: 0.4)),
                                 child: Icon(Icons.play_arrow_rounded, color: Colors.white, size: 55.r)))),
                     MediaTopWidget(),
+                    MediaContentWidget(),
                     MediaBottomWidget(),
                   ],
                 ),
@@ -59,6 +66,7 @@ class MediaPostView extends StatelessWidget {
                         child: Image.file(File(controller.camera.imageFile!.path)),
                       ),
                       MediaTopWidget(),
+                      MediaContentWidget(),
                       MediaBottomWidget(),
                     ],
                   )
@@ -148,6 +156,7 @@ class MediaPostView extends StatelessWidget {
                         ),
                       ),
                       MediaTopWidget(),
+                      MediaContentWidget(),
                       MediaBottomWidget(),
                     ],
                   )),

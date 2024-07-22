@@ -37,7 +37,7 @@ class MainBodyWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        postModel.tags.toString(),
+                        postModel.tags.map((tag) => '#$tag').join(', '),
                         style: TextStyle(
                           fontSize: 15.sp,
                           color: Colors.white,

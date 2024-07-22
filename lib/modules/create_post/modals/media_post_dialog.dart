@@ -58,4 +58,64 @@ class MediaPostDialog {
           ),
         ));
   }
+
+  static Future<bool> showDiscardDescriptionDialog(BuildContext context) async {
+    return await Get.dialog(
+        barrierDismissible: false,
+        Dialog(
+          backgroundColor: Colors.transparent,
+          child: WillPopScope(
+            onWillPop: () async => false,
+            child: Container(
+              height: 185.sp,
+              width: 320.sp,
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 35.sp),
+                    child: Center(
+                        child: Text('Exit without saving?',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500, color: const Color(0xFF262626)))),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ButtonWidget(
+                        label: 'Yes',
+                        radius: 8.sp,
+                        height: 43.sp,
+                        width: 135.sp,
+                        fontSize: 16.sp,
+                        color: const Color(0xFF0A9AAA),
+                        textColor: const Color(0xFFD3D3D3),
+                        onPressed: () {
+                          return Get.back(result: true);
+                        },
+                      ),
+                      SizedBox(width: 12.sp),
+                      ButtonWidget(
+                        label: 'No',
+                        radius: 8.sp,
+                        height: 43.sp,
+                        width: 135.sp,
+                        fontSize: 16.sp,
+                        color: Colors.white,
+                        textColor: const Color(0xFF0A9AAA),
+                        onPressed: () {
+                          return Get.back(result: false);
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ));
+  }
 }

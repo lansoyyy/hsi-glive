@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, avoid_shadowing_type_parameters
 
+import 'package:glive/models/app/PostsModel.dart';
 import 'package:glive/models/response/ContentResponse.dart';
 import 'package:glive/models/response/FollowedUserResponse.dart';
 import 'package:glive/models/response/InterestListResponse.dart';
@@ -47,6 +48,8 @@ T? _dataFromJson<T>(Map<String, dynamic>? json) {
       return SuggestToFollowResponse.fromJson(json) as T;
     } else if (T == FollowedUseeResponse) {
       return FollowedUseeResponse.fromJson(json) as T;
+    } else if (T == PostsModel) {
+      return PostsModel.fromJson(json) as T;
     }
     return null;
   } else {
@@ -68,6 +71,8 @@ Object? _dataToJson<T>(T data) {
   } else if (data is SuggestToFollowResponse) {
     return (data).toJson();
   } else if (data is FollowedUseeResponse) {
+    return (data).toJson();
+  } else if (data is PostsModel) {
     return (data).toJson();
   }
   return null;

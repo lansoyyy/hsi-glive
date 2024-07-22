@@ -41,7 +41,7 @@ class StorageAccessWidget extends StatelessWidget {
               color: const Color(0xFF0A9AAA),
               textColor: const Color(0xFFFFFFFF),
               onPressed: () async {
-                await controller.photos.oPhotosPermissionRequest();
+                await controller.photos.checkPhotoManagerPermission();
               },
             ).paddingOnly(bottom: 10.h),
           ],

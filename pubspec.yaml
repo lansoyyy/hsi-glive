@@ -72,6 +72,7 @@ dependencies:
   audioplayers:
   ffmpeg_kit_flutter:
   connectivity_plus: 
+  video_trimmer: 
 
 
 dev_dependencies:

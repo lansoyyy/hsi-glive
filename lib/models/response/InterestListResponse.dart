@@ -11,8 +11,8 @@ class InterestListResponse {
   final int pagingCounter;
   final bool hasPrevPage;
   final bool hasNextPage;
-  final int prevPage;
-  final int nextPage;
+  final dynamic prevPage;
+  final dynamic nextPage;
 
   InterestListResponse({
     required this.list,
@@ -31,7 +31,7 @@ class InterestListResponse {
   Map<String, dynamic> toJson() => interestListRResponseToJson(this);
 
   static InterestListResponse interestListResponseFromJson(Map<String, dynamic> json) => InterestListResponse(
-        list: (json['list'] as List<dynamic>).map((e) => InterestModel.fromJson(e as Map<String, dynamic>)).toList(),
+        list: List<InterestModel>.from(json["list"].map((x) => InterestModel.fromJson(x))),
         count: json["count"] as int,
         limit: json["limit"] as int,
         totalPages: json["totalPages"] as int,
@@ -39,8 +39,8 @@ class InterestListResponse {
         pagingCounter: json["pagingCounter"] as int,
         hasPrevPage: json["hasPrevPage"] as bool,
         hasNextPage: json["hasNextPage"] as bool,
-        prevPage: json["prevPage"] as int,
-        nextPage: json["nextPage"] as int,
+        prevPage: json["prevPage"] == null ? json["prevPage"] : "null",
+        nextPage: json["nextPage"] == null ? json["nextPage"] : "null",
       );
 
   Map<String, dynamic> interestListRResponseToJson(InterestListResponse instance) => <String, dynamic>{

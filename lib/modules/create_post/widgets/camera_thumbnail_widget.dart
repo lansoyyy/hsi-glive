@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:glive/modules/create_post/controller/create_post_controller.dart';
+import 'package:glive/modules/create_post/modals/media_picker_bottom_sheet.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 class CameraThumbnailWidget extends StatelessWidget {
   CameraThumbnailWidget({super.key});
@@ -36,7 +38,11 @@ class CameraThumbnailWidget extends StatelessWidget {
                             return snapshot.hasData
                                 ? GestureDetector(
                                     onTap: () {
-                                      log("Selecting Photo here ");
+                                      PhotoManager.clearFileCache();
+                                      controller.camera.disposeCamera();
+                                      MediaPickerBottomSheet.showVideoPickerBottomSheet(context);
+                                      log("Selecting Photo here ${controller.photos.firstMedia.value!.originFile}");
+                                      log("Selecting VIDEO here ${controller.photos.firstVideo}");
                                     },
                                     child: CircleAvatar(radius: 25.r, backgroundImage: MemoryImage(snapshot.data!)))
                                 : const Center(child: Text('Error loading image'));

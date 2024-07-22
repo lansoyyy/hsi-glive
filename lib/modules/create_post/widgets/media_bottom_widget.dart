@@ -83,6 +83,9 @@ class MediaBottomWidget extends StatelessWidget {
                           ),
                           scrollPadding: const EdgeInsets.all(10.0),
                           autofocus: false,
+                          onTapOutside: (event) {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          },
                           style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w400, color: const Color(0xFFD3D3D3)))
                       .paddingSymmetric(horizontal: 5.sp)),
                 ),
@@ -148,80 +151,6 @@ class MediaBottomWidget extends StatelessWidget {
                                   ).paddingOnly(right: 8.sp);
                                 }),
                           ),
-                    // : Row(
-                    //     mainAxisAlignment: MainAxisAlignment.start,
-                    //     children: [
-                    //       Container(
-                    //         height: 25.sp,
-                    //         decoration: BoxDecoration(
-                    //             color: Colors.transparent,
-                    //             border: Border.all(color: Colors.white, width: 0.2),
-                    //             borderRadius: BorderRadius.circular(15.sp)),
-                    //         padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 2.sp),
-                    //         child: Center(
-                    //           child: Text(
-                    //             '#Sexy Lady',
-                    //             style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w400, color: Colors.white),
-                    //           ),
-                    //         ),
-                    //       ).paddingOnly(right: 8.sp),
-                    //       Container(
-                    //         height: 25.sp,
-                    //         decoration: BoxDecoration(
-                    //             color: Colors.transparent,
-                    //             border: Border.all(color: Colors.white, width: 0.2),
-                    //             borderRadius: BorderRadius.circular(15.sp)),
-                    //         padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 2.sp),
-                    //         child: Center(
-                    //           child: Text(
-                    //             '#game',
-                    //             style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w400, color: Colors.white),
-                    //           ),
-                    //         ),
-                    //       ).paddingOnly(right: 8.sp),
-                    //       Container(
-                    //         height: 25.sp,
-                    //         decoration: BoxDecoration(
-                    //             color: Colors.transparent,
-                    //             border: Border.all(color: Colors.white, width: 0.2),
-                    //             borderRadius: BorderRadius.circular(15.sp)),
-                    //         padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 2.sp),
-                    //         child: Center(
-                    //           child: Text(
-                    //             '#Sharinglife',
-                    //             style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w400, color: Colors.white),
-                    //           ),
-                    //         ),
-                    //       ).paddingOnly(right: 8.sp),
-                    //       Container(
-                    //         height: 25.sp,
-                    //         decoration: BoxDecoration(
-                    //             color: Colors.transparent,
-                    //             border: Border.all(color: Colors.white, width: 0.2),
-                    //             borderRadius: BorderRadius.circular(15.sp)),
-                    //         padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 2.sp),
-                    //         child: Center(
-                    //           child: Text(
-                    //             '#lifestyle',
-                    //             style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w400, color: Colors.white),
-                    //           ),
-                    //         ),
-                    //       ).paddingOnly(right: 8.sp),
-                    //       Container(
-                    //         height: 25.sp,
-                    //         width: 25.sp,
-                    //         decoration: BoxDecoration(
-                    //             color: Colors.transparent,
-                    //             border: Border.all(color: Colors.white60, width: 0.1),
-                    //             // borderRadius: BorderRadius.circular(15.sp),
-                    //             shape: BoxShape.circle),
-                    //         padding: EdgeInsets.symmetric(horizontal: 2.sp, vertical: 0.sp),
-                    //         child: Center(
-                    //           child: Icon(Icons.arrow_drop_down, color: Colors.white, size: 16.r),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ).paddingSymmetric(horizontal: 8.sp),
                   ),
                 ),
               ],
@@ -270,6 +199,7 @@ class MediaBottomWidget extends StatelessWidget {
               controller.video.isVideoPlaying.value = false;
               log("VIDEO DATA ${controller.outputDataPath.value}");
               log("Post Now");
+              controller.validateUploadingPost();
             },
           ),
         ],

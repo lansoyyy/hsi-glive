@@ -46,7 +46,19 @@ class MediaTopWidget extends StatelessWidget {
                   controller.deleteCachedFile(controller.camera.imageFile!.path);
                 } else if (controller.camera.isVideoFile.value) {
                   controller.deleteCachedFile(controller.camera.videoFile!.path);
+                } else if (controller.selectedVideoFiles.isNotEmpty) {
+                  controller.deleteCachedFile(controller.thumbnailDataPath.value);
+                } else if (controller.selectedImageFiles.isNotEmpty) {
+                  for (var files in controller.selectedImageFiles) {
+                    controller.deleteCachedFile(files.path);
+                    controller.deleteCachedFile(controller.thumbnailDataPath.value);
+                  }
                 }
+                controller.selectedVideoFiles.clear();
+                controller.selectedImageFiles.clear();
+                controller.photos.selectedImageAssets.clear();
+                controller.photos.selectedVideoAssets.clear();
+                controller.thumbnailDataPath.value = "";
                 Get.back();
                 Get.back();
               }

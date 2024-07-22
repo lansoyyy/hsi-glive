@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:glive/modules/chats/views/chat_view.dart';
 import 'package:glive/modules/create_post/tabs/post_camera_page.dart';
 import 'package:glive/modules/create_post/views/media_post_view.dart';
+import 'package:glive/modules/create_post/views/media_trimmer_view.dart';
 import 'package:glive/modules/forgot_password/forgotpassword_view.dart';
 import 'package:glive/modules/home/home_view.dart';
 import 'package:glive/modules/login/initial_login_view.dart';
@@ -49,5 +50,6 @@ class AppPages {
     GetPage(name: AppRoutes.POSTCAMERA, page: () => PostCameraPage()),
     GetPage(name: AppRoutes.CHAT, page: () => const ChatScreen()),
     GetPage(name: AppRoutes.CREATORCENTER, page: () => const CreatorCenterView()),
+    GetPage(name: AppRoutes.MEDIATRIMMER, page: () => MediaTrimmerView()),
   ];
 }

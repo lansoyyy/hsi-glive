@@ -45,4 +45,15 @@ class InterestModel {
         v,
         interestModelId,
       ];
+
+  Map<String, dynamic> toMap() {
+    return {
+      "_id": id,
+      "name": name,
+      "parnt": parent,
+      "tye": type,
+      "_v": v,
+      "id": interestModelId,
+    };
+  }
 }

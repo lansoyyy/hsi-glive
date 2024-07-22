@@ -13,6 +13,7 @@ class AlbumTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("ALBUM $album");
     return FutureBuilder<AssetEntity?>(
       future: album.getAssetListRange(start: 0, end: 1).then((value) => value.firstOrNull),
       builder: (context, snapshot) {

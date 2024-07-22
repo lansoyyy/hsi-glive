@@ -19,11 +19,20 @@ import 'package:glive/controllers/photos_controller.dart';
 import 'package:glive/controllers/videos_controller.dart';
 import 'package:glive/main.dart';
 import 'package:glive/models/app/AudioModel.dart';
+import 'package:glive/models/app/InterestModel.dart';
+import 'package:glive/models/app/PostsModel.dart';
+import 'package:glive/models/response/BaseResponse.dart';
+import 'package:glive/models/response/InterestListResponse.dart';
+import 'package:glive/network/ApiImplementation.dart';
+import 'package:glive/routes/AppRoutes.dart';
+import 'package:glive/utils/LoadingUtil.dart';
+import 'package:glive/utils/ToastHelper.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:http/http.dart' as http;
+import 'package:video_trimmer/video_trimmer.dart';
 
 enum Selection { everyone, onlyMe }
 
@@ -34,13 +43,33 @@ class CreatePostController extends GetxController with WidgetsBindingObserver {
   final VideosController video = Get.put(VideosController());
   var gridViewScrollController = ScrollController().obs;
   var draggableScrollableController = DraggableScrollableController().obs;
-
+  static ApiImplementation apiImplementation = ApiImplementation();
+  Rx<Trimmer>? videoTrimmer;
+  RxBool isInitalizedTrimmer = true.obs;
   var titleController = TextEditingController().obs;
   var descController = TextEditingController().obs;
   var searchController = TextEditingController().obs;
 
+  InterestListResponse? interestListResponse;
+  RxList<InterestModel> interestModelData = <InterestModel>[].obs;
+  RxList<Map<String, dynamic>> localInterestList = <Map<String, dynamic>>[].obs;
+  RxList<Map<String, dynamic>> mergedIconInterestList = <Map<String, dynamic>>[].obs;
+  RxList<String> selectedContentList = <String>[].obs;
+
+  RxString selectedContentName = "".obs;
+  RxString selectedContentID = "".obs;
+  RxString selectedContentIcon = "".obs;
+
+  RxList<File> selectedImageFiles = <File>[].obs;
+  RxList<File> selectedVideoFiles = <File>[].obs;
+
+  late IconData icons = Icons.arrow_drop_down;
+  RxBool isDropdownOpen = false.obs;
+
   var privacyOption = Selection.everyone.obs;
   RxString privacyDesc = "Everyone can view".obs;
+  RxString privacyDescription = "everyone".obs;
+
   RxBool isCameraSelected = false.obs;
   RxBool isCommentSwitchOn = false.obs;
 
@@ -56,10 +85,16 @@ class CreatePostController extends GetxController with WidgetsBindingObserver {
   RxList<HashtagData> hashtagDataList = <HashtagData>[].obs;
   RxList<HashtagData> hashtagDataMasterList = <HashtagData>[].obs;
   RxList<HashtagData> selectedHashtags = <HashtagData>[].obs;
-
+  RxList<String> hashtagStringList = <String>[].obs;
+  RxList<String> thumbnailListPaths = <String>[].obs;
   RxDouble xPosition = 0.0.obs;
   RxDouble yPosition = 0.0.obs;
   RxInt fileCounter = 1.obs;
+  File? imageFiles;
+  RxBool progressVisibility = false.obs;
+  RxDouble startTrimmerValue = 0.0.obs;
+  RxDouble endTrimmerValue = 0.0.obs;
+  RxBool isTrimmerPlaying = false.obs;
 
   RxString selectedMoodTitle = "".obs;
   RxString selectedMoodDesc = "".obs;
@@ -68,6 +103,9 @@ class CreatePostController extends GetxController with WidgetsBindingObserver {
   RxString selectedSoundAudio = "".obs;
   RxString audioDataPath = "".obs;
   RxString outputDataPath = "".obs;
+  RxString thumbnailDataPath = "".obs;
+  RxString postsDescWithHashtags = "".obs;
+  RxBool isThumbnailLoading = false.obs;
 
   @override
   void onInit() async {
@@ -79,10 +117,11 @@ class CreatePostController extends GetxController with WidgetsBindingObserver {
     camera.initAnimationControllers();
     gridViewScrollController.value.addListener(gridViewScrollListenter);
     if (!photos.isInitialized.value) {
-      photos.checkAndRequestPermission();
+      // photos.checkAndRequestPermission();
+      photos.checkPhotoManagerPermission();
     }
 
-    initializeDataPaths();
+    getInterestList();
   }
 
   @override
@@ -100,6 +139,52 @@ class CreatePostController extends GetxController with WidgetsBindingObserver {
         camera.reinitializeCamera();
       }
     }
+  }
+
+  Future<void> getInterestList() async {
+    try {
+      var response = await apiImplementation.getInterestList();
+      if (response.c == 200 && response.d != null) {
+        interestListResponse = response.d!;
+        interestModelData.addAll(interestListResponse!.list);
+        // localInterestList.addAll(interestListResponse!.list);
+        mergeInterestDataWithIcons();
+      } else if (response.c == 401) {
+        ToastHelper.error(response.m);
+      } else {
+        ToastHelper.error(response.m);
+      }
+    } catch (ex) {
+      log("Something went wrong! interest ${ex.toString()}");
+    }
+  }
+
+  void mergeInterestDataWithIcons() {
+    List<Map<String, dynamic>> iconsLists = [
+      {'icon': 'assets/icons/animal.png'},
+      {'icon': 'assets/icons/comedy.png'},
+      {'icon': 'assets/icons/travel.png'},
+      {'icon': 'assets/icons/foods.png'},
+      {'icon': 'assets/icons/sports.png'},
+      {'icon': 'assets/icons/beauty.png'},
+      {'icon': 'assets/icons/arts.png'},
+      {'icon': 'assets/icons/gaming.png'},
+      {'icon': 'assets/icons/animal.png'},
+      {'icon': 'assets/icons/comedy.png'},
+      {'icon': 'assets/icons/travel.png'},
+      {'icon': 'assets/icons/foods.png'},
+      {'icon': 'assets/icons/sports.png'},
+      {'icon': 'assets/icons/beauty.png'},
+      {'icon': 'assets/icons/arts.png'},
+      {'icon': 'assets/icons/gaming.png'},
+    ];
+    // Merging the two lists
+    for (int i = 0; i < interestModelData.length; i++) {
+      Map<String, dynamic> mergedItem = interestModelData[i].toMap();
+      mergedItem.addAll(iconsLists[i]);
+      mergedIconInterestList.add(mergedItem);
+    }
+    log("MEGER ${mergedIconInterestList.first}");
   }
 
   void onTabSelected(int index) {
@@ -128,8 +213,10 @@ class CreatePostController extends GetxController with WidgetsBindingObserver {
     privacyOption.value = value;
     if (value == Selection.everyone) {
       privacyDesc.value = "Everyone can view";
+      privacyDescription.value = "everyone";
     } else {
       privacyDesc.value = "Only me";
+      privacyDescription.value = "onlyme";
     }
   }
 
@@ -211,19 +298,51 @@ class CreatePostController extends GetxController with WidgetsBindingObserver {
     }
   }
 
-  void onImageSelected(AssetEntity assets) {
+  void onPostsAddContent(int index) {
+    if (selectedContentList.contains(mergedIconInterestList[index]["id"])) {
+      isDropdownOpen.value = false;
+      // ToastHelper.error("Selected content category is already added.");
+    } else {
+      selectedContentList.add(mergedIconInterestList[index]["id"].toString());
+      // ToastHelper.success("You added ${mergedIconInterestList[index]["name"]} Category as your content.");
+      isDropdownOpen.value = false;
+    }
+  }
+
+  void onImageSelected(AssetEntity assets) async {
+    final pickedImagefile = await assets.file;
     if (photos.isMultipleSelected.value) {
       if (photos.selectedImageAssets.contains(assets)) {
         photos.isSelectedAsset.value = false;
+        selectedImageFiles.remove(pickedImagefile!.absolute);
         photos.selectedImageAssets.remove(assets);
       } else {
         photos.selectedImageAssets.insert(0, assets);
         photos.isSelectedAsset.value = true;
+        selectedImageFiles.insert(0, pickedImagefile!.absolute);
       }
     } else {
       photos.selectedImageAssets.clear();
       photos.selectedImageAssets.add(assets);
+      selectedImageFiles.clear();
+      selectedImageFiles.add(pickedImagefile!.absolute);
     }
+  }
+
+  void onVideoSelected(AssetEntity assets) async {
+    final pickedVideofile = await assets.file;
+    photos.selectedVideoAssets.clear();
+    photos.selectedVideoAssets.add(assets);
+    selectedVideoFiles.clear();
+    selectedVideoFiles.add(pickedVideofile!);
+    //For Mutiple Video Selection
+    // if (photos.selectedVideoAssets.contains(assets)) {
+    //   photos.selectedVideoAssets.remove(assets);
+    //   selectedVideoFiles.remove(pickedVideofile!);
+    // } else {
+    //   photos.selectedVideoAssets.add(assets);
+    //   selectedVideoFiles.add(pickedVideofile!);
+    // }
   }
 
   void onScrolledImages(ScrollDirection direction, UserScrollNotification notification) async {
@@ -235,7 +354,9 @@ class CreatePostController extends GetxController with WidgetsBindingObserver {
     } else if (direction == ScrollDirection.reverse) {
       photos.isImagesScrolled.value = true;
     } else {
-      if (!photos.isMediaLoading.value) {
+      if (notification.metrics.pixels != notification.metrics.maxScrollExtent) {
+        photos.isImagesScrolled.value = false;
+      } else {
         photos.isImagesScrolled.value = false;
       }
       log("direction");
@@ -359,10 +480,14 @@ class CreatePostController extends GetxController with WidgetsBindingObserver {
     if (selectedHashtags.contains(hashtagDataList[index])) {
       log("REMOVE");
       selectedHashtags.remove(hashtagDataList[index]);
+      // hashtagStringList.remove(hashtagDataList[index].title.substring(1, hashtagDataList[index].title.length - 1));
+      hashtagStringList.remove(hashtagDataList[index].title);
       update();
     } else {
       log("ADD");
       selectedHashtags.add(hashtagDataList[index]);
+      // hashtagStringList.add(hashtagDataList[index].title.substring(1, hashtagDataList[index].title.length - 1));
+      hashtagStringList.add(hashtagDataList[index].title);
       update();
     }
   }
@@ -413,10 +538,53 @@ class CreatePostController extends GetxController with WidgetsBindingObserver {
     }
   }
 
+  Future<void> loadVideoForTrim() async {
+    videoTrimmer = Trimmer().obs;
+    videoTrimmer!.value.loadVideo(videoFile: selectedVideoFiles.first);
+    isInitalizedTrimmer(true);
+    Future.delayed(const Duration(milliseconds: 1500), () async {
+      if (Get.context!.mounted) {
+        initializeDataPaths();
+        update();
+      }
+    });
+  }
+
+  Future<void> reinitializeTrimmer() async {
+    videoTrimmer!.value.dispose();
+    loadVideoForTrim();
+    update();
+  }
+
   void initializeDataPaths() async {
-    final directory = await getApplicationDocumentsDirectory();
-    audioDataPath.value = '${directory.path}/glive_mudic${fileCounter.value}.mp3';
-    outputDataPath.value = '${directory.path}/glive_video${fileCounter.value}.mp4';
+    isThumbnailLoading(true);
+    thumbnailDataPath.value = '/data/user/0/com.example.glive/cache/glive_thumbnail${fileCounter.value}.jpg';
+    final File imageFile = File(thumbnailDataPath.value);
+
+    // Verify if the file exists
+    if (!imageFile.existsSync()) {
+      log('Image file does not exist at ${thumbnailDataPath.value}');
+      return;
+    }
+
+    final Directory? extDir = await getExternalStorageDirectory();
+    if (extDir == null) {
+      log('Failed to get external storage directory');
+      return;
+    }
+    final String extPath = extDir.path;
+    final String savedPath = '$extPath/glive_thumbnail${fileCounter.value}.jpg';
+
+    await imageFile.copy(savedPath);
+
+    if (Get.context!.mounted) {
+      thumbnailDataPath.value = savedPath;
+    }
+
+    log('Image saved to $savedPath');
+    log('Image saved to 2 ${thumbnailDataPath.value}');
+    await generateThumbnailData(selectedVideoFiles[0].absolute.path);
+    isThumbnailLoading(false);
   }
 
   Future<void> downloadAudioData() async {
@@ -427,6 +595,23 @@ class CreatePostController extends GetxController with WidgetsBindingObserver {
     } else {
       throw Exception('Failed to download audio');
     }
+  }
+
+  Future<void> generateThumbnailData(String videoPath) async {
+    // for (int i = 0; i < 5; i++) {
+    String command = "-i $videoPath -ss 00:00:01.000 -vframes 1 -q:v 2 ${thumbnailDataPath.value}";
+    await FFmpegKit.executeAsync(command, (Session session) async {
+      final returnCode = await session.getReturnCode();
+
+      if (ReturnCode.isSuccess(returnCode)) {
+        log("Thumbnail ${1} generated successfully: ${thumbnailDataPath.value}");
+      } else if (ReturnCode.isCancel(returnCode)) {
+        log("Thumbnail ${1} generation canceled.");
+      } else {
+        log("Thumbnail ${1} generation failed.");
+      }
+    });
+    // }
   }
 
   void processVideoData() async {
@@ -450,6 +635,154 @@ class CreatePostController extends GetxController with WidgetsBindingObserver {
     });
   }
 
+  saveTrimmedVideo() async {
+    progressVisibility.value = true;
+    log("VIDEO THUMBNAIL ${thumbnailDataPath.value}");
+
+    videoTrimmer!.value.saveTrimmedVideo(
+      startValue: startTrimmerValue.value,
+      endValue: endTrimmerValue.value,
+      onSave: (outputPath) {
+        progressVisibility.value = false;
+
+        log('OUTPUT PATH: ${videoTrimmer!.value.currentVideoFile}');
+        if (outputPath != null) {
+          if (Get.context!.mounted) {
+            Get.back();
+            XFile xFile = XFile(videoTrimmer!.value.currentVideoFile!.path);
+            video.startVideoPlayer(xFile, camera.imageFile).then((value) {
+              Get.toNamed(AppRoutes.MEDIAPOST);
+            });
+            update();
+          }
+        }
+      },
+    );
+  }
+
+  void validateUploadingPost() {
+    if (selectedContentList.isEmpty && titleController.value.text.isEmpty && selectedHashtags.isEmpty) {
+      ToastHelper.error("Your preferred content, caption and tags are still empty.");
+      return;
+    }
+    if (selectedContentList.isEmpty) {
+      ToastHelper.error("Please select your prefered content.");
+      return;
+    }
+    if (titleController.value.text.isEmpty) {
+      ToastHelper.error("You've missed your caption, add one and tell your friends");
+      return;
+    }
+    if (selectedHashtags.isEmpty) {
+      ToastHelper.error("Hmmmm, Dont forget to add your tags.");
+      return;
+    }
+    if (selectedContentList.isNotEmpty && titleController.value.text.isNotEmpty && selectedHashtags.isNotEmpty) {
+      if (selectedPostPageIndex.value == 0) {
+        submitCreatedPostsVideos(); //<==VIDEO HERE
+      } else {
+        submitCreatedPostsPhotos(); //<==PHOTOS HERE
+      }
+    }
+  }
+
+  //Record Video, Video From File,
+  Future<void> submitCreatedPostsVideos() async {
+    log("INDEX 0 UNTA ${selectedPostPageIndex.value}");
+    List<String> hashtagTitles = selectedHashtags.map((hashtag) => hashtag.title).toList();
+    String hashtagsString = hashtagTitles.join(' ');
+    postsDescWithHashtags.value = "${descController.value.text} $hashtagsString";
+    File thumbnailFile = File(camera.thumbnailDataPath.value);
+    List<String> newContentList = selectedContentList.map((item) => '"$item"').toList();
+    String musicId = "65cee27924e80a79aff1f36d";
+    LoadingUtil.show(Get.context!);
+    try {
+      BaseResponse<PostsModel> response;
+      //FROM RECORDED VIDEO
+      if (camera.videoFile!.path.isNotEmpty) {
+        File files = File(camera.videoFile!.path);
+        selectedVideoFiles.add(files);
+        response = await apiImplementation.createPosts(titleController.value.text, postsDescWithHashtags.value, privacyDescription.value,
+            selectedImageFiles, "false", newContentList, musicId, isCommentSwitchOn.value == true ? "true" : "false", thumbnailFile);
+      } else {
+        //VIDEO PICKED FROM FILE
+        response = await apiImplementation.createPosts(titleController.value.text, postsDescWithHashtags.value, privacyDescription.value,
+            selectedVideoFiles, "false", newContentList, musicId, isCommentSwitchOn.value == true ? "true" : "false", selectedImageFiles[0]);
+      }
+
+      if (response.c == 200 && response.d != null) {
+        LoadingUtil.hide(Get.context!);
+        ToastHelper.success(response.m);
+        log("200 ${response.m}");
+        Get.back();
+        Get.back();
+      } else if (response.c == 401) {
+        log("401 ${response.m}");
+        LoadingUtil.hide(Get.context!);
+        ToastHelper.error(response.m);
+      } else {
+        log("ELSE ${response.m}");
+        LoadingUtil.hide(Get.context!);
+        ToastHelper.error(response.m);
+      }
+    } catch (ex) {
+      LoadingUtil.hide(Get.context!);
+      log("Something went wrong! create post video ${ex.toString()}");
+    }
+  }
+
+  // Capture Photo, Photos From File
+  Future<void> submitCreatedPostsPhotos() async {
+    log("INDEX 1 UNTA ${selectedPostPageIndex.value}");
+    List<String> hashtagTitles = selectedHashtags.map((hashtag) => hashtag.title).toList();
+    String hashtagsString = hashtagTitles.join(' ');
+    postsDescWithHashtags.value = "${descController.value.text} $hashtagsString";
+    List<String> newContentList = selectedContentList.map((item) => '"$item"').toList();
+    String musicId = "65cee27924e80a79aff1f36d";
+    LoadingUtil.show(Get.context!);
+    try {
+      BaseResponse<PostsModel> response;
+      //CAMERA CAPTURE PHOTO
+      if (camera.imageFile!.path.isNotEmpty) {
+        File file = File(camera.imageFile!.path);
+        selectedImageFiles.add(file);
+        response = await apiImplementation.createPosts(titleController.value.text, postsDescWithHashtags.value, privacyDescription.value,
+            selectedImageFiles, "false", newContentList, musicId, isCommentSwitchOn.value == true ? "true" : "false", selectedImageFiles[0]);
+      } else {
+        //SELECTED PHOTOS FROM FILE
+        response = await apiImplementation.createPosts(titleController.value.text, postsDescWithHashtags.value, privacyDescription.value,
+            selectedImageFiles, "false", newContentList, musicId, isCommentSwitchOn.value == true ? "true" : "false", selectedImageFiles[0]);
+      }
+
+      if (response.c == 200 && response.d != null) {
+        LoadingUtil.hide(Get.context!);
+        ToastHelper.success(response.m);
+        Get.back();
+        Get.back();
+      } else if (response.c == 401) {
+        LoadingUtil.hide(Get.context!);
+        ToastHelper.error(response.m);
+      } else {
+        LoadingUtil.hide(Get.context!);
+        ToastHelper.error(response.m);
+      }
+    } catch (ex) {
+      LoadingUtil.hide(Get.context!);
+      log("Something went wrong! create post photos ${ex.toString()}");
+    }
+  }
+
+  void clearTrimmerVarialbes() {
+    progressVisibility.value = false;
+    startTrimmerValue.value = 0.0;
+    endTrimmerValue.value = 0.0;
+    isTrimmerPlaying.value = false;
+    selectedVideoFiles.clear();
+    photos.selectedVideoAssets.clear();
+    videoTrimmer!.value.dispose();
+    isInitalizedTrimmer(false);
+  }
+
   void resetNoodSoundVars() {
     if (audio.isAudioPlaying.value) {
       audio.stopAudio();
@@ -462,6 +795,7 @@ class CreatePostController extends GetxController with WidgetsBindingObserver {
     titleController.value.clear();
     descController.value.clear();
     searchController.value.clear();
+    thumbnailListPaths.clear();
     log("Clear Fields");
   }
 
@@ -474,6 +808,10 @@ class CreatePostController extends GetxController with WidgetsBindingObserver {
 
   @override
   void onClose() {
+    isInitalizedTrimmer(false);
+
+    videoTrimmer!.value.dispose();
+    thumbnailListPaths.clear();
     gridViewScrollController.value.dispose();
     isCameraSelected.value = false;
     WidgetsBinding.instance.removeObserver(this);
@@ -489,3 +827,45 @@ class CreatePostController extends GetxController with WidgetsBindingObserver {
     super.onClose();
   }
 }
+// void initializeDataPaths() async {
+//   isThumbnailLoading(true);
+//   final Directory tempDir = await getTemporaryDirectory();
+//   final String tempPath = tempDir.path;
+
+//   // Ensure the directory exists
+//   final dir = Directory(tempPath);
+//   if (!await dir.exists()) {
+//     await dir.create(recursive: true);
+//   }
+
+//   // audioDataPath.value = '$tempPath/glive_mudic${fileCounter.value}.mp3';
+//   // outputDataPath.value = '$tempPath/glive_video${fileCounter.value}.mp4';
+//   // thumbnailDataPath.value = '${directory.path}/glive_thumbnail${fileCounter.value}.jpg';
+//   // thumbnailDataPath.value = '/data/user/0/com.example.glive/cache/glive_thumbnail${fileCounter.value}.jpg';
+//   thumbnailListPaths.value = List.generate(5, (index) => '/data/user/0/com.example.glive/cache/video_thumbnails${fileCounter.value}_$index.jpg');
+//   for (var thumbnail in thumbnailListPaths) {
+//     imageFiles = File(thumbnail);
+//     // Verify if the file exists
+//     if (!imageFiles!.existsSync()) {
+//       log('Image file does not exist at $thumbnail');
+//       return;
+//     }
+//   }
+//   final Directory? extDir = await getExternalStorageDirectory();
+//   if (extDir == null) {
+//     log('Failed to get external storage directory');
+//     return;
+//   }
+//   final String extPath = extDir.path;
+//   final List<String> savedPath = List.generate(5, (index) => '$extPath/video_thumbnails${fileCounter.value}.$index.jpg');
+
+//   for (var pathss in savedPath) {
+//     await imageFiles!.copy(pathss);
+
+//     if (thumbnailListPaths.length == 5) {
+//       thumbnailListPaths.removeAt(0);
+//     }
+//     if (Get.context!.mounted) {
+//       thumbnailListPaths.add(pathss);
+//     }
+//   }

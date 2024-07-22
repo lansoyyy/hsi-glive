@@ -1,7 +1,8 @@
-// ignore_for_file: unnecessary_null_comparison
+// ignore_for_file: unnecessary_null_comparison, unused_local_variable
 
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:camera/camera.dart';
@@ -70,10 +71,11 @@ class CamerasController extends GetxController with GetTickerProviderStateMixin 
   RxString videoPath = "".obs;
   RxInt fileCounter = 1.obs;
   RxString thumbnailDataPath = "".obs;
+
   @override
   void onInit() async {
     super.onInit();
-    initializeDataPaths();
+    saveThumbnailImage();
     log("Init CamerasController ");
   }
 
@@ -263,7 +265,6 @@ class CamerasController extends GetxController with GetTickerProviderStateMixin 
     }
     try {
       await Get.find<AudioController>().audioPlayer.play(AssetSource(Assets.videoStop));
-      await generateThumbnailData();
       return cameraController.stopVideoRecording();
     } on CameraException catch (e) {
       _showCameraException(e);
@@ -447,6 +448,7 @@ class CamerasController extends GetxController with GetTickerProviderStateMixin 
         videoPath.value = videoFile!.path;
         update();
         Get.find<VideosController>().startVideoPlayer(videoFile, imageFile);
+        generateThumbnailData();
       }
     });
   }
@@ -551,9 +553,38 @@ class CamerasController extends GetxController with GetTickerProviderStateMixin 
     }
   }
 
-  void initializeDataPaths() async {
-    final directory = await getApplicationDocumentsDirectory();
-    thumbnailDataPath.value = '${directory.path}/glive_thumbnail${fileCounter.value}.jpg';
+  Future<void> saveThumbnailImage() async {
+    // Request permissions
+    var status = await Permission.photos.request();
+    if (status.isGranted) {
+      thumbnailDataPath.value = '/data/user/0/com.example.glive/cache/glive_thumbnail${fileCounter.value}.jpg';
+      final File imageFile = File(thumbnailDataPath.value);
+
+      // Verify if the file exists
+      if (!imageFile.existsSync()) {
+        log('Image file does not exist at ${thumbnailDataPath.value}');
+        return;
+      }
+
+      final Directory? extDir = await getExternalStorageDirectory();
+      if (extDir == null) {
+        log('Failed to get external storage directory');
+        return;
+      }
+      final String extPath = extDir.path;
+      final String savedPath = '$extPath/glive_thumbnail${fileCounter.value}.jpg';
+
+      await imageFile.copy(savedPath);
+
+      if (Get.context!.mounted) {
+        thumbnailDataPath.value = savedPath;
+      }
+
+      log('Image saved to $savedPath');
+      log('Image saved to 2 ${thumbnailDataPath.value}');
+    } else {
+      log('Permission denied.');
+    }
   }
 
   Future<void> generateThumbnailData() async {

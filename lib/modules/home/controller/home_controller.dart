@@ -9,6 +9,7 @@ import 'package:glive/utils/ToastHelper.dart';
 class HomeController extends GetxController {
   NetworkProvider networkProvider = NetworkProvider();
   static ApiImplementation apiImplementation = ApiImplementation();
+  final RxInt selectedIndex = 0.obs;
 
   @override
   void onInit() {

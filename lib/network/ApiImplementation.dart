@@ -1,10 +1,13 @@
-// ignore_for_file: file_names, unrelated_type_equality_checks
+// ignore_for_file: file_names, unrelated_type_equality_checks, unused_local_variable
 
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:glive/models/app/PostsModel.dart';
 import 'package:glive/models/request/ContentRequest.dart';
+import 'package:glive/models/request/CreatePostsRequest.dart';
 import 'package:glive/models/request/EditPostsRequest.dart';
 import 'package:glive/models/request/InterestRequest.dart';
 import 'package:glive/models/response/ContentResponse.dart';
@@ -26,6 +29,7 @@ class ApiImplementation {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
   };
+  final Map<String, String> headers2 = {};
   final box = GetStorage();
 
   ApiImplementation() {
@@ -57,7 +61,7 @@ class ApiImplementation {
         options: Options(method: 'POST', headers: headers, responseType: ResponseType.plain),
         data: jsonEncode(ContentRequest(tags: tags)),
       );
-
+      log("ContentResponse ${response.data.toString()}");
       return parseWithGetXResponse<ContentResponse>(response: response.data.toString());
     } catch (ex) {
       rethrow;
@@ -72,23 +76,60 @@ class ApiImplementation {
         ApiEndpoints.interests,
         options: Options(method: 'GET', headers: headers, responseType: ResponseType.plain),
       );
+      log("interestListResponse ${response.data.toString()}");
       return parseWithGetXResponse<InterestListResponse>(response: response.data.toString());
     } catch (ex) {
       rethrow;
     }
   }
 
-  Future<BaseResponse<PostsDetailsResponse>> createPosts(
-      String title, String description, String category, String privacySetting, String isLive) async {
+  Future<BaseResponse<PostsModel>> createPosts(String title, String description, String privacySetting, List<File> media, String isLive,
+      List<String> category, String musicId, String isAllowedComments, File thumbnail) async {
     try {
       var dio = Dio();
-      await _addTokenToHeader();
+      final request = CreatePostsRequest(
+          title: title,
+          description: description,
+          privacySetting: privacySetting,
+          media: media,
+          isLive: isLive,
+          category: category,
+          musicId: musicId,
+          isAllowedComments: isAllowedComments,
+          thumbnail: thumbnail);
+      List<MultipartFile> mediaFiles = [];
+      // for (var file in media) {
+      //   mediaFiles.add(await MultipartFile.fromFile(file.path, filename: file.path.split('/').last));
+      // }
+      var formData = FormData.fromMap({
+        'title': title,
+        'description': description,
+        'privacySetting': privacySetting,
+        'isLive': isLive,
+        'category': '$category',
+        'musicId': musicId,
+        'isAllowedComments': isAllowedComments,
+      });
+      for (File item in media) {
+        formData.files.addAll([
+          MapEntry("media", await MultipartFile.fromFile(item.path, filename: item.path.split('/').last)),
+        ]);
+      }
+      formData.files.add(MapEntry("thumbnail", await MultipartFile.fromFile(thumbnail.path, filename: thumbnail.path.split('/').last)));
+      log("REQUEST CAT ${category.toString()}");
+      // log("REQUEST ${request.toJson()}");
+      await _addFormDataAndTokenToHeader();
       var response = await dio.request(
         ApiEndpoints.createPosts,
-        options: Options(method: 'POST', headers: headers, responseType: ResponseType.plain),
+        data: formData,
+        options: Options(method: 'POST', headers: headers2, responseType: ResponseType.plain, listFormat: ListFormat.multiCompatible),
+        onSendProgress: (int sent, int total) {
+          log('PROGRESS $sent $total');
+        },
       );
-      return parseWithGetXResponse<PostsDetailsResponse>(response: response.data.toString());
-    } catch (ex) {
+      log("PostsDetailsResponse ${response.data.toString()}");
+      return parseWithGetXResponse<PostsModel>(response: response.data.toString());
+    } catch (e) {
       rethrow;
     }
   }
@@ -101,6 +142,7 @@ class ApiImplementation {
         "${ApiEndpoints.postsDetails}/:$postsId",
         options: Options(method: 'GET', headers: headers, responseType: ResponseType.plain),
       );
+      log("PostsDetailsResponse ${response.data.toString()}");
       return parseWithGetXResponse<PostsDetailsResponse>(response: response.data.toString());
     } catch (ex) {
       rethrow;
@@ -292,6 +334,11 @@ class ApiImplementation {
 
   _addSubscriptionKeyToHeader() {
     headers["Ocp-Apim-Subscription-Key"] = "f3afff9001fd47ea9ea6e11255d8445c";
+  }
+
+  _addFormDataAndTokenToHeader() {
+    headers2["Authorization"] = "Bearer ${box.read("token")}";
+    headers2["Content-Type"] = "multipart/form-data; boundary=--------------------------537410179349492762846141";
   }
 
   Future<BaseResponse<T>> parseWithGetXResponse<T>({required String? response}) async {

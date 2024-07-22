@@ -31,4 +31,5 @@ class AppRoutes {
   static const String POSTCAMERA = "/postcamera";
   static const String CHAT = "/chat";
   static const String CREATORCENTER = "/creatorcenter";
+  static const String MEDIATRIMMER = "/mediatrimmer";
 }

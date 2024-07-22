@@ -30,5 +30,15 @@ class VideoLiveController extends GetxController {
       {'icon': Icons.palette, 'label': 'Arts'},
       {'icon': Icons.videogame_asset, 'label': 'Gaming'},
     ];
+    categories.value = [
+      {'description': 'Metallica '},
+      {'description': 'Megadeth'},
+      {'description': 'White Lion'},
+      {'description': 'Firehouse'},
+      {'description': 'Dream Theater'},
+      {'description': 'Disturbed'},
+      {'description': 'Skid row'},
+      {'description': 'Bon jovi'},
+    ];
   }
 }
