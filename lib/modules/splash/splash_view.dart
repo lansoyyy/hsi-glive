@@ -18,9 +18,9 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(const Duration(seconds: 3), () async {
-      if (box.read('token') != null) {
-        Get.offNamed(AppRoutes.HOME);
+    Timer(const Duration(milliseconds: 1500), () async {
+      if (box.read('started') == 'true') {
+        // Get.offNamed(RouteNames.home);
       } else {
         Get.offNamed(AppRoutes.INITIALLOGIN);
       }

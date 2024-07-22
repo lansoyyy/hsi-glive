@@ -11,7 +11,7 @@ class LoadingUtil {
 
   static Widget widget = PopScope(
     canPop: false,
-    child: SizedBox(
+    child: Container(
       height: heightScreen(),
       width: widthScreen(),
       child: const Center(
@@ -49,7 +49,7 @@ class LoadingUtil {
           return LoadingWidget(controller: controller);
         },
       );
-      Future.delayed(const Duration(milliseconds: 50), () {
+      Future.delayed(Duration(milliseconds: 50), () {
         controller.update(text);
       });
     }
@@ -97,7 +97,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
-        child: SizedBox(
+        child: Container(
           height: heightScreen(),
           width: widthScreen(),
           child: Column(

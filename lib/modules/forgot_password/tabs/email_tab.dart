@@ -1,15 +1,18 @@
-// ignore_for_file: use_build_context_synchronously, unused_local_variable
-
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:glive/constants/AppColors.dart';
+import 'package:glive/routes.dart';
 import 'package:glive/utils/CommonFunctions.dart';
 import 'package:glive/utils/GlobalVariables.dart';
 import 'package:glive/utils/LoadingUtil.dart';
+import 'package:glive/widgets/AppTextInput.dart';
+import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
 import 'package:glive/widgets/TouchableOpacity.dart';
 
@@ -64,7 +67,11 @@ class _ForgotPasswordEmailTabState extends State<ForgotPasswordEmailTab> {
                         height: 68.sp,
                         width: widthScreen(),
                         decoration: BoxDecoration(
-                            border: Border.all(width: 1.sp, color: emailError.isNotEmpty ? Colors.red : HexColor("#5A5A5A")),
+                            border: Border.all(
+                                width: 1.sp,
+                                color: emailError.isNotEmpty
+                                    ? Colors.red
+                                    : HexColor("#5A5A5A")),
                             borderRadius: BorderRadius.circular(10.sp),
                             color: Colors.white.withOpacity(0.10)),
                         padding: EdgeInsets.symmetric(horizontal: 15.sp),
@@ -74,24 +81,33 @@ class _ForgotPasswordEmailTabState extends State<ForgotPasswordEmailTab> {
                           children: [
                             Text(
                               "Email",
-                              style: TextStyle(color: HexColor("#989898"), fontSize: 12.sp, fontWeight: FontWeight.w400),
+                              style: TextStyle(
+                                  color: HexColor("#989898"),
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400),
                             ),
                             TextFormField(
                               controller: emailController,
-                              style: TextStyle(color: Colors.white, fontSize: 15.sp),
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 15.sp),
                               decoration: InputDecoration(
                                   isDense: true,
                                   border: InputBorder.none,
                                   hintText: "Enter your email",
-                                  hintStyle: TextStyle(color: HexColor("#5B5B5B"), fontSize: 15.sp)),
+                                  hintStyle: TextStyle(
+                                      color: HexColor("#5B5B5B"),
+                                      fontSize: 15.sp)),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  setEmailError("Please enter an email address");
+                                  setEmailError(
+                                      "Please enter an email address");
                                   //return 'Please enter an email address';
                                 }
-                                final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                                final emailRegex =
+                                    RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
                                 if (!emailRegex.hasMatch(value!)) {
-                                  setEmailError("Please enter a valid email address");
+                                  setEmailError(
+                                      "Please enter a valid email address");
                                   // return 'Please enter a valid email address';
                                 }
                                 return null;
@@ -106,7 +122,8 @@ class _ForgotPasswordEmailTabState extends State<ForgotPasswordEmailTab> {
                             padding: EdgeInsets.only(top: 10.sp),
                             child: Text(
                               emailError,
-                              style: TextStyle(color: Colors.red, fontSize: 12.sp),
+                              style:
+                                  TextStyle(color: Colors.red, fontSize: 12.sp),
                             ),
                           ))
                     ],
@@ -139,11 +156,14 @@ class _ForgotPasswordEmailTabState extends State<ForgotPasswordEmailTab> {
                     child: Container(
                       width: widthScreen(),
                       height: 68.sp,
-                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
                       child: Center(
                         child: Text(
                           "Continue",
-                          style: TextStyle(color: HexColor("#262626"), fontSize: 20.sp),
+                          style: TextStyle(
+                              color: HexColor("#262626"), fontSize: 20.sp),
                         ),
                       ),
                     ),
@@ -195,8 +215,15 @@ class _ForgotPasswordEmailTabState extends State<ForgotPasswordEmailTab> {
               width: 60.sp,
               height: 60.sp,
               decoration: BoxDecoration(
-                color: (verifyError.isNotEmpty ? HexColor("#FF6363") : Colors.white).withOpacity(0.10),
-                border: Border.all(color: verifyError.isNotEmpty ? HexColor("#FF6363") : HexColor("#5A5A5A"), width: 1.sp),
+                color: (verifyError.isNotEmpty
+                        ? HexColor("#FF6363")
+                        : Colors.white)
+                    .withOpacity(0.10),
+                border: Border.all(
+                    color: verifyError.isNotEmpty
+                        ? HexColor("#FF6363")
+                        : HexColor("#5A5A5A"),
+                    width: 1.sp),
                 borderRadius: BorderRadius.circular(5),
               ),
               child: TextField(
@@ -214,7 +241,10 @@ class _ForgotPasswordEmailTabState extends State<ForgotPasswordEmailTab> {
                     border: InputBorder.none,
                     counterText: '',
                     hintText: "0",
-                    hintStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 30.sp, color: HexColor("#878686"))),
+                    hintStyle: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 30.sp,
+                        color: HexColor("#878686"))),
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 onChanged: (value) => _onSubmit(value, index),
               ),
@@ -232,13 +262,15 @@ class _ForgotPasswordEmailTabState extends State<ForgotPasswordEmailTab> {
                 _focusNodes[i].unfocus();
               }
               for (var con in _controllers) {}
-              String otp = _controllers.map((controller) => controller.text).join();
+              String otp =
+                  _controllers.map((controller) => controller.text).join();
               onVerify(otp);
             },
             child: Container(
               width: widthScreen(),
               height: 68.sp,
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: Center(
                 child: Text(
                   "Verify",
@@ -273,7 +305,9 @@ class _ForgotPasswordEmailTabState extends State<ForgotPasswordEmailTab> {
                 color: Colors.transparent,
                 child: Center(
                   child: TextWidget(
-                    text: resendDuration > Duration.zero ? '${resendDuration.inSeconds}s' : 'Resend',
+                    text: resendDuration > Duration.zero
+                        ? '${resendDuration.inSeconds}s'
+                        : 'Resend',
                     fontSize: 15.sp,
                     color: HexColor("#0A9AAA"),
                   ),
@@ -288,7 +322,10 @@ class _ForgotPasswordEmailTabState extends State<ForgotPasswordEmailTab> {
         Text(
           verifyError,
           textAlign: TextAlign.center,
-          style: TextStyle(color: HexColor("#FF4568"), fontSize: 13.sp, fontWeight: FontWeight.w400),
+          style: TextStyle(
+              color: HexColor("#FF4568"),
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w400),
         )
         /* ButtonWidget(
           height: 55,
@@ -335,7 +372,7 @@ class _ForgotPasswordEmailTabState extends State<ForgotPasswordEmailTab> {
 
       // Print all the values from the controllers
       String otp = _controllers.map((controller) => controller.text).join();
-      log('Entered OTP: $otp');
+      print('Entered OTP: $otp');
       onVerify(otp);
 
       // Perform OTP verification here
@@ -362,7 +399,8 @@ class _ForgotPasswordEmailTabState extends State<ForgotPasswordEmailTab> {
       });
     } else {
       //error here
-      setVerifyError("You have entered the wrong verification code.\nPlease try again.");
+      setVerifyError(
+          "You have entered the wrong verification code.\nPlease try again.");
     }
   }
 

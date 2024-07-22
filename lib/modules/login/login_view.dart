@@ -13,7 +13,9 @@ import 'package:glive/routes/AppRoutes.dart';
 import 'package:glive/utils/CommonFunctions.dart';
 import 'package:glive/utils/GlobalVariables.dart';
 import 'package:glive/utils/LoadingUtil.dart';
+import 'package:glive/utils/LocalStorage.dart';
 import 'package:glive/utils/MeasureSize.dart';
+import 'package:glive/utils/syncHelper.dart';
 import 'package:glive/utils/ToastHelper.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
@@ -72,7 +74,7 @@ class _LoginViewState extends State<LoginView> {
     Future.delayed(const Duration(milliseconds: 1500), () {
       LoadingUtil.hide(context);
       if (email == 'kurtsanmiguel@gmail.com' && password == '@kurt123') {
-        Get.offNamed(AppRoutes.HOME);
+        // Get.offNamed(RouteNames.home);
         // ToastHelper.success('Successfully Log in');
       } else {
         if (email != 'kurtsanmiguel@gmail.com') {
@@ -89,22 +91,17 @@ class _LoginViewState extends State<LoginView> {
   void login() async {
     try {
       String response = await networkProvider.post(ApiEndpoints.login,
-          body: LoginParameter(email: emailController.text, password: passwordController.text).toJson());
+          body: LoginParameter(
+                  email: emailController.text,
+                  password: passwordController.text)
+              .toJson());
 
       if (jsonDecode(response)['c'] == 200) {
-        log("TOKEN 0 ${jsonDecode(response)['d']['tokens']['access'].toString()}");
-
         try {
-          if (box.read('token') != null) {
-            box.remove("token");
-            box.write('token', jsonDecode(response)['d']['tokens']['access'].toString());
-            log("TOKEN 1 ${box.read('token').toString()}");
-          } else {
-            box.write('token', jsonDecode(response)['d']['tokens']['access'].toString());
-            log("TOKEN 2 ${box.read('token').toString()}");
-          }
+          box.write('started', 'true');
 
-          Get.offNamed(AppRoutes.HOME);
+          // Get.offNamed(RouteNames.home);
+
           ToastHelper.success('Successfully Log in');
         } catch (e) {
           showToast(e.toString());
@@ -112,13 +109,10 @@ class _LoginViewState extends State<LoginView> {
 
         return;
       } else {
-        showToast('Invalid email or password');
+        // showToast('Invalid email or password');
       }
-
-      LoadingUtil.hide(context);
     } catch (e) {
       ToastHelper.error("Invalid email or password.");
-      LoadingUtil.hide(context);
     }
   }
 
@@ -203,7 +197,10 @@ class _LoginViewState extends State<LoginView> {
         ),
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.only(top: contentHeight < heightScreen() ? (heightScreen() - contentHeight) / 2 : 0),
+            padding: EdgeInsets.only(
+                top: contentHeight < heightScreen()
+                    ? (heightScreen() - contentHeight) / 2
+                    : 0),
             child: MeasureSize(
               onChange: (size) {
                 setState(() {
@@ -255,34 +252,48 @@ class _LoginViewState extends State<LoginView> {
                                 height: 68.sp,
                                 width: widthScreen(),
                                 decoration: BoxDecoration(
-                                    border: Border.all(width: 1.sp, color: emailError.isNotEmpty ? Colors.red : HexColor("#5A5A5A")),
+                                    border: Border.all(
+                                        width: 1.sp,
+                                        color: emailError.isNotEmpty
+                                            ? Colors.red
+                                            : HexColor("#5A5A5A")),
                                     borderRadius: BorderRadius.circular(10.sp),
                                     color: Colors.white.withOpacity(0.10)),
-                                padding: EdgeInsets.symmetric(horizontal: 15.sp),
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: 15.sp),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "Email",
-                                      style: TextStyle(color: HexColor("#989898"), fontSize: 12.sp, fontWeight: FontWeight.w400),
+                                      style: TextStyle(
+                                          color: HexColor("#989898"),
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w400),
                                     ),
                                     TextFormField(
                                       controller: emailController,
-                                      style: TextStyle(color: Colors.white, fontSize: 15.sp),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 15.sp),
                                       decoration: InputDecoration(
                                           isDense: true,
                                           border: InputBorder.none,
                                           hintText: "Enter your email",
-                                          hintStyle: TextStyle(color: HexColor("#5B5B5B"), fontSize: 15.sp)),
+                                          hintStyle: TextStyle(
+                                              color: HexColor("#5B5B5B"),
+                                              fontSize: 15.sp)),
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          setEmailError("Please enter an email address");
+                                          setEmailError(
+                                              "Please enter an email address");
                                           //return 'Please enter an email address';
                                         }
-                                        final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                                        final emailRegex = RegExp(
+                                            r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
                                         if (!emailRegex.hasMatch(value!)) {
-                                          setEmailError("Please enter a valid email address");
+                                          setEmailError(
+                                              "Please enter a valid email address");
                                           // return 'Please enter a valid email address';
                                         }
                                         return null;
@@ -297,7 +308,8 @@ class _LoginViewState extends State<LoginView> {
                                     padding: EdgeInsets.only(top: 10.sp),
                                     child: Text(
                                       emailError,
-                                      style: TextStyle(color: Colors.red, fontSize: 12.sp),
+                                      style: TextStyle(
+                                          color: Colors.red, fontSize: 12.sp),
                                     ),
                                   ))
                             ],
@@ -314,20 +326,28 @@ class _LoginViewState extends State<LoginView> {
                             children: [
                               Container(
                                 height: 68.sp,
-                                width: double.infinity, // You can use double.infinity to occupy the full width
+                                width: double
+                                    .infinity, // You can use double.infinity to occupy the full width
                                 decoration: BoxDecoration(
-                                  border: Border.all(width: 1.sp, color: passwordError.isNotEmpty ? Colors.red : HexColor("#5A5A5A")),
+                                  border: Border.all(
+                                      width: 1.sp,
+                                      color: passwordError.isNotEmpty
+                                          ? Colors.red
+                                          : HexColor("#5A5A5A")),
                                   borderRadius: BorderRadius.circular(10.sp),
                                   color: Colors.white.withOpacity(0.10),
                                 ),
-                                padding: EdgeInsets.symmetric(horizontal: 15.sp),
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: 15.sp),
                                 child: Row(
                                   children: [
                                     Expanded(
                                       child: Container(
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               "Password",
@@ -343,15 +363,22 @@ class _LoginViewState extends State<LoginView> {
                                                 children: [
                                                   Expanded(
                                                     child: TextFormField(
-                                                      controller: passwordController,
+                                                      controller:
+                                                          passwordController,
                                                       obscureText: _obscureText,
-                                                      style: TextStyle(color: Colors.white, fontSize: 15.sp),
-                                                      decoration: InputDecoration(
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15.sp),
+                                                      decoration:
+                                                          InputDecoration(
                                                         isDense: true,
-                                                        border: InputBorder.none,
-                                                        hintText: "*****************",
+                                                        border:
+                                                            InputBorder.none,
+                                                        hintText:
+                                                            "*****************",
                                                         hintStyle: TextStyle(
-                                                          color: HexColor("#5B5B5B"),
+                                                          color: HexColor(
+                                                              "#5B5B5B"),
                                                           fontSize: 15.sp,
                                                         ),
                                                       ),
@@ -359,26 +386,36 @@ class _LoginViewState extends State<LoginView> {
                                                         setState(() {});
                                                       },
                                                       validator: (value) {
-                                                        if (value == null || value.isEmpty) {
-                                                          setPasswordError("Please enter a password");
+                                                        if (value == null ||
+                                                            value.isEmpty) {
+                                                          setPasswordError(
+                                                              "Please enter a password");
                                                           //return 'Please enter a password';
                                                         }
-                                                        if (value!.length < 8) {
-                                                          setPasswordError("Password must be at least 8 characters long");
-                                                          //return 'Password must be at least 8 characters long';
-                                                        }
-                                                        if (!RegExp(r'[a-zA-Z]').hasMatch(value)) {
-                                                          setPasswordError("Password must contain at least one letter");
-                                                          //return 'Password must contain at least one letter';
-                                                        }
-                                                        if (!RegExp(r'\d').hasMatch(value)) {
-                                                          setPasswordError("Password must contain at least one number");
-                                                          //return 'Password must contain at least one number';
-                                                        }
-                                                        if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
-                                                          setPasswordError("Password must contain at least one special character");
-                                                          //return 'Password must contain at least one special character';
-                                                        }
+                                                        // if (value!.length < 8) {
+                                                        //   setPasswordError(
+                                                        //       "Password must be at least 8 characters long");
+                                                        //   //return 'Password must be at least 8 characters long';
+                                                        // }
+                                                        // if (!RegExp(r'[a-zA-Z]')
+                                                        //     .hasMatch(value)) {
+                                                        //   setPasswordError(
+                                                        //       "Password must contain at least one letter");
+                                                        //   //return 'Password must contain at least one letter';
+                                                        // }
+                                                        // if (!RegExp(r'\d')
+                                                        //     .hasMatch(value)) {
+                                                        //   setPasswordError(
+                                                        //       "Password must contain at least one number");
+                                                        //   //return 'Password must contain at least one number';
+                                                        // }
+                                                        // if (!RegExp(
+                                                        //         r'[!@#$%^&*(),.?":{}|<>]')
+                                                        //     .hasMatch(value)) {
+                                                        //   setPasswordError(
+                                                        //       "Password must contain at least one special character");
+                                                        //   //return 'Password must contain at least one special character';
+                                                        // }
                                                         return null;
                                                       },
                                                     ),
@@ -391,10 +428,13 @@ class _LoginViewState extends State<LoginView> {
                                       ),
                                     ),
                                     Visibility(
-                                      visible: passwordController.text.isNotEmpty,
+                                      visible:
+                                          passwordController.text.isNotEmpty,
                                       child: IconButton(
                                         icon: Icon(
-                                          _obscureText ? Icons.visibility : Icons.visibility_off,
+                                          _obscureText
+                                              ? Icons.visibility
+                                              : Icons.visibility_off,
                                           color: HexColor("#ACACAC"),
                                           size: 24.sp,
                                         ),
@@ -414,7 +454,8 @@ class _LoginViewState extends State<LoginView> {
                                     padding: EdgeInsets.only(top: 10.sp),
                                     child: Text(
                                       passwordError,
-                                      style: TextStyle(color: Colors.red, fontSize: 12.sp),
+                                      style: TextStyle(
+                                          color: Colors.red, fontSize: 12.sp),
                                     ),
                                   ))
                             ],
@@ -477,17 +518,22 @@ class _LoginViewState extends State<LoginView> {
                                       });
                                     },
                                     child: AnimatedContainer(
-                                      duration: const Duration(milliseconds: 300),
+                                      duration:
+                                          const Duration(milliseconds: 300),
                                       width: 47.sp,
                                       height: 24.sp,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12.sp),
-                                        color: !isChecked ? const Color(0xFF00A2AC) : Colors.grey,
+                                        borderRadius:
+                                            BorderRadius.circular(12.sp),
+                                        color: !isChecked
+                                            ? const Color(0xFF00A2AC)
+                                            : Colors.grey,
                                       ),
                                       child: Stack(
                                         children: [
                                           AnimatedPositioned(
-                                            duration: const Duration(milliseconds: 300),
+                                            duration: const Duration(
+                                                milliseconds: 300),
                                             curve: Curves.easeIn,
                                             left: !isChecked ? 23.sp : 0.sp,
                                             right: !isChecked ? 0.sp : 23.sp,
@@ -502,7 +548,11 @@ class _LoginViewState extends State<LoginView> {
                                                 child: Container(
                                                   height: 16.sp,
                                                   width: 16.sp,
-                                                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          color: Colors.white),
                                                 ),
                                               ),
                                             ),
@@ -530,7 +580,7 @@ class _LoginViewState extends State<LoginView> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Get.toNamed(AppRoutes.FORGOTPASSWORD);
+                                  // Get.toNamed(RouteNames.forgotpassword);
                                 },
                                 child: TextWidget(
                                   text: 'Forgot Password?',
@@ -549,35 +599,36 @@ class _LoginViewState extends State<LoginView> {
                           child: TouchableOpacity(
                             onTap: () async {
                               if (_formKey.currentState!.validate()) {
-                                if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
-                                  if (!emailRegex.hasMatch(emailController.text)) {
+                                if (emailController.text.isNotEmpty &&
+                                    passwordController.text.isNotEmpty) {
+                                  if (!emailRegex
+                                      .hasMatch(emailController.text)) {
                                     return;
                                   }
 
-                                  if (passwordController.text.length < 8) {
-                                    //return 'Password must be at least 8 characters long';
-                                    return;
-                                  }
-                                  if (!RegExp(r'[a-zA-Z]').hasMatch(passwordController.text)) {
-                                    return;
-                                  }
-                                  if (!RegExp(r'\d').hasMatch(passwordController.text)) {
-                                    return;
-                                  }
-                                  if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(passwordController.text)) {
-                                    return;
-                                  }
+                                  // if (passwordController.text.length < 8) {
+                                  //   //return 'Password must be at least 8 characters long';
+                                  //   return;
+                                  // }
+                                  // if (!RegExp(r'[a-zA-Z]')
+                                  //     .hasMatch(passwordController.text)) {
+                                  //   return;
+                                  // }
+                                  // if (!RegExp(r'\d')
+                                  //     .hasMatch(passwordController.text)) {
+                                  //   return;
+                                  // }
+                                  // if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]')
+                                  //     .hasMatch(passwordController.text)) {
+                                  //   return;
+                                  // }
 
                                   LoadingUtil.show(context);
+                                  login();
 
-                                  Future.delayed(const Duration(milliseconds: 1500), () {
+                                  Future.delayed(const Duration(seconds: 2),
+                                      () {
                                     LoadingUtil.hide(context);
-
-                                    try {
-                                      login();
-                                    } catch (e) {
-                                      ToastHelper.error('Incorrect credentials, try again');
-                                    }
                                   });
                                 }
                               }
@@ -585,11 +636,15 @@ class _LoginViewState extends State<LoginView> {
                             child: Container(
                               width: widthScreen(),
                               height: 68.sp,
-                              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10)),
                               child: Center(
                                 child: Text(
                                   "Log in",
-                                  style: TextStyle(color: HexColor("#262626"), fontSize: 20.sp),
+                                  style: TextStyle(
+                                      color: HexColor("#262626"),
+                                      fontSize: 20.sp),
                                 ),
                               ),
                             ),
@@ -633,7 +688,7 @@ class _LoginViewState extends State<LoginView> {
                             ),
                             TextButton(
                               onPressed: () {
-                                Get.toNamed(AppRoutes.SIGNUP);
+                                // Get.toNamed(RouteNames.signup);
                               },
                               child: TextWidget(
                                 text: 'Create Account',
@@ -660,7 +715,8 @@ class _LoginViewState extends State<LoginView> {
                           children: [
                             for (int i = 0; i < 3; i++)
                               Padding(
-                                padding: const EdgeInsets.only(left: 5, right: 5),
+                                padding:
+                                    const EdgeInsets.only(left: 5, right: 5),
                                 child: TouchableOpacity(
                                   onTap: () {
                                     //Get.offNamed(RouteNames.security);
@@ -676,7 +732,8 @@ class _LoginViewState extends State<LoginView> {
                                     width: 55.sp,
                                     height: 55.sp,
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.white, width: 0.5),
+                                      border: Border.all(
+                                          color: Colors.white, width: 0.5),
                                       borderRadius: BorderRadius.circular(15),
                                     ),
                                     child: Center(
@@ -755,7 +812,9 @@ class _OAuthDialogState extends State<OAuthDialog> {
                     Image.asset(
                       widget.logoAsset,
                       height: 20,
-                      color: widget.logoAsset.contains("apple") ? widget.primaryColor : null,
+                      color: widget.logoAsset.contains("apple")
+                          ? widget.primaryColor
+                          : null,
                     ),
                     const SizedBox(
                       width: 10,
@@ -863,7 +922,8 @@ class _OAuthDialogState extends State<OAuthDialog> {
                   color: const Color(0XFF0A9AAA),
                   label: 'Continue',
                   onPressed: () {
-                    if (emailCon.text.isNotEmpty && passwordCon.text.isNotEmpty) {
+                    if (emailCon.text.isNotEmpty &&
+                        passwordCon.text.isNotEmpty) {
                       widget.onLogin(emailCon.text, passwordCon.text);
                     } else {
                       ToastHelper.error("Invalid username/password");

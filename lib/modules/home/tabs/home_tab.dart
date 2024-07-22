@@ -19,12 +19,10 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   final HomeController homeController = Get.put(HomeController());
   List categories = ['Nearby', 'Popular', 'Explore', 'Events'];
-
   List categoryImages = ['image 97', 'image 98', 'image 99', 'image 100'];
-
   String selected = 'Nearby';
-
   bool isChecked = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,187 +73,252 @@ class _HomeTabState extends State<HomeTab> {
                 ],
               ),
               SizedBox(
-                width: 20.sp,
+                height: 20.sp,
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    for (int i = 0; i < categories.length; i++)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5, right: 5),
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selected = categories[i];
-                            });
-                          },
-                          child: Container(
-                            width: 100.sp,
-                            height: 40.sp,
-                            decoration: selected == categories[i]
-                                ? BoxDecoration(
-                                    gradient: const LinearGradient(
-                                      colors: [
-                                        Color(0xFFE630EF),
-                                        Color(0xFF33E6F6),
-                                      ],
-                                      stops: [0.0, 1.0],
-                                    ),
-                                    borderRadius: BorderRadius.circular(7.5),
-                                  )
-                                : BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(7.5),
-                                  ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+              Expanded(
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
+                  itemCount: categories.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        sendGift();
+                      },
+                      child: Card(
+                        child: Container(
+                          height: double.infinity,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(10),
+                            image: const DecorationImage(
+                              opacity: 0.8,
+                              fit: BoxFit.cover,
+                              image: AssetImage(
+                                'assets/images/image 12.png',
+                              ),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
                               children: [
-                                Image.asset(
-                                  'assets/images/${categoryImages[i]}.png',
-                                  height: 20.sp,
-                                  width: 20.sp,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Image.asset(
+                                          'assets/images/Frame 48096137.png',
+                                          height: 17.5,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Image.asset(
+                                          'assets/images/Frame 48096138.png',
+                                          height: 17.5,
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      height: 30.sp,
+                                      width: 30.sp,
+                                      decoration: const BoxDecoration(
+                                          color: Colors.white38,
+                                          shape: BoxShape.circle),
+                                      child: Icon(
+                                        Icons.favorite,
+                                        color: Colors.white,
+                                        size: 20.sp,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(
-                                  width: 10.sp,
+                                Expanded(
+                                  child: SizedBox(
+                                    height: 10.sp,
+                                  ),
                                 ),
-                                TextWidget(
-                                  text: categories[i],
-                                  fontSize: 12.sp,
-                                  color: Colors.black,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/Group 56.png',
+                                      height: 40.sp,
+                                    ),
+                                    SizedBox(
+                                      width: 10.sp,
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        TextWidget(
+                                          text: 'Christine',
+                                          fontSize: 12.sp,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(
+                                          height: 2.sp,
+                                        ),
+                                        TextWidget(
+                                          text: categories[index],
+                                          fontSize: 12.sp,
+                                          color: Colors.black,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                           ),
                         ),
                       ),
-                  ],
+                    );
+                  },
                 ),
               ),
               SizedBox(
                 height: 20.sp,
               ),
               Expanded(
-                  child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      sendGift();
-                    },
-                    child: Card(
-                      child: Container(
-                        height: double.infinity,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(10),
-                          image: const DecorationImage(
-                            opacity: 0.5,
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                              'assets/images/image 12.png',
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
+                  itemCount: giftList.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        sendGift();
+                      },
+                      child: Card(
+                        child: Container(
+                          height: double.infinity,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(10),
+                            image: const DecorationImage(
+                              opacity: 0.5,
+                              fit: BoxFit.cover,
+                              image: AssetImage(
+                                'assets/images/image 12.png',
+                              ),
                             ),
                           ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            children: [
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Container(
-                                  height: 30.sp,
-                                  width: 30.sp,
-                                  decoration: const BoxDecoration(color: Colors.white38, shape: BoxShape.circle),
-                                  child: Icon(
-                                    Icons.favorite,
-                                    color: Colors.white,
-                                    size: 20.sp,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: SizedBox(
-                                  height: 10.sp,
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/images/Group 56.png',
-                                    height: 40.sp,
-                                  ),
-                                  SizedBox(
-                                    width: 10.sp,
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      TextWidget(
-                                        text: 'Carla Cruz',
-                                        fontSize: 12.sp,
-                                        color: Colors.white,
-                                      ),
-                                      SizedBox(
-                                        height: 2.sp,
-                                      ),
-                                      TextWidget(
-                                        text: '159k Followers',
-                                        fontSize: 8.sp,
-                                        color: Colors.white,
-                                      ),
-                                    ],
-                                  ),
-                                  Expanded(
-                                    child: SizedBox(
-                                      height: 10.sp,
-                                    ),
-                                  ),
-                                  Container(
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              children: [
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Container(
                                     height: 30.sp,
-                                    width: 70.sp,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white38,
-                                      borderRadius: BorderRadius.circular(20),
+                                    width: 30.sp,
+                                    decoration: const BoxDecoration(
+                                        color: Colors.white38,
+                                        shape: BoxShape.circle),
+                                    child: Icon(
+                                      Icons.favorite,
+                                      color: Colors.white,
+                                      size: 20.sp,
                                     ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: SizedBox(
+                                    height: 10.sp,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/Group 56.png',
+                                      height: 40.sp,
+                                    ),
+                                    SizedBox(
+                                      width: 10.sp,
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Icon(
-                                          Icons.remove_red_eye,
+                                        TextWidget(
+                                          text: 'Carla Cruz',
+                                          fontSize: 12.sp,
                                           color: Colors.white,
-                                          size: 20.sp,
                                         ),
                                         SizedBox(
-                                          width: 5.sp,
+                                          height: 2.sp,
                                         ),
                                         TextWidget(
-                                          text: '120k',
+                                          text: '159k Followers',
                                           fontSize: 8.sp,
                                           color: Colors.white,
                                         ),
                                       ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 5.sp,
-                              ),
-                            ],
+                                    Expanded(
+                                      child: SizedBox(
+                                        height: 10.sp,
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 30.sp,
+                                      width: 70.sp,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white38,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.remove_red_eye,
+                                            color: Colors.white,
+                                            size: 20.sp,
+                                          ),
+                                          SizedBox(
+                                            width: 5.sp,
+                                          ),
+                                          TextWidget(
+                                            text: '120k',
+                                            fontSize: 8.sp,
+                                            color: Colors.white,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5.sp,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              ))
+                    );
+                  },
+                ),
+              ),
             ],
           ),
         ),
@@ -362,7 +425,8 @@ class _HomeTabState extends State<HomeTab> {
                         children: [
                           for (int i = 0; i < 4; i++)
                             Padding(
-                              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                              padding: const EdgeInsets.only(
+                                  left: 10, right: 10, bottom: 10),
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.pop(context);
@@ -386,8 +450,10 @@ class _HomeTabState extends State<HomeTab> {
                                       height: 5.sp,
                                     ),
                                     Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Image.asset(
                                           'assets/images/gifts/coin.png',
@@ -419,7 +485,8 @@ class _HomeTabState extends State<HomeTab> {
                         children: [
                           for (int i = 4; i < giftList.length; i++)
                             Padding(
-                              padding: const EdgeInsets.only(left: 10, right: 10),
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.pop(context);
@@ -443,8 +510,10 @@ class _HomeTabState extends State<HomeTab> {
                                       height: 5.sp,
                                     ),
                                     Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Image.asset(
                                           'assets/images/gifts/coin.png',

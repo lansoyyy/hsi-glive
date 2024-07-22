@@ -71,21 +71,23 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // extendBodyBehindAppBar: true,
-      // body: Container(
-      //   decoration: const BoxDecoration(
-      //     gradient: LinearGradient(
-      //       begin: Alignment.topLeft,
-      //       end: Alignment.bottomRight,
-      //       colors: AppColors.bgGradientColors,
-      //       stops: [0.0891, 0.9926],
-      //       transform: GradientRotation(263.49 * (3.14159 / 180)),
-      //     ),
-      //   ),
-      //   width: double.infinity,
-      //   height: double.infinity,
-      //   child: _pages[_currentIndex],
-      // ),
+      /*body: SafeArea(
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0XFF2F0032),
+                Color(0XFF00272A),
+              ],
+              stops: [0.0, 1.0],
+            ),
+          ),
+          width: double.infinity,
+          height: double.infinity,
+          child: _pages[_currentIndex],
+        ),
+      ),
+      */
       bottomNavigationBar: AppBottomNavigationBar(
         currentIndex: selectedIndex.value,
         onTap: _onItemTap,

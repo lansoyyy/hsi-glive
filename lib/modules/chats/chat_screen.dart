@@ -19,7 +19,7 @@ class ChatScreen extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: AppColors.gradiants,
+                  colors: AppColors.gradients,
                   stops: const [0.0, 1.0],
                 ),
               ),

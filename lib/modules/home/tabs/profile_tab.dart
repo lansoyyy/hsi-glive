@@ -3,12 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:glive/constants/AppColors.dart';
-import 'package:glive/routes/AppRoutes.dart';
 import 'package:glive/utils/QuickDialog.dart';
 import 'package:glive/widgets/AppInformationTextInput.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
 import 'package:glive/widgets/TouchableOpacity.dart';
+
+import '../../../routes.dart';
 
 class ProfileTab extends StatefulWidget {
   const ProfileTab({super.key});
@@ -225,7 +226,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                       children: [
                                         GestureDetector(
                                           onTap: () {
-                                            Get.toNamed(AppRoutes.CREATORCENTER);
+                                            // Get.toNamed(AppRoutes.CREATORCENTER);
                                           },
                                           child: Container(
                                             width: double.infinity,
@@ -307,17 +308,17 @@ class _ProfileTabState extends State<ProfileTab> {
                                         ),
                                         TouchableOpacity(
                                           onTap: () async {
-                                            bool willLogout = await QuickDialog.logoutConfirmation(context);
+                                            bool willLogout = await QuickDialog
+                                                .logoutConfirmation(context);
                                             if (willLogout) {
-                                              final box = GetStorage();
-                                              box.remove("token");
-                                              Get.offNamed(AppRoutes.LOGIN);
+                                              // Get.offNamed(RouteNames.login);
                                             }
                                           },
                                           child: Container(
                                             color: Colors.transparent,
                                             child: Padding(
-                                              padding: const EdgeInsets.all(20.0),
+                                              padding:
+                                                  const EdgeInsets.all(20.0),
                                               child: tileItem(
                                                 'Logout',
                                                 'image 119 (1)',

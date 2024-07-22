@@ -1,5 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
-
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -7,17 +6,27 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:glive/routes/AppRoutes.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:glive/constants/AppColors.dart';
+import 'package:glive/network/ApiEndpoints.dart';
+import 'package:glive/routes.dart';
 import 'package:glive/utils/CommonFunctions.dart';
 import 'package:glive/utils/GlobalVariables.dart';
 import 'package:glive/utils/ImageUtil.dart';
+import 'package:glive/utils/ToastHelper.dart';
+import 'package:glive/widgets/AppTextInput.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
 import 'package:glive/widgets/TouchableOpacity.dart';
 import 'package:image_picker/image_picker.dart';
+// import 'package:share_plus/share_plus.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../widgets/AppInformationTextInput.dart';
 
 class UserInfoTab extends StatefulWidget {
-  const UserInfoTab({super.key, required this.updateStatus, required this.onRegister});
+  const UserInfoTab(
+      {super.key, required this.updateStatus, required this.onRegister});
 
   final Function updateStatus;
   final Function onRegister;
@@ -108,9 +117,13 @@ class _UserInfoTabState extends State<UserInfoTab> {
   }
 
   void updateStatus() {
-    widget.updateStatus(imagePath, lname.text, mname.text, fname.text, dropdownValue);
+    widget.updateStatus(
+        imagePath, lname.text, mname.text, fname.text, dropdownValue);
   }
 
+  double headerHeight = 135.5;
+
+  double interestContentHeight = 300.sp;
   final _formKey2 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -127,7 +140,8 @@ class _UserInfoTabState extends State<UserInfoTab> {
             TouchableOpacity(
               onTap: () async {
                 if (imagePath.isNotEmpty) {
-                  XFile imageFile = await ImageUtil.optionsWithRemove(context, () {
+                  XFile imageFile =
+                      await ImageUtil.optionsWithRemove(context, () {
                     setState(() {
                       imagePath = "";
                     });
@@ -149,7 +163,11 @@ class _UserInfoTabState extends State<UserInfoTab> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                        border: Border.all(width: 2.sp, color: profileError.isNotEmpty ? Colors.red : Colors.transparent),
+                        border: Border.all(
+                            width: 2.sp,
+                            color: profileError.isNotEmpty
+                                ? Colors.red
+                                : Colors.transparent),
                         borderRadius: BorderRadius.circular(1000)),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10000),
@@ -202,7 +220,11 @@ class _UserInfoTabState extends State<UserInfoTab> {
                     height: 68.sp,
                     width: widthScreen(),
                     decoration: BoxDecoration(
-                        border: Border.all(width: 1.sp, color: lastNameError.isNotEmpty ? Colors.red : HexColor("#5A5A5A")),
+                        border: Border.all(
+                            width: 1.sp,
+                            color: lastNameError.isNotEmpty
+                                ? Colors.red
+                                : HexColor("#5A5A5A")),
                         borderRadius: BorderRadius.circular(10.sp),
                         color: Colors.white.withOpacity(0.10)),
                     padding: EdgeInsets.symmetric(horizontal: 15.sp),
@@ -212,24 +234,32 @@ class _UserInfoTabState extends State<UserInfoTab> {
                       children: [
                         Text(
                           "Last Name",
-                          style: TextStyle(color: HexColor("#989898"), fontSize: 12.sp, fontWeight: FontWeight.w400),
+                          style: TextStyle(
+                              color: HexColor("#989898"),
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400),
                         ),
                         TextFormField(
                           controller: lname,
-                          inputFormatters: [NoNumbersAndSpecialCharactersFormatter()],
-                          style: TextStyle(color: Colors.white, fontSize: 15.sp),
+                          inputFormatters: [
+                            NoNumbersAndSpecialCharactersFormatter()
+                          ],
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 15.sp),
                           decoration: InputDecoration(
                               isDense: true,
                               border: InputBorder.none,
                               hintText: "Enter Last Name",
-                              hintStyle: TextStyle(color: HexColor("#5B5B5B"), fontSize: 15.sp)),
+                              hintStyle: TextStyle(
+                                  color: HexColor("#5B5B5B"), fontSize: 15.sp)),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               setLastNameError("Please enter last name");
                               //return 'Please enter an email address';
                             }
                             if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(value!)) {
-                              setLastNameError("Please enter a valid last name");
+                              setLastNameError(
+                                  "Please enter a valid last name");
                             }
                             return null;
                           },
@@ -265,7 +295,11 @@ class _UserInfoTabState extends State<UserInfoTab> {
                     height: 68.sp,
                     width: widthScreen(),
                     decoration: BoxDecoration(
-                        border: Border.all(width: 1.sp, color: middleNameError.isNotEmpty ? Colors.red : HexColor("#5A5A5A")),
+                        border: Border.all(
+                            width: 1.sp,
+                            color: middleNameError.isNotEmpty
+                                ? Colors.red
+                                : HexColor("#5A5A5A")),
                         borderRadius: BorderRadius.circular(10.sp),
                         color: Colors.white.withOpacity(0.10)),
                     padding: EdgeInsets.symmetric(horizontal: 15.sp),
@@ -275,24 +309,32 @@ class _UserInfoTabState extends State<UserInfoTab> {
                       children: [
                         Text(
                           "Middle Name",
-                          style: TextStyle(color: HexColor("#989898"), fontSize: 12.sp, fontWeight: FontWeight.w400),
+                          style: TextStyle(
+                              color: HexColor("#989898"),
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400),
                         ),
                         TextFormField(
                           controller: mname,
-                          inputFormatters: [NoNumbersAndSpecialCharactersFormatter()],
-                          style: TextStyle(color: Colors.white, fontSize: 15.sp),
+                          inputFormatters: [
+                            NoNumbersAndSpecialCharactersFormatter()
+                          ],
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 15.sp),
                           decoration: InputDecoration(
                               isDense: true,
                               border: InputBorder.none,
                               hintText: "Enter Middle Name",
-                              hintStyle: TextStyle(color: HexColor("#5B5B5B"), fontSize: 15.sp)),
+                              hintStyle: TextStyle(
+                                  color: HexColor("#5B5B5B"), fontSize: 15.sp)),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               setMiddleNameError("Please enter middle name");
                               //return 'Please enter an email address';
                             }
                             if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(value!)) {
-                              setMiddleNameError("Please enter a valid middle name");
+                              setMiddleNameError(
+                                  "Please enter a valid middle name");
                             }
                             return null;
                           },
@@ -328,7 +370,11 @@ class _UserInfoTabState extends State<UserInfoTab> {
                     height: 68.sp,
                     width: widthScreen(),
                     decoration: BoxDecoration(
-                        border: Border.all(width: 1.sp, color: firstNameError.isNotEmpty ? Colors.red : HexColor("#5A5A5A")),
+                        border: Border.all(
+                            width: 1.sp,
+                            color: firstNameError.isNotEmpty
+                                ? Colors.red
+                                : HexColor("#5A5A5A")),
                         borderRadius: BorderRadius.circular(10.sp),
                         color: Colors.white.withOpacity(0.10)),
                     padding: EdgeInsets.symmetric(horizontal: 15.sp),
@@ -338,24 +384,32 @@ class _UserInfoTabState extends State<UserInfoTab> {
                       children: [
                         Text(
                           "First Name",
-                          style: TextStyle(color: HexColor("#989898"), fontSize: 12.sp, fontWeight: FontWeight.w400),
+                          style: TextStyle(
+                              color: HexColor("#989898"),
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400),
                         ),
                         TextFormField(
                           controller: fname,
-                          inputFormatters: [NoNumbersAndSpecialCharactersFormatter()],
-                          style: TextStyle(color: Colors.white, fontSize: 15.sp),
+                          inputFormatters: [
+                            NoNumbersAndSpecialCharactersFormatter()
+                          ],
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 15.sp),
                           decoration: InputDecoration(
                               isDense: true,
                               border: InputBorder.none,
                               hintText: "Enter Name",
-                              hintStyle: TextStyle(color: HexColor("#5B5B5B"), fontSize: 15.sp)),
+                              hintStyle: TextStyle(
+                                  color: HexColor("#5B5B5B"), fontSize: 15.sp)),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               setFirstNameError("Please enter first name");
                               //return 'Please enter an email address';
                             }
                             if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(value!)) {
-                              setFirstNameError("Please enter a valid first name");
+                              setFirstNameError(
+                                  "Please enter a valid first name");
                             }
                             return null;
                           },
@@ -396,17 +450,28 @@ class _UserInfoTabState extends State<UserInfoTab> {
                           color: Colors.white.withOpacity(0.1),
                           boxShadow: [
                             BoxShadow(
-                              color: isFocused ? Colors.white.withOpacity(0.1) : Colors.transparent,
+                              color: isFocused
+                                  ? Colors.white.withOpacity(0.1)
+                                  : Colors.transparent,
                               spreadRadius: 1,
                               blurRadius: 5,
-                              offset: const Offset(0, 3), // changes position of shadow
+                              offset: const Offset(
+                                  0, 3), // changes position of shadow
                             ),
                           ],
-                          border: Border.all(color: genderError.isNotEmpty ? Colors.red : HexColor("#5A5A5A"), width: 1.sp),
+                          border: Border.all(
+                              color: genderError.isNotEmpty
+                                  ? Colors.red
+                                  : HexColor("#5A5A5A"),
+                              width: 1.sp),
                           borderRadius: BorderRadius.circular(10.sp),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.only(top: 25.sp, bottom: 8.sp, left: 14.sp, right: 15.sp),
+                          padding: EdgeInsets.only(
+                              top: 25.sp,
+                              bottom: 8.sp,
+                              left: 14.sp,
+                              right: 15.sp),
                           child: DropdownButton<String>(
                             value: dropdownValue,
                             dropdownColor: HexColor("#01262A").withOpacity(0.8),
@@ -425,8 +490,10 @@ class _UserInfoTabState extends State<UserInfoTab> {
                             elevation: 16,
                             style: const TextStyle(color: Colors.deepPurple),
                             underline: const SizedBox(),
-                            isDense: false, // Adjusts the height of the dropdown
-                            isExpanded: true, // Makes the dropdown take up full width
+                            isDense:
+                                false, // Adjusts the height of the dropdown
+                            isExpanded:
+                                true, // Makes the dropdown take up full width
                             onChanged: (String? newValue) {
                               setState(() {
                                 dropdownValue = newValue.toString();
@@ -436,15 +503,17 @@ class _UserInfoTabState extends State<UserInfoTab> {
 
                             items: <String>[
                               'Select',
-                              'Male',
-                              'Female',
+                              'male',
+                              'female',
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(
                                   value,
                                   style: TextStyle(
-                                    color: value == "Select" ? HexColor("#5A5A5A") : Colors.white,
+                                    color: value == "Select"
+                                        ? HexColor("#5A5A5A")
+                                        : Colors.white,
                                   ),
                                 ),
                               );
@@ -458,7 +527,8 @@ class _UserInfoTabState extends State<UserInfoTab> {
                             padding: EdgeInsets.only(top: 10.sp),
                             child: Text(
                               genderError,
-                              style: TextStyle(color: Colors.red, fontSize: 12.sp),
+                              style:
+                                  TextStyle(color: Colors.red, fontSize: 12.sp),
                             ),
                           ))
                     ],
@@ -468,14 +538,25 @@ class _UserInfoTabState extends State<UserInfoTab> {
                     left: 15.sp,
                     child: Text(
                       "Gender",
-                      style: TextStyle(color: HexColor("#989898"), fontSize: 12.sp, fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          color: HexColor("#989898"),
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
               ),
             ),
             SizedBox(
-              height: 75.sp,
+              height: (heightScreen() -
+                          (headerHeight +
+                              interestContentHeight +
+                              50.sp +
+                              80.sp)) >
+                      0
+                  ? heightScreen() -
+                      (headerHeight + interestContentHeight + 200.sp + 150.sp)
+                  : 0,
             ),
             /* ButtonWidget(
               height: 55,
@@ -507,13 +588,16 @@ class _UserInfoTabState extends State<UserInfoTab> {
                   if (_formKey2.currentState!.validate()) {
                     // showSuccessDialog();
 
-                    if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(fname.text) || fname.text.isEmpty) {
+                    if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(fname.text) ||
+                        fname.text.isEmpty) {
                       return;
                     }
-                    if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(mname.text) || mname.text.isEmpty) {
+                    if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(mname.text) ||
+                        mname.text.isEmpty) {
                       return;
                     }
-                    if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(lname.text) || lname.text.isEmpty) {
+                    if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(lname.text) ||
+                        lname.text.isEmpty) {
                       return;
                     }
 
@@ -525,24 +609,24 @@ class _UserInfoTabState extends State<UserInfoTab> {
                       return;
                     }
 
-                    showSuccessDialog();
+                    updateUserProfile();
                   }
                 },
                 child: Container(
                   width: widthScreen(),
                   height: 68.sp,
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
                   child: Center(
                     child: Text(
                       "Register",
-                      style: TextStyle(color: HexColor("#262626"), fontSize: 20.sp),
+                      style: TextStyle(
+                          color: HexColor("#262626"), fontSize: 20.sp),
                     ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 50.sp,
             ),
           ],
         ),
@@ -602,19 +686,25 @@ Enjoy using our app!
 
     Navigator.pop(context);
 
+    // Here
+
+    // Get.toNamed(RouteNames.termspage);
     showtermsandconditionsDialog();
   }
 
   showtermsandconditionsDialog() {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          backgroundColor: Colors.white.withOpacity(0.75),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(15, 50, 15, 20),
+            padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
             child: SizedBox(
-              height: 170,
+              height: 200,
               child: Column(
                 children: [
                   Padding(
@@ -625,7 +715,8 @@ Enjoy using our app!
                         style: TextStyle(fontSize: 16, color: Colors.black),
                         children: <TextSpan>[
                           TextSpan(
-                            text: 'By tapping "Agree and continue", you agree to our ',
+                            text:
+                                'By tapping "Agree and continue", you agree to our ',
                           ),
                           TextSpan(
                             text: 'Terms of Service',
@@ -639,7 +730,8 @@ Enjoy using our app!
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           TextSpan(
-                            text: ' to learn how we collect, use, and share your data.',
+                            text:
+                                ' to learn how we collect, use, and share your data.',
                           ),
                         ],
                       ),
@@ -657,7 +749,7 @@ Enjoy using our app!
                     textColor: Colors.white,
                     label: 'Agree and Continue',
                     onPressed: () {
-                      Get.offNamed(AppRoutes.LOGIN);
+                      // Get.offNamed(RouteNames.login);
                     },
                   ),
                 ],
@@ -668,17 +760,46 @@ Enjoy using our app!
       },
     );
   }
+
+  Future<void> updateUserProfile() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    var url = Uri.parse(ApiEndpoints.updateprofile);
+    final req = http.MultipartRequest('PUT', url)
+      ..fields['firstName'] = fname.text
+      ..fields['lastName'] = lname.text
+      ..fields['middleName'] = mname.text
+      ..fields['address[houseNumber]'] = ' '
+      ..fields['gender'] = dropdownValue;
+
+    req.headers['Ocp-Apim-Subscription-Key'] =
+        'f3afff9001fd47ea9ea6e11255d8445c';
+    req.headers['Authorization'] = 'Bearer ${prefs.get('access')}';
+
+    final stream = await req.send();
+    final res = await http.Response.fromStream(stream);
+    final status = res.statusCode;
+    if (status == 200) {
+      showSuccessDialog();
+    } else {
+      ToastHelper.error('Something went wrong!');
+    }
+
+    print(jsonDecode(res.body));
+  }
 }
 
 class NoNumbersAndSpecialCharactersFormatter extends TextInputFormatter {
-  final RegExp _regExp = RegExp(r'[A-Za-z\s]'); // Allows only letters and spaces
+  final RegExp _regExp =
+      RegExp(r'[A-Za-z\s]'); // Allows only letters and spaces
 
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    String filteredText = newValue.text.split('').where((char) => _regExp.hasMatch(char)).join();
+    String filteredText =
+        newValue.text.split('').where((char) => _regExp.hasMatch(char)).join();
 
     int selectionIndex = newValue.selection.end;
 

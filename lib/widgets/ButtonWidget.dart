@@ -35,6 +35,7 @@ class ButtonWidget extends StatelessWidget {
         color: color,
         onPressed: onPressed,
         child: TextWidget(
+          fontWeight: FontWeight.bold,
           text: label,
           fontSize: fontSize!.sp,
           color: textColor,

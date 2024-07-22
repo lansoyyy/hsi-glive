@@ -1,18 +1,22 @@
-// ignore_for_file: avoid_unnecessary_containers, override_on_non_overriding_member, unused_local_variable, use_build_context_synchronously
-
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_stepindicator/flutter_stepindicator.dart';
 import 'package:get/get.dart';
 import 'package:glive/constants/AppColors.dart';
+import 'package:glive/modules/forgot_password/tabs/email_tab.dart';
+import 'package:glive/modules/forgot_password/tabs/password_tab.dart';
+import 'package:glive/modules/security/channels_view.dart';
+import 'package:glive/modules/security/fingerprint_view.dart';
+import 'package:glive/modules/signup/tabs/email_tab.dart';
+import 'package:glive/modules/signup/tabs/password_tab.dart';
 import 'package:glive/network/ApiEndpoints.dart';
 import 'package:glive/network/NetworkProvider.dart';
-import 'package:glive/routes/AppRoutes.dart';
 import 'package:glive/utils/CommonFunctions.dart';
 import 'package:glive/utils/GlobalVariables.dart';
 import 'package:glive/utils/LoadingUtil.dart';
@@ -22,6 +26,8 @@ import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
 import 'package:glive/widgets/TouchableOpacity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../routes.dart';
 
 class ForgotPasswordView extends StatefulWidget {
   const ForgotPasswordView({super.key});
@@ -61,6 +67,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       lineMultiplier = 2;
     }
 
+    print(forgotpasswordIndexPage);
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -85,7 +93,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 10.sp, right: 10.sp, top: 20.sp),
+                          padding: EdgeInsets.only(
+                              left: 10.sp, right: 10.sp, top: 20.sp),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -99,7 +108,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                   decoration: BoxDecoration(
                                       color: Colors.white.withOpacity(0.1),
                                       shape: BoxShape.circle,
-                                      border: Border.all(width: 1, color: HexColor("#5A5A5A"))),
+                                      border: Border.all(
+                                          width: 1,
+                                          color: HexColor("#5A5A5A"))),
                                   child: Icon(
                                     Icons.arrow_back,
                                     color: Colors.white,
@@ -123,7 +134,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                           height: 15.sp,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 87.5, right: 87.5),
+                          padding:
+                              const EdgeInsets.only(left: 87.5, right: 87.5),
                           child: SizedBox(
                             width: 278.sp,
                             height: 62.sp,
@@ -145,7 +157,10 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                             Container(
                                               height: 1,
                                               width: 175.sp,
-                                              color: forgotpasswordIndexPage == 0 ? HexColor("#B9B9B9") : HexColor("#3F86FE"),
+                                              color:
+                                                  forgotpasswordIndexPage == 0
+                                                      ? HexColor("#B9B9B9")
+                                                      : HexColor("#3F86FE"),
                                             )
                                           ],
                                         ),
@@ -160,8 +175,12 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                           children: [
                                             Container(
                                               height: 1,
-                                              width: ((((278.sp / 2) + 25.sp) * lineMultiplier) > 0
-                                                      ? (((300.sp / 2) + 25.sp) * lineMultiplier)
+                                              width: ((((278.sp / 2) + 25.sp) *
+                                                              lineMultiplier) >
+                                                          0
+                                                      ? (((300.sp / 2) +
+                                                              25.sp) *
+                                                          lineMultiplier)
                                                       : 25.sp) -
                                                   0.sp,
                                               // width: lineWidth,
@@ -193,10 +212,19 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                                     height: 30.sp,
                                                     width: 30.sp,
                                                     decoration: BoxDecoration(
-                                                        color: registrationAccomplishedPage >= 0 ? HexColor("#C30FCC") : Colors.white,
+                                                        color:
+                                                            registrationAccomplishedPage >=
+                                                                    0
+                                                                ? HexColor(
+                                                                    "#C30FCC")
+                                                                : Colors.white,
                                                         shape: BoxShape.circle,
-                                                        border: forgotpasswordIndexPage >= 0
-                                                            ? Border.all(width: 2.sp, color: HexColor("#C30FCC"))
+                                                        border: forgotpasswordIndexPage >=
+                                                                0
+                                                            ? Border.all(
+                                                                width: 2.sp,
+                                                                color: HexColor(
+                                                                    "#C30FCC"))
                                                             : null),
                                                     child: Center(
                                                         child: Icon(
@@ -219,7 +247,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                             const Spacer(),
                                             InkWell(
                                               onTap: () {
-                                                if (!(registrationAccomplishedPage >= 1)) {
+                                                if (!(registrationAccomplishedPage >=
+                                                    1)) {
                                                   return;
                                                 }
                                                 setState(() {
@@ -232,10 +261,19 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                                     height: 30.sp,
                                                     width: 30.sp,
                                                     decoration: BoxDecoration(
-                                                        color: registrationAccomplishedPage >= 1 ? HexColor("#C30FCC") : Colors.white,
+                                                        color:
+                                                            registrationAccomplishedPage >=
+                                                                    1
+                                                                ? HexColor(
+                                                                    "#C30FCC")
+                                                                : Colors.white,
                                                         shape: BoxShape.circle,
-                                                        border: forgotpasswordIndexPage >= 1
-                                                            ? Border.all(width: 2.sp, color: HexColor("#C30FCC"))
+                                                        border: forgotpasswordIndexPage >=
+                                                                1
+                                                            ? Border.all(
+                                                                width: 2.sp,
+                                                                color: HexColor(
+                                                                    "#C30FCC"))
                                                             : null),
                                                     child: Center(
                                                         child: Icon(
@@ -248,7 +286,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                                     height: 3,
                                                   ),
                                                   TextWidget(
-                                                    text: 'Create New\nPassword',
+                                                    text:
+                                                        'Create New\nPassword',
                                                     fontSize: 8,
                                                     color: Colors.white,
                                                   ),
@@ -359,9 +398,14 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   children: [
                     Container(
                       height: 68.sp,
-                      width: double.infinity, // You can use double.infinity to occupy the full width
+                      width: double
+                          .infinity, // You can use double.infinity to occupy the full width
                       decoration: BoxDecoration(
-                        border: Border.all(width: 1.sp, color: passwordError.isNotEmpty ? Colors.red : HexColor("#5A5A5A")),
+                        border: Border.all(
+                            width: 1.sp,
+                            color: passwordError.isNotEmpty
+                                ? Colors.red
+                                : HexColor("#5A5A5A")),
                         borderRadius: BorderRadius.circular(10.sp),
                         color: Colors.white.withOpacity(0.10),
                       ),
@@ -390,7 +434,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                           child: TextFormField(
                                             controller: passwordController,
                                             obscureText: _obscureText,
-                                            style: TextStyle(color: Colors.white, fontSize: 15.sp),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15.sp),
                                             decoration: InputDecoration(
                                               isDense: true,
                                               border: InputBorder.none,
@@ -404,24 +450,34 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                               setState(() {});
                                             },
                                             validator: (value) {
-                                              if (value == null || value.isEmpty) {
-                                                setPasswordError("Please enter a password");
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                setPasswordError(
+                                                    "Please enter a password");
                                                 //return 'Please enter a password';
                                               }
                                               if (value!.length < 8) {
-                                                setPasswordError("Password must be at least 8 characters long");
+                                                setPasswordError(
+                                                    "Password must be at least 8 characters long");
                                                 //return 'Password must be at least 8 characters long';
                                               }
-                                              if (!RegExp(r'[a-zA-Z]').hasMatch(value)) {
-                                                setPasswordError("Password must contain at least one letter");
+                                              if (!RegExp(r'[a-zA-Z]')
+                                                  .hasMatch(value)) {
+                                                setPasswordError(
+                                                    "Password must contain at least one letter");
                                                 //return 'Password must contain at least one letter';
                                               }
-                                              if (!RegExp(r'\d').hasMatch(value)) {
-                                                setPasswordError("Password must contain at least one number");
+                                              if (!RegExp(r'\d')
+                                                  .hasMatch(value)) {
+                                                setPasswordError(
+                                                    "Password must contain at least one number");
                                                 //return 'Password must contain at least one number';
                                               }
-                                              if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
-                                                setPasswordError("Password must contain at least one special character");
+                                              if (!RegExp(
+                                                      r'[!@#$%^&*(),.?":{}|<>]')
+                                                  .hasMatch(value)) {
+                                                setPasswordError(
+                                                    "Password must contain at least one special character");
                                                 //return 'Password must contain at least one special character';
                                               }
                                               return null;
@@ -462,7 +518,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                             visible: passwordController.text.isNotEmpty,
                             child: TouchableOpacity(
                               child: Icon(
-                                _obscureText ? Icons.visibility : Icons.visibility_off,
+                                _obscureText
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
                                 color: HexColor("#ACACAC"),
                                 size: 24.sp,
                               ),
@@ -482,7 +540,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                           padding: EdgeInsets.only(top: 10.sp),
                           child: Text(
                             passwordError,
-                            style: TextStyle(color: Colors.red, fontSize: 12.sp),
+                            style:
+                                TextStyle(color: Colors.red, fontSize: 12.sp),
                           ),
                         ))
                   ],
@@ -499,9 +558,14 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   children: [
                     Container(
                       height: 68.sp,
-                      width: double.infinity, // You can use double.infinity to occupy the full width
+                      width: double
+                          .infinity, // You can use double.infinity to occupy the full width
                       decoration: BoxDecoration(
-                        border: Border.all(width: 1.sp, color: cPasswordError.isNotEmpty ? Colors.red : HexColor("#5A5A5A")),
+                        border: Border.all(
+                            width: 1.sp,
+                            color: cPasswordError.isNotEmpty
+                                ? Colors.red
+                                : HexColor("#5A5A5A")),
                         borderRadius: BorderRadius.circular(10.sp),
                         color: Colors.white.withOpacity(0.10),
                       ),
@@ -528,9 +592,12 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                       children: [
                                         Expanded(
                                           child: TextFormField(
-                                            controller: confirmPasswordController,
+                                            controller:
+                                                confirmPasswordController,
                                             obscureText: _obscureText2,
-                                            style: TextStyle(color: Colors.white, fontSize: 15.sp),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15.sp),
                                             decoration: InputDecoration(
                                               isDense: true,
                                               border: InputBorder.none,
@@ -544,24 +611,34 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                               setState(() {});
                                             },
                                             validator: (value) {
-                                              if (value == null || value.isEmpty) {
-                                                setConfirmPasswordError("Please enter a password");
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                setConfirmPasswordError(
+                                                    "Please enter a password");
                                                 //return 'Please enter a password';
                                               }
                                               if (value!.length < 8) {
-                                                setConfirmPasswordError("Password must be at least 8 characters long");
+                                                setConfirmPasswordError(
+                                                    "Password must be at least 8 characters long");
                                                 //return 'Password must be at least 8 characters long';
                                               }
-                                              if (!RegExp(r'[a-zA-Z]').hasMatch(value)) {
-                                                setConfirmPasswordError("Password must contain at least one letter");
+                                              if (!RegExp(r'[a-zA-Z]')
+                                                  .hasMatch(value)) {
+                                                setConfirmPasswordError(
+                                                    "Password must contain at least one letter");
                                                 //return 'Password must contain at least one letter';
                                               }
-                                              if (!RegExp(r'\d').hasMatch(value)) {
-                                                setConfirmPasswordError("Password must contain at least one number");
+                                              if (!RegExp(r'\d')
+                                                  .hasMatch(value)) {
+                                                setConfirmPasswordError(
+                                                    "Password must contain at least one number");
                                                 //return 'Password must contain at least one number';
                                               }
-                                              if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
-                                                setConfirmPasswordError("Password must contain at least one special character");
+                                              if (!RegExp(
+                                                      r'[!@#$%^&*(),.?":{}|<>]')
+                                                  .hasMatch(value)) {
+                                                setConfirmPasswordError(
+                                                    "Password must contain at least one special character");
                                                 //return 'Password must contain at least one special character';
                                               }
                                               return null;
@@ -602,7 +679,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                             visible: passwordController.text.isNotEmpty,
                             child: TouchableOpacity(
                               child: Icon(
-                                _obscureText2 ? Icons.visibility : Icons.visibility_off,
+                                _obscureText2
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
                                 color: HexColor("#ACACAC"),
                                 size: 24.sp,
                               ),
@@ -622,7 +701,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                           padding: EdgeInsets.only(top: 10.sp),
                           child: Text(
                             cPasswordError,
-                            style: TextStyle(color: Colors.red, fontSize: 12.sp),
+                            style:
+                                TextStyle(color: Colors.red, fontSize: 12.sp),
                           ),
                         ))
                   ],
@@ -668,13 +748,15 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                         //return 'Password must be at least 8 characters long';
                         return;
                       }
-                      if (!RegExp(r'[a-zA-Z]').hasMatch(passwordController.text)) {
+                      if (!RegExp(r'[a-zA-Z]')
+                          .hasMatch(passwordController.text)) {
                         return;
                       }
                       if (!RegExp(r'\d').hasMatch(passwordController.text)) {
                         return;
                       }
-                      if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(passwordController.text)) {
+                      if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]')
+                          .hasMatch(passwordController.text)) {
                         return;
                       }
 
@@ -682,18 +764,23 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                         //return 'Password must be at least 8 characters long';
                         return;
                       }
-                      if (!RegExp(r'[a-zA-Z]').hasMatch(confirmPasswordController.text)) {
+                      if (!RegExp(r'[a-zA-Z]')
+                          .hasMatch(confirmPasswordController.text)) {
                         return;
                       }
-                      if (!RegExp(r'\d').hasMatch(confirmPasswordController.text)) {
+                      if (!RegExp(r'\d')
+                          .hasMatch(confirmPasswordController.text)) {
                         return;
                       }
-                      if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(confirmPasswordController.text)) {
+                      if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]')
+                          .hasMatch(confirmPasswordController.text)) {
                         return;
                       }
 
-                      if (passwordController.text == confirmPasswordController.text) {
-                        setpassword(passwordController.text, confirmPasswordController.text);
+                      if (passwordController.text ==
+                          confirmPasswordController.text) {
+                        setpassword(passwordController.text,
+                            confirmPasswordController.text);
                       } else {
                         // ToastHelper.error('Password do not match!');
                         setPasswordError("Passwords do not match!");
@@ -704,11 +791,14 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   child: Container(
                     width: widthScreen(),
                     height: 68.sp,
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
                     child: Center(
                       child: Text(
                         "Save Password",
-                        style: TextStyle(color: HexColor("#262626"), fontSize: 20.sp),
+                        style: TextStyle(
+                            color: HexColor("#262626"), fontSize: 20.sp),
                       ),
                     ),
                   ),
@@ -743,7 +833,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                             : Container(
                                 height: 17.sp,
                                 width: 17.sp,
-                                decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                                decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle),
                               ),
                         SizedBox(
                           width: 5.sp,
@@ -761,9 +853,12 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        (RegExp(r'[a-zA-Z]').hasMatch(passwordController.text) &&
-                                RegExp(r'\d').hasMatch(passwordController.text) &&
-                                RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(passwordController.text))
+                        (RegExp(r'[a-zA-Z]')
+                                    .hasMatch(passwordController.text) &&
+                                RegExp(r'\d')
+                                    .hasMatch(passwordController.text) &&
+                                RegExp(r'[!@#$%^&*(),.?":{}|<>]')
+                                    .hasMatch(passwordController.text))
                             ? Icon(
                                 Icons.check_circle,
                                 color: Colors.green,
@@ -772,7 +867,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                             : Container(
                                 height: 17.sp,
                                 width: 17.sp,
-                                decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                                decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle),
                               ),
                         SizedBox(
                           width: 5.sp,
@@ -859,12 +956,13 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     height: 10.sp,
                   ),
                   TextWidget(
-                    text: 'Please enter your email address to get\na link to change your password.',
+                    text:
+                        'Please enter your email address to get\na link to change your password.',
                     fontSize: 12.sp,
                     color: Colors.white,
                   ),
                   SizedBox(
-                    height: 50.sp,
+                    height: 100.sp,
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10.sp),
@@ -876,7 +974,11 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                           height: 68.sp,
                           width: widthScreen(),
                           decoration: BoxDecoration(
-                              border: Border.all(width: 1.sp, color: emailError.isNotEmpty ? Colors.red : HexColor("#5A5A5A")),
+                              border: Border.all(
+                                  width: 1.sp,
+                                  color: emailError.isNotEmpty
+                                      ? Colors.red
+                                      : HexColor("#5A5A5A")),
                               borderRadius: BorderRadius.circular(10.sp),
                               color: Colors.white.withOpacity(0.10)),
                           padding: EdgeInsets.symmetric(horizontal: 15.sp),
@@ -886,24 +988,33 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                             children: [
                               Text(
                                 "Email",
-                                style: TextStyle(color: HexColor("#989898"), fontSize: 12.sp, fontWeight: FontWeight.w400),
+                                style: TextStyle(
+                                    color: HexColor("#989898"),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w400),
                               ),
                               TextFormField(
                                 controller: emailController,
-                                style: TextStyle(color: Colors.white, fontSize: 15.sp),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 15.sp),
                                 decoration: InputDecoration(
                                     isDense: true,
                                     border: InputBorder.none,
                                     hintText: "Enter your email",
-                                    hintStyle: TextStyle(color: HexColor("#5B5B5B"), fontSize: 15.sp)),
+                                    hintStyle: TextStyle(
+                                        color: HexColor("#5B5B5B"),
+                                        fontSize: 15.sp)),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    setEmailError("Please enter an email address");
+                                    setEmailError(
+                                        "Please enter an email address");
                                     //return 'Please enter an email address';
                                   }
-                                  final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                                  final emailRegex = RegExp(
+                                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
                                   if (!emailRegex.hasMatch(value!)) {
-                                    setEmailError("Please enter a valid email address");
+                                    setEmailError(
+                                        "Please enter a valid email address");
                                     // return 'Please enter a valid email address';
                                   }
                                   return null;
@@ -918,7 +1029,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                               padding: EdgeInsets.only(top: 10.sp),
                               child: Text(
                                 emailError,
-                                style: TextStyle(color: Colors.red, fontSize: 12.sp),
+                                style: TextStyle(
+                                    color: Colors.red, fontSize: 12.sp),
                               ),
                             ))
                       ],
@@ -938,22 +1050,24 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                           if (!emailRegex.hasMatch(emailController.text)) {
                             return;
                           }
+                          verifyEmail(emailController.text);
                           LoadingUtil.show(context);
-                          Future.delayed(const Duration(milliseconds: 1500), () {
+                          Future.delayed(const Duration(milliseconds: 300), () {
                             LoadingUtil.hide(context);
-
-                            verifyEmail(emailController.text);
                           });
                         }
                       },
                       child: Container(
                         width: widthScreen(),
                         height: 68.sp,
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10)),
                         child: Center(
                           child: Text(
                             "Continue",
-                            style: TextStyle(color: HexColor("#262626"), fontSize: 20.sp),
+                            style: TextStyle(
+                                color: HexColor("#262626"), fontSize: 20.sp),
                           ),
                         ),
                       ),
@@ -968,7 +1082,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           );
   }
 
-  final List<TextEditingController> _controllers = List.generate(6, (index) => TextEditingController());
+  final List<TextEditingController> _controllers =
+      List.generate(6, (index) => TextEditingController());
   final List<FocusNode> _focusNodes = List.generate(6, (index) => FocusNode());
 
   Widget verifiedWidget() {
@@ -1004,8 +1119,15 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               width: 60.sp,
               height: 65.sp,
               decoration: BoxDecoration(
-                color: (verifyError.isNotEmpty ? HexColor("#FF6363") : Colors.white).withOpacity(0.10),
-                border: Border.all(color: verifyError.isNotEmpty ? HexColor("#FF6363") : HexColor("#5A5A5A"), width: 1.sp),
+                color: (verifyError.isNotEmpty
+                        ? HexColor("#FF6363")
+                        : Colors.white)
+                    .withOpacity(0.10),
+                border: Border.all(
+                    color: verifyError.isNotEmpty
+                        ? HexColor("#FF6363")
+                        : HexColor("#5A5A5A"),
+                    width: 1.sp),
                 borderRadius: BorderRadius.circular(5),
               ),
               child: TextField(
@@ -1023,7 +1145,10 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     border: InputBorder.none,
                     counterText: '',
                     hintText: "0",
-                    hintStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 30.sp, color: HexColor("#878686"))),
+                    hintStyle: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 30.sp,
+                        color: HexColor("#878686"))),
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 onChanged: (value) => _onSubmit(value, index),
               ),
@@ -1041,13 +1166,15 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 _focusNodes[i].unfocus();
               }
               for (var con in _controllers) {}
-              String otp = _controllers.map((controller) => controller.text).join();
+              String otp =
+                  _controllers.map((controller) => controller.text).join();
               onVerify(otp);
             },
             child: Container(
               width: widthScreen(),
               height: 68.sp,
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: Center(
                 child: Text(
                   "Verify",
@@ -1082,7 +1209,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 color: Colors.transparent,
                 child: Center(
                   child: TextWidget(
-                    text: resendDuration > Duration.zero ? '${resendDuration.inSeconds}s' : 'Resend',
+                    text: resendDuration > Duration.zero
+                        ? '${resendDuration.inSeconds}s'
+                        : 'Resend',
                     fontSize: 15.sp,
                     color: HexColor("#0A9AAA"),
                   ),
@@ -1097,7 +1226,10 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         Text(
           verifyError,
           textAlign: TextAlign.center,
-          style: TextStyle(color: HexColor("#FF4568"), fontSize: 13.sp, fontWeight: FontWeight.w400),
+          style: TextStyle(
+              color: HexColor("#FF4568"),
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w400),
         )
         /* ButtonWidget(
           height: 55,
@@ -1142,7 +1274,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
 
       // Print all the values from the controllers
       String otp = _controllers.map((controller) => controller.text).join();
-      log('Entered OTP: $otp');
+      print('Entered OTP: $otp');
       onVerify(otp);
 
       // Perform OTP verification here
@@ -1211,7 +1343,7 @@ has been sent to your email
     );
 
     await Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(seconds: 2),
     );
 
     Navigator.pop(context);
@@ -1270,7 +1402,7 @@ updated
                     color: const Color(0XFF0A9AAA),
                     label: 'Continue',
                     onPressed: () {
-                      Get.offNamed(AppRoutes.LOGIN);
+                      // Get.offNamed(RouteNames.login);
                     },
                   ),
                   SizedBox(
@@ -1330,10 +1462,9 @@ updated
 
   verifyEmail(String email) async {
     try {
-      String response = await networkProvider.post(ApiEndpoints.forgotpassword1, body: {'email': email, "type": "verify"});
+      String response = await networkProvider.post(ApiEndpoints.forgotpassword1,
+          body: {'email': email, "type": "verify"});
       if (jsonDecode(response)['c'] == 200) {
-        showVerificationDialog();
-
         sendOtp(jsonDecode(response)['d']['userId']);
         showVerificationDialog();
         setState(() {
@@ -1358,21 +1489,20 @@ updated
       } else {
         ToastHelper.error(jsonDecode(response)['m']);
       }
-    } catch (e) {
-      log(e.toString());
-    }
+    } catch (e) {}
   }
 
   verifyOtp(String otpNumber, String userId) async {
     try {
-      String response = await networkProvider.post(ApiEndpoints.forgotpassword2, body: {
+      String response =
+          await networkProvider.post(ApiEndpoints.forgotpassword2, body: {
         'userId': userId,
         'otpNumber': otpNumber,
       });
 
       final data = jsonDecode(response);
       if (data['c'] == 200) {
-        log('22');
+        print('22');
         if (codeTimer != null) {
           codeTimer!.cancel();
         }
@@ -1380,17 +1510,19 @@ updated
         // Perform the state updates within a synchronous setState call
         setState(() {
           registrationAccomplishedPage++;
-
           isVerified = false;
-          forgotpasswordIndexPage++;
+          forgotpasswordIndexPage = 1;
         });
       } else {
-        log('33');
-        setVerifyError("You have entered the wrong verification code.\nPlease try again.");
-        ToastHelper.error("You have entered the wrong verification code.\nPlease try again.");
+        print('33');
+        setVerifyError(
+            "You have entered the wrong verification code.\nPlease try again.");
+        ToastHelper.error(
+            "You have entered the wrong verification code.\nPlease try again.");
       }
     } catch (e) {
-      log(e.toString());
+      setVerifyError(
+          "You have entered the wrong verification code.\nPlease try again.");
     }
   }
 
@@ -1404,7 +1536,7 @@ updated
           'password': password,
           'cpassword': cpassword,
           'userId': userId,
-          'token': prefs.getString('access'),
+          'token': 'qweqwe',
         },
         token: prefs.getString('access'),
         cpassword: cpassword,

@@ -1,19 +1,21 @@
-// ignore_for_file: avoid_unnecessary_containers, override_on_non_overriding_member, use_build_context_synchronously
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:glive/constants/AppColors.dart';
 import 'package:glive/modules/login/login_view.dart';
+import 'package:glive/modules/security/channels_view.dart';
+import 'package:glive/modules/security/fingerprint_view.dart';
+import 'package:glive/modules/signup/tabs/email_tab.dart';
+import 'package:glive/modules/signup/tabs/password_tab.dart';
 import 'package:glive/modules/signup/tabs/userinfo_tab.dart';
 import 'package:glive/network/ApiEndpoints.dart';
 import 'package:glive/network/NetworkProvider.dart';
-import 'package:glive/routes/AppRoutes.dart';
 import 'package:glive/utils/CommonFunctions.dart';
 import 'package:glive/utils/GlobalVariables.dart';
 import 'package:glive/utils/LoadingUtil.dart';
@@ -23,8 +25,10 @@ import 'package:glive/widgets/TextWidget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
+import 'package:glive/widgets/TextWidget.dart';
 import 'package:glive/widgets/TouchableOpacity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'tabs/interest_tab.dart';
 
 class SignupView extends StatefulWidget {
   const SignupView({super.key});
@@ -260,11 +264,12 @@ class _SignupViewState extends State<SignupView> {
     if (registrationAccomplishedPage >= 1 && registrationAccomplishedPage < 2) {
       lineMultiplier = 2;
     }
-    if (registrationAccomplishedPage >= 2 && registrationAccomplishedPage <= 3) {
+    if (registrationAccomplishedPage >= 2 &&
+        registrationAccomplishedPage <= 3) {
       lineMultiplier = 3;
     }
 
-    log('index $registrationIndexPage');
+    print('index $registrationIndexPage');
 
     return Scaffold(
       body: Container(
@@ -290,7 +295,8 @@ class _SignupViewState extends State<SignupView> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 10.sp, right: 10.sp, top: 20.sp),
+                          padding: EdgeInsets.only(
+                              left: 10.sp, right: 10.sp, top: 20.sp),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -304,7 +310,9 @@ class _SignupViewState extends State<SignupView> {
                                   decoration: BoxDecoration(
                                       color: Colors.white.withOpacity(0.1),
                                       shape: BoxShape.circle,
-                                      border: Border.all(width: 1, color: HexColor("#5A5A5A"))),
+                                      border: Border.all(
+                                          width: 1,
+                                          color: HexColor("#5A5A5A"))),
                                   child: Icon(
                                     Icons.arrow_back,
                                     color: Colors.white,
@@ -348,7 +356,9 @@ class _SignupViewState extends State<SignupView> {
                                           Container(
                                             height: 1,
                                             width: 255.sp,
-                                            color: registrationIndexPage == 0 ? HexColor("#B9B9B9") : HexColor("#3F86FE"),
+                                            color: registrationIndexPage == 0
+                                                ? HexColor("#B9B9B9")
+                                                : HexColor("#3F86FE"),
                                           )
                                         ],
                                       ),
@@ -364,9 +374,14 @@ class _SignupViewState extends State<SignupView> {
                                           // fix here
                                           Container(
                                             height: 1,
-                                            width:
-                                                ((((278.sp / 4) + 25.sp) * lineMultiplier) > 0 ? (((300.sp / 4) + 18.sp) * lineMultiplier) : 20.sp) -
-                                                    18.sp,
+                                            width: ((((278.sp / 4) +
+                                                                25.sp) *
+                                                            lineMultiplier) >
+                                                        0
+                                                    ? (((300.sp / 4) + 18.sp) *
+                                                        lineMultiplier)
+                                                    : 20.sp) -
+                                                18.sp,
                                             // width: lineWidth,
                                             color: HexColor("#E630EF"),
                                           )
@@ -396,10 +411,21 @@ class _SignupViewState extends State<SignupView> {
                                                   height: 30.sp,
                                                   width: 30.sp,
                                                   decoration: BoxDecoration(
-                                                      color: registrationAccomplishedPage >= 0 ? HexColor("#C30FCC") : Colors.white,
+                                                      color:
+                                                          registrationAccomplishedPage >=
+                                                                  0
+                                                              ? HexColor(
+                                                                  "#C30FCC")
+                                                              : Colors.white,
                                                       shape: BoxShape.circle,
                                                       border:
-                                                          registrationIndexPage >= 0 ? Border.all(width: 2.sp, color: HexColor("#C30FCC")) : null),
+                                                          registrationIndexPage >=
+                                                                  0
+                                                              ? Border.all(
+                                                                  width: 2.sp,
+                                                                  color: HexColor(
+                                                                      "#C30FCC"))
+                                                              : null),
                                                   child: Center(
                                                       child: Icon(
                                                     Icons.check,
@@ -421,7 +447,8 @@ class _SignupViewState extends State<SignupView> {
                                           const Spacer(),
                                           InkWell(
                                             onTap: () {
-                                              if (!(registrationAccomplishedPage >= 1)) {
+                                              if (!(registrationAccomplishedPage >=
+                                                  1)) {
                                                 return;
                                               }
                                               setState(() {
@@ -434,10 +461,21 @@ class _SignupViewState extends State<SignupView> {
                                                   height: 30.sp,
                                                   width: 30.sp,
                                                   decoration: BoxDecoration(
-                                                      color: registrationAccomplishedPage >= 1 ? HexColor("#C30FCC") : Colors.white,
+                                                      color:
+                                                          registrationAccomplishedPage >=
+                                                                  1
+                                                              ? HexColor(
+                                                                  "#C30FCC")
+                                                              : Colors.white,
                                                       shape: BoxShape.circle,
                                                       border:
-                                                          registrationIndexPage >= 1 ? Border.all(width: 2.sp, color: HexColor("#C30FCC")) : null),
+                                                          registrationIndexPage >=
+                                                                  1
+                                                              ? Border.all(
+                                                                  width: 2.sp,
+                                                                  color: HexColor(
+                                                                      "#C30FCC"))
+                                                              : null),
                                                   child: Center(
                                                       child: Icon(
                                                     Icons.check,
@@ -459,7 +497,8 @@ class _SignupViewState extends State<SignupView> {
                                           const Spacer(),
                                           InkWell(
                                             onTap: () {
-                                              if (!(registrationAccomplishedPage >= 2)) {
+                                              if (!(registrationAccomplishedPage >=
+                                                  2)) {
                                                 return;
                                               }
                                               setState(() {
@@ -472,10 +511,21 @@ class _SignupViewState extends State<SignupView> {
                                                   height: 30.sp,
                                                   width: 30.sp,
                                                   decoration: BoxDecoration(
-                                                      color: registrationAccomplishedPage >= 2 ? HexColor("#C30FCC") : Colors.white,
+                                                      color:
+                                                          registrationAccomplishedPage >=
+                                                                  2
+                                                              ? HexColor(
+                                                                  "#C30FCC")
+                                                              : Colors.white,
                                                       shape: BoxShape.circle,
                                                       border:
-                                                          registrationIndexPage >= 2 ? Border.all(width: 2.sp, color: HexColor("#C30FCC")) : null),
+                                                          registrationIndexPage >=
+                                                                  2
+                                                              ? Border.all(
+                                                                  width: 2.sp,
+                                                                  color: HexColor(
+                                                                      "#C30FCC"))
+                                                              : null),
                                                   child: Center(
                                                       child: Icon(
                                                     Icons.check,
@@ -497,7 +547,8 @@ class _SignupViewState extends State<SignupView> {
                                           const Spacer(),
                                           InkWell(
                                             onTap: () {
-                                              if (!(registrationAccomplishedPage >= 3)) {
+                                              if (!(registrationAccomplishedPage >=
+                                                  3)) {
                                                 return;
                                               }
                                               setState(() {
@@ -510,10 +561,21 @@ class _SignupViewState extends State<SignupView> {
                                                   height: 30.sp,
                                                   width: 30.sp,
                                                   decoration: BoxDecoration(
-                                                      color: registrationAccomplishedPage >= 3 ? HexColor("#C30FCC") : Colors.white,
+                                                      color:
+                                                          registrationAccomplishedPage >=
+                                                                  3
+                                                              ? HexColor(
+                                                                  "#C30FCC")
+                                                              : Colors.white,
                                                       shape: BoxShape.circle,
                                                       border:
-                                                          registrationIndexPage >= 3 ? Border.all(width: 2.sp, color: HexColor("#C30FCC")) : null),
+                                                          registrationIndexPage >=
+                                                                  3
+                                                              ? Border.all(
+                                                                  width: 2.sp,
+                                                                  color: HexColor(
+                                                                      "#C30FCC"))
+                                                              : null),
                                                   child: Center(
                                                       child: Icon(
                                                     Icons.check,
@@ -553,7 +615,11 @@ class _SignupViewState extends State<SignupView> {
                     _interestTab(),
                     UserInfoTab(
                       updateStatus: (image, lname, mname, fname, gender) {
-                        if (image.isNotEmpty && lname.isNotEmpty && mname.isNotEmpty && fname.isNotEmpty && gender != "Select") {
+                        if (image.isNotEmpty &&
+                            lname.isNotEmpty &&
+                            mname.isNotEmpty &&
+                            fname.isNotEmpty &&
+                            gender != "Select") {
                           setState(() {
                             registrationAccomplishedPage = 3;
                           });
@@ -565,6 +631,7 @@ class _SignupViewState extends State<SignupView> {
                       },
                       onRegister: () {},
                     ),
+
                     // ChannelsView(),
                   ],
                 ),
@@ -610,8 +677,9 @@ class _SignupViewState extends State<SignupView> {
                   color: HexColor("#CACACA"),
                   fontWeight: FontWeight.w400,
                 ),
+                // Adjust
                 SizedBox(
-                  height: 50.sp,
+                  height: 85.sp,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.sp),
@@ -623,7 +691,11 @@ class _SignupViewState extends State<SignupView> {
                         height: 68.sp,
                         width: widthScreen(),
                         decoration: BoxDecoration(
-                            border: Border.all(width: 1.sp, color: emailError.isNotEmpty ? Colors.red : HexColor("#5A5A5A")),
+                            border: Border.all(
+                                width: 1.sp,
+                                color: emailError.isNotEmpty
+                                    ? Colors.red
+                                    : HexColor("#5A5A5A")),
                             borderRadius: BorderRadius.circular(10.sp),
                             color: Colors.white.withOpacity(0.10)),
                         padding: EdgeInsets.symmetric(horizontal: 15.sp),
@@ -633,24 +705,33 @@ class _SignupViewState extends State<SignupView> {
                           children: [
                             Text(
                               "Email",
-                              style: TextStyle(color: HexColor("#989898"), fontSize: 12.sp, fontWeight: FontWeight.w400),
+                              style: TextStyle(
+                                  color: HexColor("#989898"),
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400),
                             ),
                             TextFormField(
                               controller: emailController,
-                              style: TextStyle(color: Colors.white, fontSize: 15.sp),
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 15.sp),
                               decoration: InputDecoration(
                                   isDense: true,
                                   border: InputBorder.none,
                                   hintText: "Enter your email",
-                                  hintStyle: TextStyle(color: HexColor("#5B5B5B"), fontSize: 15.sp)),
+                                  hintStyle: TextStyle(
+                                      color: HexColor("#5B5B5B"),
+                                      fontSize: 15.sp)),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  setEmailError("Please enter an email address");
+                                  setEmailError(
+                                      "Please enter an email address");
                                   //return 'Please enter an email address';
                                 }
-                                final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                                final emailRegex =
+                                    RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
                                 if (!emailRegex.hasMatch(value!)) {
-                                  setEmailError("Please enter a valid email address");
+                                  setEmailError(
+                                      "Please enter a valid email address");
                                   // return 'Please enter a valid email address';
                                 }
                                 return null;
@@ -665,7 +746,8 @@ class _SignupViewState extends State<SignupView> {
                             padding: EdgeInsets.only(top: 10.sp),
                             child: Text(
                               emailError,
-                              style: TextStyle(color: Colors.red, fontSize: 12.sp),
+                              style:
+                                  TextStyle(color: Colors.red, fontSize: 12.sp),
                             ),
                           ))
                     ],
@@ -685,22 +767,25 @@ class _SignupViewState extends State<SignupView> {
                         if (!emailRegex.hasMatch(emailController.text)) {
                           return;
                         }
-                        LoadingUtil.show(context);
-                        Future.delayed(const Duration(milliseconds: 1500), () {
-                          LoadingUtil.hide(context);
 
-                          verifyEmail(emailController.text);
+                        verifyEmail(emailController.text);
+                        LoadingUtil.show(context);
+                        Future.delayed(const Duration(milliseconds: 3000), () {
+                          LoadingUtil.hide(context);
                         });
                       }
                     },
                     child: Container(
                       width: widthScreen(),
                       height: 68.sp,
-                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
                       child: Center(
                         child: Text(
                           "Verify Email",
-                          style: TextStyle(color: HexColor("#262626"), fontSize: 20.sp),
+                          style: TextStyle(
+                              color: HexColor("#262626"), fontSize: 20.sp),
                         ),
                       ),
                     ),
@@ -719,7 +804,7 @@ class _SignupViewState extends State<SignupView> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Get.offNamed(AppRoutes.LOGIN);
+                        // Get.offNamed(AppRoutes.LOGIN);
                       },
                       child: TextWidget(
                         text: 'Sign in',
@@ -730,7 +815,15 @@ class _SignupViewState extends State<SignupView> {
                   ],
                 ),
                 SizedBox(
-                  height: 125.sp,
+                  height: (heightScreen() -
+                              (headerHeight +
+                                  interestContentHeight +
+                                  50.sp +
+                                  80.sp)) >
+                          0
+                      ? heightScreen() -
+                          (headerHeight + interestContentHeight + 80.sp + 80.sp)
+                      : 0,
                 ),
                 TextWidget(
                   text: 'Or sign in using',
@@ -818,8 +911,15 @@ class _SignupViewState extends State<SignupView> {
               width: 60.sp,
               height: 65.sp,
               decoration: BoxDecoration(
-                color: (verifyError.isNotEmpty ? HexColor("#FF6363") : Colors.white).withOpacity(0.10),
-                border: Border.all(color: verifyError.isNotEmpty ? HexColor("#FF6363") : HexColor("#5A5A5A"), width: 1.sp),
+                color: (verifyError.isNotEmpty
+                        ? HexColor("#FF6363")
+                        : Colors.white)
+                    .withOpacity(0.10),
+                border: Border.all(
+                    color: verifyError.isNotEmpty
+                        ? HexColor("#FF6363")
+                        : HexColor("#5A5A5A"),
+                    width: 1.sp),
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Center(
@@ -838,7 +938,10 @@ class _SignupViewState extends State<SignupView> {
                       border: InputBorder.none,
                       counterText: '',
                       hintText: "0",
-                      hintStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 30.sp, color: HexColor("#878686"))),
+                      hintStyle: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 30.sp,
+                          color: HexColor("#878686"))),
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   onChanged: (value) => _onSubmit(value, index),
                 ),
@@ -857,13 +960,15 @@ class _SignupViewState extends State<SignupView> {
                 _focusNodes[i].unfocus();
               }
 
-              String otp = _controllers.map((controller) => controller.text).join();
+              String otp =
+                  _controllers.map((controller) => controller.text).join();
               onVerify(otp);
             },
             child: Container(
               width: widthScreen(),
               height: 68.sp,
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: Center(
                 child: Text(
                   "Verify",
@@ -898,7 +1003,9 @@ class _SignupViewState extends State<SignupView> {
                 color: Colors.transparent,
                 child: Center(
                   child: TextWidget(
-                    text: resendDuration > Duration.zero ? '${resendDuration.inSeconds}s' : 'Resend',
+                    text: resendDuration > Duration.zero
+                        ? '${resendDuration.inSeconds}s'
+                        : 'Resend',
                     fontSize: 15.sp,
                     color: HexColor("#0A9AAA"),
                   ),
@@ -913,7 +1020,10 @@ class _SignupViewState extends State<SignupView> {
         Text(
           verifyError,
           textAlign: TextAlign.center,
-          style: TextStyle(color: HexColor("#FF4568"), fontSize: 13.sp, fontWeight: FontWeight.w400),
+          style: TextStyle(
+              color: HexColor("#FF4568"),
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w400),
         )
         /* ButtonWidget(
           height: 55,
@@ -945,7 +1055,7 @@ class _SignupViewState extends State<SignupView> {
 
       // Print all the values from the controllers
       String otp = _controllers.map((controller) => controller.text).join();
-      log('Entered OTP: $otp');
+      print('Entered OTP: $otp');
       onVerify(otp);
 
       // Perform OTP verification here
@@ -1003,7 +1113,7 @@ has been sent to your email
     );
 
     await Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(seconds: 2),
     );
 
     Navigator.pop(context);
@@ -1097,9 +1207,14 @@ has been sent to your email
                   children: [
                     Container(
                       height: 68.sp,
-                      width: double.infinity, // You can use double.infinity to occupy the full width
+                      width: double
+                          .infinity, // You can use double.infinity to occupy the full width
                       decoration: BoxDecoration(
-                        border: Border.all(width: 1.sp, color: passwordError.isNotEmpty ? Colors.red : HexColor("#5A5A5A")),
+                        border: Border.all(
+                            width: 1.sp,
+                            color: passwordError.isNotEmpty
+                                ? Colors.red
+                                : HexColor("#5A5A5A")),
                         borderRadius: BorderRadius.circular(10.sp),
                         color: Colors.white.withOpacity(0.10),
                       ),
@@ -1128,7 +1243,9 @@ has been sent to your email
                                           child: TextFormField(
                                             controller: passwordController,
                                             obscureText: _obscureText,
-                                            style: TextStyle(color: Colors.white, fontSize: 15.sp),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15.sp),
                                             decoration: InputDecoration(
                                               isDense: true,
                                               border: InputBorder.none,
@@ -1142,24 +1259,34 @@ has been sent to your email
                                               setState(() {});
                                             },
                                             validator: (value) {
-                                              if (value == null || value.isEmpty) {
-                                                setPasswordError("Please enter a password");
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                setPasswordError(
+                                                    "Please enter a password");
                                                 //return 'Please enter a password';
                                               }
                                               if (value!.length < 8) {
-                                                setPasswordError("Password must be at least 8 characters long");
+                                                setPasswordError(
+                                                    "Password must be at least 8 characters long");
                                                 //return 'Password must be at least 8 characters long';
                                               }
-                                              if (!RegExp(r'[a-zA-Z]').hasMatch(value)) {
-                                                setPasswordError("Password must contain at least one letter");
+                                              if (!RegExp(r'[a-zA-Z]')
+                                                  .hasMatch(value)) {
+                                                setPasswordError(
+                                                    "Password must contain at least one letter");
                                                 //return 'Password must contain at least one letter';
                                               }
-                                              if (!RegExp(r'\d').hasMatch(value)) {
-                                                setPasswordError("Password must contain at least one number");
+                                              if (!RegExp(r'\d')
+                                                  .hasMatch(value)) {
+                                                setPasswordError(
+                                                    "Password must contain at least one number");
                                                 //return 'Password must contain at least one number';
                                               }
-                                              if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
-                                                setPasswordError("Password must contain at least one special character");
+                                              if (!RegExp(
+                                                      r'[!@#$%^&*(),.?":{}|<>]')
+                                                  .hasMatch(value)) {
+                                                setPasswordError(
+                                                    "Password must contain at least one special character");
                                                 //return 'Password must contain at least one special character';
                                               }
                                               return null;
@@ -1200,7 +1327,9 @@ has been sent to your email
                             visible: passwordController.text.isNotEmpty,
                             child: TouchableOpacity(
                               child: Icon(
-                                _obscureText ? Icons.visibility : Icons.visibility_off,
+                                _obscureText
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
                                 color: HexColor("#ACACAC"),
                                 size: 24.sp,
                               ),
@@ -1220,7 +1349,8 @@ has been sent to your email
                           padding: EdgeInsets.only(top: 10.sp),
                           child: Text(
                             passwordError,
-                            style: TextStyle(color: Colors.red, fontSize: 12.sp),
+                            style:
+                                TextStyle(color: Colors.red, fontSize: 12.sp),
                           ),
                         ))
                   ],
@@ -1237,9 +1367,14 @@ has been sent to your email
                   children: [
                     Container(
                       height: 68.sp,
-                      width: double.infinity, // You can use double.infinity to occupy the full width
+                      width: double
+                          .infinity, // You can use double.infinity to occupy the full width
                       decoration: BoxDecoration(
-                        border: Border.all(width: 1.sp, color: cPasswordError.isNotEmpty ? Colors.red : HexColor("#5A5A5A")),
+                        border: Border.all(
+                            width: 1.sp,
+                            color: cPasswordError.isNotEmpty
+                                ? Colors.red
+                                : HexColor("#5A5A5A")),
                         borderRadius: BorderRadius.circular(10.sp),
                         color: Colors.white.withOpacity(0.10),
                       ),
@@ -1266,9 +1401,12 @@ has been sent to your email
                                       children: [
                                         Expanded(
                                           child: TextFormField(
-                                            controller: confirmPasswordController,
+                                            controller:
+                                                confirmPasswordController,
                                             obscureText: _obscureText2,
-                                            style: TextStyle(color: Colors.white, fontSize: 15.sp),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15.sp),
                                             decoration: InputDecoration(
                                               isDense: true,
                                               border: InputBorder.none,
@@ -1282,24 +1420,34 @@ has been sent to your email
                                               setState(() {});
                                             },
                                             validator: (value) {
-                                              if (value == null || value.isEmpty) {
-                                                setConfirmPasswordError("Please enter a password");
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                setConfirmPasswordError(
+                                                    "Please enter a password");
                                                 //return 'Please enter a password';
                                               }
                                               if (value!.length < 8) {
-                                                setConfirmPasswordError("Password must be at least 8 characters long");
+                                                setConfirmPasswordError(
+                                                    "Password must be at least 8 characters long");
                                                 //return 'Password must be at least 8 characters long';
                                               }
-                                              if (!RegExp(r'[a-zA-Z]').hasMatch(value)) {
-                                                setConfirmPasswordError("Password must contain at least one letter");
+                                              if (!RegExp(r'[a-zA-Z]')
+                                                  .hasMatch(value)) {
+                                                setConfirmPasswordError(
+                                                    "Password must contain at least one letter");
                                                 //return 'Password must contain at least one letter';
                                               }
-                                              if (!RegExp(r'\d').hasMatch(value)) {
-                                                setConfirmPasswordError("Password must contain at least one number");
+                                              if (!RegExp(r'\d')
+                                                  .hasMatch(value)) {
+                                                setConfirmPasswordError(
+                                                    "Password must contain at least one number");
                                                 //return 'Password must contain at least one number';
                                               }
-                                              if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
-                                                setConfirmPasswordError("Password must contain at least one special character");
+                                              if (!RegExp(
+                                                      r'[!@#$%^&*(),.?":{}|<>]')
+                                                  .hasMatch(value)) {
+                                                setConfirmPasswordError(
+                                                    "Password must contain at least one special character");
                                                 //return 'Password must contain at least one special character';
                                               }
                                               return null;
@@ -1340,7 +1488,9 @@ has been sent to your email
                             visible: passwordController.text.isNotEmpty,
                             child: TouchableOpacity(
                               child: Icon(
-                                _obscureText2 ? Icons.visibility : Icons.visibility_off,
+                                _obscureText2
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
                                 color: HexColor("#ACACAC"),
                                 size: 24.sp,
                               ),
@@ -1360,7 +1510,8 @@ has been sent to your email
                           padding: EdgeInsets.only(top: 10.sp),
                           child: Text(
                             cPasswordError,
-                            style: TextStyle(color: Colors.red, fontSize: 12.sp),
+                            style:
+                                TextStyle(color: Colors.red, fontSize: 12.sp),
                           ),
                         ))
                   ],
@@ -1406,13 +1557,15 @@ has been sent to your email
                         //return 'Password must be at least 8 characters long';
                         return;
                       }
-                      if (!RegExp(r'[a-zA-Z]').hasMatch(passwordController.text)) {
+                      if (!RegExp(r'[a-zA-Z]')
+                          .hasMatch(passwordController.text)) {
                         return;
                       }
                       if (!RegExp(r'\d').hasMatch(passwordController.text)) {
                         return;
                       }
-                      if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(passwordController.text)) {
+                      if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]')
+                          .hasMatch(passwordController.text)) {
                         return;
                       }
 
@@ -1420,18 +1573,23 @@ has been sent to your email
                         //return 'Password must be at least 8 characters long';
                         return;
                       }
-                      if (!RegExp(r'[a-zA-Z]').hasMatch(confirmPasswordController.text)) {
+                      if (!RegExp(r'[a-zA-Z]')
+                          .hasMatch(confirmPasswordController.text)) {
                         return;
                       }
-                      if (!RegExp(r'\d').hasMatch(confirmPasswordController.text)) {
+                      if (!RegExp(r'\d')
+                          .hasMatch(confirmPasswordController.text)) {
                         return;
                       }
-                      if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(confirmPasswordController.text)) {
+                      if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]')
+                          .hasMatch(confirmPasswordController.text)) {
                         return;
                       }
 
-                      if (passwordController.text == confirmPasswordController.text) {
-                        setpassword(passwordController.text, confirmPasswordController.text);
+                      if (passwordController.text ==
+                          confirmPasswordController.text) {
+                        setpassword(passwordController.text,
+                            confirmPasswordController.text);
                       } else {
                         // ToastHelper.error('Password do not match!');
                         setPasswordError("Passwords do not match!");
@@ -1442,11 +1600,14 @@ has been sent to your email
                   child: Container(
                     width: widthScreen(),
                     height: 68.sp,
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
                     child: Center(
                       child: Text(
                         "Save Password",
-                        style: TextStyle(color: HexColor("#262626"), fontSize: 20.sp),
+                        style: TextStyle(
+                            color: HexColor("#262626"), fontSize: 20.sp),
                       ),
                     ),
                   ),
@@ -1481,7 +1642,9 @@ has been sent to your email
                             : Container(
                                 height: 17.sp,
                                 width: 17.sp,
-                                decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                                decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle),
                               ),
                         SizedBox(
                           width: 5.sp,
@@ -1499,9 +1662,12 @@ has been sent to your email
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        (RegExp(r'[a-zA-Z]').hasMatch(passwordController.text) &&
-                                RegExp(r'\d').hasMatch(passwordController.text) &&
-                                RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(passwordController.text))
+                        (RegExp(r'[a-zA-Z]')
+                                    .hasMatch(passwordController.text) &&
+                                RegExp(r'\d')
+                                    .hasMatch(passwordController.text) &&
+                                RegExp(r'[!@#$%^&*(),.?":{}|<>]')
+                                    .hasMatch(passwordController.text))
                             ? Icon(
                                 Icons.check_circle,
                                 color: Colors.green,
@@ -1510,7 +1676,9 @@ has been sent to your email
                             : Container(
                                 height: 17.sp,
                                 width: 17.sp,
-                                decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                                decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle),
                               ),
                         SizedBox(
                           width: 5.sp,
@@ -1666,7 +1834,8 @@ has been sent to your email
                               },
                               child: Container(
                                 height: 55.sp,
-                                padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 8.sp),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 15.sp, vertical: 8.sp),
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: isSelected
@@ -1704,7 +1873,11 @@ has been sent to your email
                                     Text(
                                       interest,
                                       style: TextStyle(
-                                          fontSize: 18.sp, fontWeight: FontWeight.w400, color: isSelected ? Colors.white : HexColor("#222222")),
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.w400,
+                                          color: isSelected
+                                              ? Colors.white
+                                              : HexColor("#222222")),
                                     ),
                                   ],
                                 ),
@@ -1720,8 +1893,14 @@ has been sent to your email
             ),
           ),
           SizedBox(
-            height: (heightScreen() - (headerHeight + interestContentHeight + 50.sp + 80.sp)) > 0
-                ? heightScreen() - (headerHeight + interestContentHeight + 50.sp + 80.sp)
+            height: (heightScreen() -
+                        (headerHeight +
+                            interestContentHeight +
+                            50.sp +
+                            80.sp)) >
+                    0
+                ? heightScreen() -
+                    (headerHeight + interestContentHeight + 50.sp + 80.sp)
                 : 0,
           ),
           Row(
@@ -1793,7 +1972,8 @@ has been sent to your email
 
   verifyEmail(String email) async {
     try {
-      String response = await networkProvider.post(ApiEndpoints.verifyemail, body: {
+      String response =
+          await networkProvider.post(ApiEndpoints.verifyemail, body: {
         'email': email,
       });
       if (jsonDecode(response)['c'] == 200) {
@@ -1822,24 +2002,23 @@ has been sent to your email
       } else {
         ToastHelper.error(jsonDecode(response)['m']);
       }
-    } catch (e) {
-      log(e.toString());
-    }
+    } catch (e) {}
   }
 
   verifyOtp(String otpNumber, String userId) async {
     final prefs = await SharedPreferences.getInstance();
 
     try {
-      log('11');
-      String response = await networkProvider.post(ApiEndpoints.verifyotp, body: {
+      print('11');
+      String response =
+          await networkProvider.post(ApiEndpoints.verifyotp, body: {
         'userId': userId,
         'otpNumber': otpNumber,
       });
 
       final data = jsonDecode(response);
       if (data['c'] == 200) {
-        log('22');
+        print('22');
         if (codeTimer != null) {
           codeTimer!.cancel();
         }
@@ -1849,27 +2028,33 @@ has been sent to your email
           registrationIndexPage = 1;
           isVerified = false;
           final tokens = data['d']['tokens'];
-          if (tokens != null && tokens.containsKey('access') && tokens.containsKey('refresh')) {
-            log('55');
+          if (tokens != null &&
+              tokens.containsKey('access') &&
+              tokens.containsKey('refresh')) {
+            print('55');
             await prefs.setString('access', tokens['access']);
             await prefs.setString('refresh', tokens['refresh']);
           } else {
-            log('44');
+            print('44');
             throw Exception("Invalid tokens structure");
           }
         });
       } else {
-        log('33');
-        setVerifyError("You have entered the wrong verification code.\nPlease try again.");
-        ToastHelper.error("You have entered the wrong verification code.\nPlease try again.");
+        print('33');
+        setVerifyError(
+            "You have entered the wrong verification code.\nPlease try again.");
+        ToastHelper.error(
+            "You have entered the wrong verification code.\nPlease try again.");
       }
     } catch (e) {
-      log('123');
+      print('123');
     }
   }
 
   setpassword(String password, String cpassword) async {
     final prefs = await SharedPreferences.getInstance();
+
+    print('Token ${prefs.getString('access')}');
 
     try {
       String response = await networkProvider.setpassword(

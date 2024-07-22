@@ -20,6 +20,11 @@ class AppColors {
   static Color pumpkin = HexColor("#d35400");
   static Color bluegreen = HexColor("85ecf8");
 
+  static List<Color> gradients = [
+    HexColor("#00272A"),
+    HexColor("#2F0032"),
+  ];
+
   static const Color lightGreyColor = Color(0xFF414141);
 
   static const Color buttonGradStartColor = Color(0xFFE630EF);
@@ -33,10 +38,12 @@ class AppColors {
 
   static const Color liveBackgroundColor = Color(0xFFF11B43);
 
+  /*
   static List<Color> gradients = [
     HexColor("#00272A"),
     HexColor("#2F0032"),
   ];
+  */
   static const List<Color> bgGradientColors = [
     Color(0xFF00272A),
     Color(0xFF2F0032),

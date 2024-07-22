@@ -3,8 +3,10 @@
 class ApiEndpoints {
   //static const String baseUrl = "http://192.168.1.13:3000";
   static const String baseUrl = "https://dev.gvlive.ph/api/v1";
+  // static const String baseUrl = "https://dev.gvlive.ph/api/v1";
 
   static const String login = "$baseUrl/signin/email";
+  // static const String login = "$baseUrl/signin/email";
   static const String unsynced = "$baseUrl/unsynced";
 
   static const String saveFund = "$baseUrl/funds";
@@ -18,9 +20,23 @@ class ApiEndpoints {
   static const String verifyotp = "$baseUrl/signup/verify-otp-email";
   static const String setpassword = "$baseUrl/signup/password";
   static const String refreshToken = "$baseUrl/signin/refresh-token";
+  static const String forgotpassword1 =
+      "$baseUrl/signin/email/forgot-password-step-1";
+  static const String forgotpassword2 =
+      "$baseUrl/signin/email/forgot-password-step-2";
+  static const String forgotpassword3 =
+      "$baseUrl/signin/email/forgot-password-step-3";
+
+  static const String updateprofile = "$baseUrl/users/me";
+
+/*   static const String verifyemail = "$baseUrl/signup/email";
+  static const String sendotp = "$baseUrl/signup/resend-otp-email";
+  static const String verifyotp = "$baseUrl/signup/verify-otp-email";
+  static const String setpassword = "$baseUrl/signup/password";
+  static const String refreshToken = "$baseUrl/signin/refresh-token";
   static const String forgotpassword1 = "$baseUrl/signin/email/forgot-password-step-1";
   static const String forgotpassword2 = "$baseUrl/signin/email/forgot-password-step-2";
-  static const String forgotpassword3 = "$baseUrl/signin/email/forgot-password-step-3";
+  static const String forgotpassword3 = "$baseUrl/signin/email/forgot-password-step-3"; */
 
   static const String preferredContent = "$baseUrl/preferred-content";
   static const String interests = "$baseUrl/interests";

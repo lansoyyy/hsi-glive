@@ -14,8 +14,10 @@ class GlobalVariables {
   static late GlobalKey<NavigatorState> navigatorKey;
 }
 
-int registrationIndexPage = 1;
+int registrationIndexPage = 0;
 int registrationAccomplishedPage = -1;
+
+
 int forgotpasswordIndexPage = 0;
 double widthScreen() {
   return GlobalVariables.width;
