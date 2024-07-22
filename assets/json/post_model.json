@@ -1,0 +1,70 @@
+{
+    "post_model": [
+        {
+            "postId": "post-1",
+            "postTitle": "Liveeeee na!!! ✨❤️",
+            "postDescription": "June 23, 2024 stream!! #itsshowtime 1",
+            "postMedias": [
+                {
+                    "mediaId": "media-1",
+                    "postId": "post-1",
+                    "createdAt": "2024-06-29T12:34:56Z",
+                    "updatedAt": "",
+                    "postMediaUrls": [
+                        {
+                            "mediaUrls": "https://ksmiguel.com/unleash/files/0.mp4",
+                            "mediaType": "MediaType.video"
+                        },
+                        {
+                            "mediaUrls": "https://ksmiguel.com/unleash/files/14.jpg",
+                            "mediaType": "MediaType.image"
+                        }
+                    ],
+                    "comments": [
+                        {
+                            "commentId": "1",
+                            "postId": "post-1",
+                            "description": "Great stream!",
+                            "userModel": {
+                                "id": 1,
+                                "avatar": "https://images.unsplash.com/photo-1523824921871-d6f1a15151f1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                                "firstName": "Gerhard",
+                                "lastName": "Barrows",
+                                "phoneNumber": "+228 99 99 02 28",
+                                "followersCount": "160k",
+                                "isActive": false
+                            }
+                        },
+                        {
+                            "commentId": "2",
+                            "postId": "post-1",
+                            "description": "Hello from New York!",
+                            "userModel": {
+                                "id": 3,
+                                "avatar": "https://images.unsplash.com/photo-1523824921871-d6f1a15151f1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                                "firstName": "Gerhard",
+                                "lastName": "Barrows",
+                                "phoneNumber": "+228 99 99 02 28",
+                                "followersCount": "160k",
+                                "isActive": false
+                            }
+                        }
+                    ]
+                }
+            ],
+            "userModel": {
+                "id": 1,
+                "avatar": "https://images.unsplash.com/photo-1523824921871-d6f1a15151f1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                "firstName": "Gerhard",
+                "lastName": "Barrows",
+                "phoneNumber": "+228 99 99 02 28",
+                "followersCount": "160k",
+                "isActive": true
+            },
+            "likesCount": "7.2k",
+            "commentsCount": "240",
+            "giftCount": "240",
+            "shareCount": "5.1k"
+        }
+    ]
+}

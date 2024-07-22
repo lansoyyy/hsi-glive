@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 class StorageCodes {
   static const String isLoggedIn = "isLoggedIn";
   static const String currentUser = "currentUser";

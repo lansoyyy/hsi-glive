@@ -1,10 +1,7 @@
-import 'dart:developer';
+// ignore_for_file: file_names
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:glive/constants/appColors.dart';
-import 'package:glive/constants/assets.dart';
 import 'package:glive/utils/CallbackModel.dart';
 import 'package:glive/utils/CommonFunctions.dart';
 import 'package:glive/widgets/TouchableOpacity.dart';
@@ -20,21 +17,14 @@ class AppDatePickerController extends ChangeNotifier {
   }
 
   void onLoadData(CallbackModel cb) {
-    loadFunctions = loadFunctions.where((el) => el.id != cb.id).toList()
-      ..add(cb);
+    loadFunctions = loadFunctions.where((el) => el.id != cb.id).toList()..add(cb);
   }
 
   DateTime value = DateTime.now();
 }
 
 class AppDatePicker extends StatefulWidget {
-  const AppDatePicker(
-      {super.key,
-      required this.width,
-      required this.title,
-      required this.onChanged,
-      required this.controller,
-      required this.icon});
+  const AppDatePicker({super.key, required this.width, required this.title, required this.onChanged, required this.controller, required this.icon});
 
   final double width;
   final String title;
@@ -59,8 +49,7 @@ class _AppDatePickerState extends State<AppDatePicker> {
   @override
   void initState() {
     focusNode.addListener(nodeListener);
-    widget.controller
-        .onLoadData(CallbackModel(id: randomString(24), callback: onLoadData));
+    widget.controller.onLoadData(CallbackModel(id: randomString(24), callback: onLoadData));
 
     super.initState();
   }
@@ -123,10 +112,7 @@ class _AppDatePickerState extends State<AppDatePicker> {
 
     return TouchableOpacity(
       onTap: () async {
-        DateTime? datetime = await showDatePicker(
-            context: context,
-            firstDate: DateTime(1969, 1, 1),
-            lastDate: DateTime.now());
+        DateTime? datetime = await showDatePicker(context: context, firstDate: DateTime(1969, 1, 1), lastDate: DateTime.now());
         if (datetime != null) {
           setState(() {
             myValue = datetime;
@@ -142,9 +128,7 @@ class _AppDatePickerState extends State<AppDatePicker> {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: isFocused
-                    ? Colors.grey.withOpacity(0.5)
-                    : Colors.transparent,
+                color: isFocused ? Colors.grey.withOpacity(0.5) : Colors.transparent,
                 spreadRadius: 1,
                 blurRadius: 5,
                 offset: const Offset(0, 3), // changes position of shadow
@@ -156,17 +140,12 @@ class _AppDatePickerState extends State<AppDatePicker> {
             Container(
               height: 60,
               width: myWidth,
-              padding: EdgeInsets.only(
-                  left: 60, right: 10, top: hasChanged ? 18 : 0),
+              padding: EdgeInsets.only(left: 60, right: 10, top: hasChanged ? 18 : 0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  hasChanged
-                      ? DateFormat('yyyy-MM-dd').format(myValue)
-                      : widget.title,
-                  style: TextStyle(
-                      color: hasChanged ? AppColors.black : AppColors.grey,
-                      fontSize: 15),
+                  hasChanged ? DateFormat('yyyy-MM-dd').format(myValue) : widget.title,
+                  style: TextStyle(color: hasChanged ? AppColors.black : AppColors.grey, fontSize: 15),
                 ),
               ),
             ),

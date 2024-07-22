@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:glive/routes.dart';
+import 'package:glive/routes/AppRoutes.dart';
 import 'package:glive/widgets/TextWidget.dart';
 
 import '../../widgets/ButtonWidget.dart';
@@ -52,7 +51,7 @@ class FaceIDSetupView extends StatelessWidget {
                 //     _controllers.map((controller) => controller.text).join();
                 // print("Entered OTP: $otp");
 
-                Get.offNamed(RouteNames.channels);
+                Get.offNamed(AppRoutes.CHANNELS);
               },
             ),
             SizedBox(

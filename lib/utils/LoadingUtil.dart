@@ -1,46 +1,66 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:glive/utils/CallbackModel.dart';
-import 'package:glive/utils/CommonFunctions.dart';
 import 'package:glive/utils/GlobalVariables.dart';
 
 class LoadingUtil {
+  static bool isLoadingShown = false;
+
   static LoadingController controller = LoadingController();
 
-  static void show(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false, // Dialog can be dismissed by tapping outside
-      builder: (BuildContext context) {
-        return SizedBox(
-          height: heightScreen(),
-          width: widthScreen(),
-          child: const Center(
-            child: SizedBox(
-              height: 30,
-              width: 30,
-              child: CircularProgressIndicator(
-                strokeWidth: 3,
-                color: Colors.white,
-              ),
-            ),
+  static Widget widget = PopScope(
+    canPop: false,
+    child: SizedBox(
+      height: heightScreen(),
+      width: widthScreen(),
+      child: const Center(
+        child: SizedBox(
+          height: 30,
+          width: 30,
+          child: CircularProgressIndicator(
+            strokeWidth: 3,
+            color: Colors.white,
           ),
-        );
-      },
-    );
+        ),
+      ),
+    ),
+  );
+
+  static void show(BuildContext context) {
+    if (!isLoadingShown) {
+      showDialog(
+        context: context,
+        barrierDismissible: false, // Dialog can be dismissed by tapping outside
+        builder: (BuildContext context) {
+          return widget;
+        },
+      );
+    }
+    isLoadingShown = true;
   }
 
-  static void showText(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false, // Dialog can be dismissed by tapping outside
-      builder: (BuildContext context) {
-        return LoadingWidget(controller: controller);
-      },
-    );
+  static void showText(BuildContext context, String text) {
+    if (!isLoadingShown) {
+      showDialog(
+        context: context,
+        barrierDismissible: false, // Dialog can be dismissed by tapping outside
+        builder: (BuildContext context) {
+          return LoadingWidget(controller: controller);
+        },
+      );
+      Future.delayed(const Duration(milliseconds: 50), () {
+        controller.update(text);
+      });
+    }
+    isLoadingShown = true;
   }
 
   static void hide(BuildContext context) {
-    Navigator.pop(context);
+    if (isLoadingShown) {
+      Navigator.pop(context);
+    }
+    isLoadingShown = false;
   }
 }
 
@@ -58,13 +78,15 @@ class _LoadingWidgetState extends State<LoadingWidget> {
 
   @override
   void initState() {
-    widget.controller
-        .onUpdate(CallbackModel(id: "loading-widget", callback: onUpdate));
+    widget.controller.onUpdate(CallbackModel(id: "loading-widget", callback: onUpdate));
     super.initState();
   }
 
   void onUpdate(dynamic d) {
     String text = d as String;
+    if (!mounted) {
+      return;
+    }
     setState(() {
       loadingText = text;
     });
@@ -116,7 +138,6 @@ class LoadingController extends ChangeNotifier {
   }
 
   void onUpdate(CallbackModel cb) {
-    updateFunctions = updateFunctions.where((el) => el.id != cb.id).toList()
-      ..add(cb);
+    updateFunctions = updateFunctions.where((el) => el.id != cb.id).toList()..add(cb);
   }
 }

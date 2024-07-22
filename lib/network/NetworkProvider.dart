@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, unrelated_type_equality_checks
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
@@ -5,10 +7,12 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:glive/database/appDatabase.dart';
+import 'package:glive/models/response/InterestListResponse.dart';
+import 'package:glive/network/ApiImplementation.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:glive/network/AuthInterceptor.dart';
-import 'package:glive/routes.dart';
+import 'package:glive/routes/AppRoutes.dart';
 import 'package:glive/utils/globalVariables.dart';
 import 'package:glive/utils/localStorage.dart';
 import 'package:glive/utils/toastHelper.dart';
@@ -29,7 +33,7 @@ class NetworkProvider {
 
     _dio.interceptors.add(AuthInterceptor());
   }
-
+  static ApiImplementation apiImplementation = ApiImplementation();
   // End Auth Module API
 
   static void checkAPIError(String errorMessage) {
@@ -41,7 +45,7 @@ class NetworkProvider {
 
           Navigator.pushNamedAndRemoveUntil(
             GlobalVariables.navigatorKey.currentContext!,
-            RouteNames.login,
+            AppRoutes.LOGIN,
             (Route<dynamic> route) => false,
           );
         }
@@ -70,8 +74,7 @@ class NetworkProvider {
     }
   }
 
-  Future<String> post(String uri,
-      {dynamic body, Map<String, dynamic>? queryParams}) async {
+  Future<String> post(String uri, {dynamic body, Map<String, dynamic>? queryParams}) async {
     try {
       log("POST >>> $uri");
       Response<String> response = await _dio.post(
@@ -95,8 +98,7 @@ class NetworkProvider {
     }
   }
 
-  Future<String> putImage(String uri,
-      {dynamic body, Map<String, dynamic>? queryParams}) async {
+  Future<String> putImage(String uri, {dynamic body, Map<String, dynamic>? queryParams}) async {
     try {
       Response<String> response = await _dio.put(
         uri,
@@ -112,8 +114,7 @@ class NetworkProvider {
     }
   }
 
-  Future<String> put(String uri,
-      {dynamic body, Map<String, dynamic>? queryParams}) async {
+  Future<String> put(String uri, {dynamic body, Map<String, dynamic>? queryParams}) async {
     // if (body != null) {
     //   log("PUT >>> $uri\n\nBody: ${jsonEncode(body.toJson())}");
     // } else {
@@ -139,8 +140,7 @@ class NetworkProvider {
     }
   }
 
-  Future<String> patch(String uri,
-      {dynamic body, Map<String, dynamic>? queryParams}) async {
+  Future<String> patch(String uri, {dynamic body, Map<String, dynamic>? queryParams}) async {
     // if (body != null) {
     //   log("PUT >>> $uri\n\nBody: ${jsonEncode(body.toJson())}");
     // } else {
@@ -166,8 +166,7 @@ class NetworkProvider {
     }
   }
 
-  Future<String> delete(String uri,
-      {Object? body, Map<String, dynamic>? queryParams}) async {
+  Future<String> delete(String uri, {Object? body, Map<String, dynamic>? queryParams}) async {
     CancelToken? cancelToken;
     try {
       final Response<String> response = await _dio.delete(
@@ -207,4 +206,65 @@ class NetworkProvider {
     );
     return response.data ?? '';
   }
+
+  Future<String> setpassword(String uri,
+      {dynamic body, Map<String, dynamic>? queryParams, String? token, String? password, String? cpassword}) async {
+    try {
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+
+      var data = '{\n    "password": "$password",\n    "cpassword": "$cpassword"\n}';
+
+      final res = await http.post(Uri.parse(uri), headers: headers, body: data);
+      final status = res.statusCode;
+
+      log(status.toString());
+      if (status != 200) {
+        throw Exception('http.post error: statusCode= $status');
+      }
+
+      return res.body;
+    } on DioException catch (e) {
+      log('toto $e');
+      return "";
+    }
+  }
+
+  Future<String> setforgotpassword(String uri,
+      {dynamic body, Map<String, dynamic>? queryParams, String? token, String? password, String? cpassword, String? userId}) async {
+    try {
+      final res = await http.post(Uri.parse(uri), body: body);
+      final status = res.statusCode;
+
+      log(res.body);
+      if (status != 200) {
+        throw Exception('http.post error: statusCode= $status');
+      }
+
+      return res.body;
+    } on DioException catch (e) {
+      log('toto $e');
+      return "";
+    }
+  }
+
+  //--------------START TONY IMPL--------------------//
+  Future<InterestListResponse> getInterestList() async {
+    try {
+      var response = await apiImplementation.getInterestList();
+      if (response.c == 200 && response.d != null) {
+        return response.d!;
+      } else if (response.c == 401) {
+        throw Exception("401${response.m}");
+      } else {
+        throw Exception(response.m);
+      }
+    } on DioException catch (ex) {
+      log('DioException $ex');
+      rethrow;
+    }
+  }
+  //--------------END TONY IMPL--------------------//
 }

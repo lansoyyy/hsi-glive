@@ -1,7 +1,6 @@
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, file_names
 
 class Assets {
-
   static const String icon = "assets/images/icon.png";
   static const String email = "assets/images/email.png";
   static const String user = "assets/images/user.png";
@@ -57,12 +56,35 @@ class Assets {
   static const String reports = "assets/images/reports.png";
   static const String refresh = "assets/images/refresh.png";
 
-  
   static const String digital_id_template = "assets/excel/digital-template.xlsx";
   static const String csv_template = "assets/excel/template.csv";
   static const String excel_template = "assets/excel/excel_template.xlsx";
 
+  static const String happy = "assets/icons/happy.png";
+  static const String funny = "assets/icons/funny.png";
+  static const String playfull = "assets/icons/playfull.png";
+  static const String sad = "assets/icons/sad.png";
+  static const String dramatic = "assets/icons/dramatic.png";
+  static const String angry = "assets/icons/angry.png";
+  static const String scary = "assets/icons/scary.png";
+  static const String powerful = "assets/icons/powerful.png";
+  static const String love = "assets/icons/love.png";
+  static const String grovvy = "assets/icons/groovy.png";
 
+  static const String animal = "assets/icons/animal.png";
+  static const String comedy = "assets/icons/comedy.png";
+  static const String travel = "assets/icons/travel.png";
+  static const String foods = "assets/icons/foods.png";
+  static const String sports = "assets/icons/sports.png";
+  static const String beauty = "assets/icons/beauty.png";
+  static const String arts = "assets/icons/arts.png";
+  static const String gaming = "assets/icons/gaming.png";
 
+  static const String bts = "assets/icons/bts.png";
 
+  static const String videoStop = "audio/video_stop.mp3";
+  static const String cameraShutter = "audio/camera_shutter.mp3";
+  static const String liveCountdown = "assets/audio/live_countdown.mp3";
+  static const String tapNotif = "audio/tap_notif.mp3";
+  static const String videoStart = "audio/video_start.mp3";
 }

@@ -1,11 +1,11 @@
+// ignore_for_file: file_names
+
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:glive/database/appDatabase.dart';
 import 'package:glive/database/repository.dart';
 import 'package:glive/models/database/AdminModel.dart';
-import 'package:sqflite/sqflite.dart';
 
 class AdminRepository {
   static String tableName = "admins";
@@ -43,8 +43,7 @@ class AdminRepository {
     String values = vals.join(", ");
 
     AppDatabase.database.transaction((txn) async {
-      int id1 = await txn.rawInsert(
-          sanitizeQuery("INSERT INTO $tableName($columns) VALUES($values)"));
+      int id1 = await txn.rawInsert(sanitizeQuery("INSERT INTO $tableName($columns) VALUES($values)"));
       completer.complete(id1);
     });
 
@@ -68,8 +67,7 @@ class AdminRepository {
 
       String query = q.join(", ");
 
-      await AppDatabase.database.rawUpdate(
-          sanitizeQuery("UPDATE $tableName SET $query WHERE id = '${obj.id}'"));
+      await AppDatabase.database.rawUpdate(sanitizeQuery("UPDATE $tableName SET $query WHERE id = '${obj.id}'"));
 
       completer.complete(true);
     } else {
@@ -96,8 +94,7 @@ class AdminRepository {
 
       String query = q.join(", ");
 
-      await AppDatabase.database.rawUpdate(
-          sanitizeQuery("UPDATE $tableName SET $query WHERE id = '${obj.id}'"));
+      await AppDatabase.database.rawUpdate(sanitizeQuery("UPDATE $tableName SET $query WHERE id = '${obj.id}'"));
       completer.complete("updated");
     } else {
       await create(obj);
@@ -113,8 +110,8 @@ class AdminRepository {
     AdminModel? current = await get(id);
 
     if (current != null) {
-      await AppDatabase.database.rawUpdate(sanitizeQuery(
-          "UPDATE $tableName SET deletedAt = '${DateTime.now().toIso8601String()}', syncedAt = '' WHERE id = '$id'"));
+      await AppDatabase.database
+          .rawUpdate(sanitizeQuery("UPDATE $tableName SET deletedAt = '${DateTime.now().toIso8601String()}', syncedAt = '' WHERE id = '$id'"));
 
       completer.complete("deleted");
     } else {
@@ -126,8 +123,7 @@ class AdminRepository {
   static Future deleteAll() async {
     Completer completer = Completer();
 
-    await AppDatabase.database.rawUpdate(sanitizeQuery(
-        "UPDATE $tableName SET deletedAt = '${DateTime.now().toIso8601String()}', syncedAt = ''"));
+    await AppDatabase.database.rawUpdate(sanitizeQuery("UPDATE $tableName SET deletedAt = '${DateTime.now().toIso8601String()}', syncedAt = ''"));
 
     completer.complete("deleted all");
 
@@ -135,8 +131,7 @@ class AdminRepository {
   }
 
   static Future<AdminModel?> get(String id) async {
-    List<Map<String, Object?>> records = await AppDatabase.database
-        .rawQuery(sanitizeQuery("SELECT * FROM $tableName WHERE id = '$id'"));
+    List<Map<String, Object?>> records = await AppDatabase.database.rawQuery(sanitizeQuery("SELECT * FROM $tableName WHERE id = '$id'"));
 
     if (records.isNotEmpty) {
       return AdminModel.fromJson(records.first);
@@ -146,10 +141,8 @@ class AdminRepository {
   }
 
   static Future<AdminModel?> getIfNotDeleted(String id) async {
-    List<
-        Map<String,
-            Object?>> records = await AppDatabase.database.rawQuery(sanitizeQuery(
-        "SELECT * FROM $tableName WHERE id = '$id' AND (deletedAt IS NULL OR deletedAt = '')"));
+    List<Map<String, Object?>> records =
+        await AppDatabase.database.rawQuery(sanitizeQuery("SELECT * FROM $tableName WHERE id = '$id' AND (deletedAt IS NULL OR deletedAt = '')"));
 
     if (records.isNotEmpty) {
       return AdminModel.fromJson(records.first);
@@ -159,8 +152,8 @@ class AdminRepository {
   }
 
   static Future<List<AdminModel>> getAll() async {
-    List<Map<String, Object?>> records = await AppDatabase.database.rawQuery(
-        "SELECT * FROM $tableName WHERE (deletedAt IS NULL OR deletedAt = '') ORDER BY createdAt DESC");
+    List<Map<String, Object?>> records =
+        await AppDatabase.database.rawQuery("SELECT * FROM $tableName WHERE (deletedAt IS NULL OR deletedAt = '') ORDER BY createdAt DESC");
     List<AdminModel> data = [];
     if (records.isNotEmpty) {
       for (var record in records) {
@@ -188,10 +181,8 @@ class AdminRepository {
   }
 
   static Future<List<AdminModel>> getAllDirectChildren(String adminId) async {
-    List<
-        Map<String,
-            Object?>> records = await AppDatabase.database.rawQuery(sanitizeQuery(
-        "SELECT * FROM $tableName WHERE (deletedAt IS NULL OR deletedAt = '') AND parentId = '$adminId' ORDER BY createdAt DESC"));
+    List<Map<String, Object?>> records = await AppDatabase.database.rawQuery(
+        sanitizeQuery("SELECT * FROM $tableName WHERE (deletedAt IS NULL OR deletedAt = '') AND parentId = '$adminId' ORDER BY createdAt DESC"));
     List<AdminModel> data = [];
     if (records.isNotEmpty) {
       for (var record in records) {
@@ -204,9 +195,8 @@ class AdminRepository {
   }
 
   static Future<List<AdminModel>> getChildren(String adminId) async {
-    List<Map<String, Object?>> myChildrenQuery = await AppDatabase.database
-        .rawQuery(sanitizeQuery(
-            "SELECT * FROM $tableName WHERE (deletedAt IS NULL OR deletedAt = '') AND parentId = '$adminId' ORDER BY createdAt DESC"));
+    List<Map<String, Object?>> myChildrenQuery = await AppDatabase.database.rawQuery(
+        sanitizeQuery("SELECT * FROM $tableName WHERE (deletedAt IS NULL OR deletedAt = '') AND parentId = '$adminId' ORDER BY createdAt DESC"));
 
     List<AdminModel> myChildren = [];
     if (myChildrenQuery.isNotEmpty) {
@@ -229,8 +219,7 @@ class AdminRepository {
 
     if (myModel != null) {
       List<Map<String, Object?>> myParentsQuery = await AppDatabase.database
-          .rawQuery(sanitizeQuery(
-              "SELECT * FROM $tableName WHERE (deletedAt IS NULL OR deletedAt = '') AND id = '${myModel.parentId}'"));
+          .rawQuery(sanitizeQuery("SELECT * FROM $tableName WHERE (deletedAt IS NULL OR deletedAt = '') AND id = '${myModel.parentId}'"));
 
       //Transforming to AdminModel
       List<AdminModel> myParents = [];
@@ -252,12 +241,9 @@ class AdminRepository {
     }
   }
 
-  static Future<List<AdminModel>> getAllByDateRange(
-      String startDate, String endDate) async {
-    List<
-        Map<String,
-            Object?>> records = await AppDatabase.database.rawQuery(sanitizeQuery(
-        "SELECT * FROM $tableName WHERE date(substr(createdAt, 1, 10)) BETWEEN '$startDate' AND '$endDate'"));
+  static Future<List<AdminModel>> getAllByDateRange(String startDate, String endDate) async {
+    List<Map<String, Object?>> records = await AppDatabase.database
+        .rawQuery(sanitizeQuery("SELECT * FROM $tableName WHERE date(substr(createdAt, 1, 10)) BETWEEN '$startDate' AND '$endDate'"));
     List<AdminModel> data = [];
     if (records.isNotEmpty) {
       for (var record in records) {
@@ -270,9 +256,8 @@ class AdminRepository {
   }
 
   static Future<List<AdminModel>> getUnsynced() async {
-    List<Map<String, Object?>> records = await AppDatabase.database.rawQuery(
-        sanitizeQuery(
-            "SELECT * FROM $tableName WHERE syncedAt IS NULL OR syncedAt = '';"));
+    List<Map<String, Object?>> records =
+        await AppDatabase.database.rawQuery(sanitizeQuery("SELECT * FROM $tableName WHERE syncedAt IS NULL OR syncedAt = '';"));
     List<AdminModel> data = [];
     if (records.isNotEmpty) {
       for (var record in records) {
@@ -285,10 +270,8 @@ class AdminRepository {
   }
 
   static Future<AdminModel?> getByUsername(String username) async {
-    List<
-        Map<String,
-            Object?>> records = await AppDatabase.database.rawQuery(sanitizeQuery(
-        "SELECT * FROM $tableName WHERE username = '$username' AND (deletedAt IS NULL OR deletedAt = '')"));
+    List<Map<String, Object?>> records = await AppDatabase.database
+        .rawQuery(sanitizeQuery("SELECT * FROM $tableName WHERE username = '$username' AND (deletedAt IS NULL OR deletedAt = '')"));
 
     if (records.isNotEmpty) {
       return AdminModel.fromJson(records.first);

@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:glive/constants/AppColors.dart';
-import 'package:glive/routes.dart';
 import 'package:glive/utils/GlobalVariables.dart';
 import 'package:glive/utils/ToastHelper.dart';
 import 'package:glive/widgets/AppPasswordInput.dart';
-import 'package:glive/widgets/AppTextInput.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
 

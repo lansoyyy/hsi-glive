@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:glive/constants/AppColors.dart';
+import 'package:get/get.dart';
+import 'package:glive/modules/home/tabs/chat_tab.dart';
 import 'package:glive/modules/home/tabs/home_tab.dart';
+// import 'package:glive/modules/live/views/live_view.dart';
+import 'package:glive/modules/create_post/views/create_post_view.dart';
 import 'package:glive/modules/home/tabs/profile_tab.dart';
+import 'package:glive/modules/video/controller/video_controller.dart';
+import 'package:glive/modules/video/views/video_tab_view.dart';
 import 'package:glive/widgets/AppBottomNavbar.dart';
+import 'package:glive/widgets/AppPageBackground.dart';
 
 import 'tabs/chat_tab.dart';
 
@@ -16,42 +20,77 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  int _currentIndex = 0;
+  final VideoController videoController = Get.put(VideoController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // videoController.initializeVideos();
+    videoController.getPostsForYou(page: videoController.pageForYouCount.value, limit: videoController.limitForYouCount.value);
+  }
+
+  final RxInt selectedIndex = 0.obs;
+  Rx isLivePageFullScreen = false.obs;
 
   final List<Widget> _pages = const [
     HomeTab(),
-    SizedBox(),
-    SizedBox(),
+    VideoTabView(),
+    AppPageBackground(child: SizedBox()),
     ChatTab(),
-    ProfileTab()
+    ProfileTab(),
   ];
 
   void _onItemTap(int newIndex) {
     setState(() {
-      _currentIndex = newIndex;
+      selectedIndex.value = newIndex;
+      if (selectedIndex.value == 1) {
+        videoController.handleBottomNavigationTap();
+      } else if (selectedIndex.value == 2) {
+        _openLivePage();
+      } else {
+        videoController.tapCount.value = 0;
+      }
+    });
+  }
+
+  void _openLivePage() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const CreatePostView(),
+        fullscreenDialog: true,
+      ),
+    );
+
+    setState(() {
+      selectedIndex.value = 0;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: AppColors.gradiants,
-              stops: const [0.0, 1.0],
-            ),
-          ),
-          width: double.infinity,
-          height: double.infinity,
-          child: _pages[_currentIndex],
-        ),
-      ),
+      // extendBodyBehindAppBar: true,
+      // body: Container(
+      //   decoration: const BoxDecoration(
+      //     gradient: LinearGradient(
+      //       begin: Alignment.topLeft,
+      //       end: Alignment.bottomRight,
+      //       colors: AppColors.bgGradientColors,
+      //       stops: [0.0891, 0.9926],
+      //       transform: GradientRotation(263.49 * (3.14159 / 180)),
+      //     ),
+      //   ),
+      //   width: double.infinity,
+      //   height: double.infinity,
+      //   child: _pages[_currentIndex],
+      // ),
       bottomNavigationBar: AppBottomNavigationBar(
-        currentIndex: _currentIndex,
+        currentIndex: selectedIndex.value,
         onTap: _onItemTap,
       ),
+      body: _pages[selectedIndex.value],
     );
   }
 }

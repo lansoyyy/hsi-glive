@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
@@ -17,7 +19,6 @@ import 'package:glive/repositories/TransactionRepository.dart';
 import 'package:glive/repositories/UserRepository.dart';
 import 'package:glive/utils/commonFunctions.dart';
 import 'package:glive/utils/globalVariables.dart';
-import 'package:glive/utils/RealtimeSignalling.dart';
 
 import 'localStorage.dart';
 
@@ -45,18 +46,11 @@ class SyncHelper {
       await LocalStorage.save(StorageCodes.installationId, myId);
     }
     // String myId = uid();
-    String response = await networkProvider
-        .get("${ApiEndpoints.unsynced}?installationId=$myId");
+    String response = await networkProvider.get("${ApiEndpoints.unsynced}?installationId=$myId");
 
     if (response.isNotEmpty) {
-      UnsyncedResponse unsyncedResponse =
-          UnsyncedResponse.fromJson(jsonDecode(response));
-      await Future.wait([
-        syncAdmins(unsyncedResponse),
-        syncFunds(unsyncedResponse),
-        syncTransactions(unsyncedResponse),
-        syncUsers(unsyncedResponse)
-      ]);
+      UnsyncedResponse unsyncedResponse = UnsyncedResponse.fromJson(jsonDecode(response));
+      await Future.wait([syncAdmins(unsyncedResponse), syncFunds(unsyncedResponse), syncTransactions(unsyncedResponse), syncUsers(unsyncedResponse)]);
     }
 
     completer.complete(false);
@@ -109,8 +103,7 @@ class SyncHelper {
       await AdminRepository.save(model);
       if (model.id == GlobalVariables.currentUser.id) {
         GlobalVariables.currentUser = model;
-        await LocalStorage.save(
-            StorageCodes.currentUser, jsonEncode(model.toJson()));
+        await LocalStorage.save(StorageCodes.currentUser, jsonEncode(model.toJson()));
       }
     }
 
@@ -148,9 +141,7 @@ class SyncHelper {
       }
 
       // log("Data: ${data}");
-      String response = await networkProvider.post(
-          "${ApiEndpoints.saveFund}?installationId=$installationId",
-          body: data);
+      String response = await networkProvider.post("${ApiEndpoints.saveFund}?installationId=$installationId", body: data);
       if (response.isNotEmpty) {
         model.syncedAt = DateTime.now().toIso8601String();
         await FundRepository.update(model);
@@ -167,15 +158,12 @@ class SyncHelper {
         data.remove("deletedAt");
       }
 
-      String response = await networkProvider.post(
-          "${ApiEndpoints.saveAdmin}?installationId=$installationId",
-          body: data);
+      String response = await networkProvider.post("${ApiEndpoints.saveAdmin}?installationId=$installationId", body: data);
       if (response.isNotEmpty) {
         model.syncedAt = DateTime.now().toIso8601String();
         if (model.id == GlobalVariables.currentUser.id) {
           GlobalVariables.currentUser = model;
-          await LocalStorage.save(
-              StorageCodes.currentUser, jsonEncode(model.toJson()));
+          await LocalStorage.save(StorageCodes.currentUser, jsonEncode(model.toJson()));
         }
         await AdminRepository.update(model);
       }
@@ -190,9 +178,7 @@ class SyncHelper {
       if (data["deletedAt"].isEmpty) {
         data.remove("deletedAt");
       }
-      String response = await networkProvider.post(
-          "${ApiEndpoints.saveUser}?installationId=$installationId",
-          body: data);
+      String response = await networkProvider.post("${ApiEndpoints.saveUser}?installationId=$installationId", body: data);
       if (response.isNotEmpty) {
         model.syncedAt = DateTime.now().toIso8601String();
         await UserRepository.update(model);
@@ -208,9 +194,7 @@ class SyncHelper {
       if (data["deletedAt"].isEmpty) {
         data.remove("deletedAt");
       }
-      String response = await networkProvider.post(
-          "${ApiEndpoints.saveTransaction}?installationId=$installationId",
-          body: data);
+      String response = await networkProvider.post("${ApiEndpoints.saveTransaction}?installationId=$installationId", body: data);
       if (response.isNotEmpty) {
         model.syncedAt = DateTime.now().toIso8601String();
         await TransactionRepository.update(model);

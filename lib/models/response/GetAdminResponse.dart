@@ -2,15 +2,15 @@
 //
 //     final getAdminResponse = getAdminResponseFromJson(jsonString);
 
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
 import 'package:glive/models/database/UserModel.dart';
 
-GetAdminResponse getAdminResponseFromJson(String str) =>
-    GetAdminResponse.fromJson(json.decode(str));
+GetAdminResponse getAdminResponseFromJson(String str) => GetAdminResponse.fromJson(json.decode(str));
 
-String getAdminResponseToJson(GetAdminResponse data) =>
-    json.encode(data.toJson());
+String getAdminResponseToJson(GetAdminResponse data) => json.encode(data.toJson());
 
 class GetAdminResponse {
   int? c;
@@ -23,14 +23,10 @@ class GetAdminResponse {
     this.d,
   });
 
-  factory GetAdminResponse.fromJson(Map<String, dynamic> json) =>
-      GetAdminResponse(
+  factory GetAdminResponse.fromJson(Map<String, dynamic> json) => GetAdminResponse(
         c: json["c"],
         m: json["m"],
-        d: json["d"] == null
-            ? []
-            : List<UserModel>.from(
-                json["d"]!.map((x) => UserModel.fromJson(x))),
+        d: json["d"] == null ? [] : List<UserModel>.from(json["d"]!.map((x) => UserModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

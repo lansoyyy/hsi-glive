@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:glive/models/app/GiftModel.dart';
-import 'package:glive/routes.dart';
+import 'package:glive/modules/home/controller/home_controller.dart';
+import 'package:glive/widgets/AppPageBackground.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/HeaderWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
@@ -19,6 +17,7 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
+  final HomeController homeController = Get.put(HomeController());
   List categories = ['Nearby', 'Popular', 'Explore', 'Events'];
 
   List categoryImages = ['image 97', 'image 98', 'image 99', 'image 100'];
@@ -28,199 +27,239 @@ class _HomeTabState extends State<HomeTab> {
   bool isChecked = false;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const HeaderWidget(),
-        SizedBox(
-          width: 20.sp,
-        ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
+    return Scaffold(
+      body: AppPageBackground(
+        child: SafeArea(
+          child: Column(
             children: [
-              for (int i = 0; i < categories.length; i++)
-                Padding(
-                  padding: const EdgeInsets.only(left: 5, right: 5),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selected = categories[i];
-                      });
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/logo.png',
+                    width: 65.sp,
+                    height: 70.sp,
+                  ),
+                  SizedBox(
+                    width: 10.sp,
+                  ),
+                  TextWidget(
+                    text: 'GVLive GoodVibes',
+                    fontSize: 15.sp,
+                    color: Colors.white,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      width: 10.sp,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.search,
+                      color: Colors.white,
+                      size: 30.r,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      homeController.getInterestList();
                     },
-                    child: Container(
-                      width: 100.sp,
-                      height: 40.sp,
-                      decoration: selected == categories[i]
-                          ? BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [
-                                  Color(0xFFE630EF),
-                                  Color(0xFF33E6F6),
-                                ],
-                                stops: [0.0, 1.0],
-                              ),
-                              borderRadius: BorderRadius.circular(7.5),
-                            )
-                          : BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(7.5),
-                            ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/${categoryImages[i]}.png',
-                            height: 20.sp,
-                            width: 20.sp,
-                          ),
-                          SizedBox(
-                            width: 10.sp,
-                          ),
-                          TextWidget(
-                            text: categories[i],
-                            fontSize: 12.sp,
-                            color: Colors.black,
-                          ),
-                        ],
-                      ),
+                    icon: Icon(
+                      Icons.notifications_active_outlined,
+                      color: Colors.white,
+                      size: 30.r,
                     ),
                   ),
-                ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 20.sp,
-        ),
-        Expanded(
-            child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2),
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                sendGift();
-              },
-              child: Card(
-                child: Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(10),
-                    image: const DecorationImage(
-                      opacity: 0.5,
-                      fit: BoxFit.cover,
-                      image: AssetImage(
-                        'assets/images/image 12.png',
-                      ),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.topRight,
+                ],
+              ),
+              SizedBox(
+                width: 20.sp,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    for (int i = 0; i < categories.length; i++)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5, right: 5),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selected = categories[i];
+                            });
+                          },
                           child: Container(
-                            height: 30.sp,
-                            width: 30.sp,
-                            decoration: const BoxDecoration(
-                                color: Colors.white38, shape: BoxShape.circle),
-                            child: Icon(
-                              Icons.favorite,
-                              color: Colors.white,
-                              size: 20.sp,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: SizedBox(
-                            height: 10.sp,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/images/Group 56.png',
-                              height: 40.sp,
-                            ),
-                            SizedBox(
-                              width: 10.sp,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            width: 100.sp,
+                            height: 40.sp,
+                            decoration: selected == categories[i]
+                                ? BoxDecoration(
+                                    gradient: const LinearGradient(
+                                      colors: [
+                                        Color(0xFFE630EF),
+                                        Color(0xFF33E6F6),
+                                      ],
+                                      stops: [0.0, 1.0],
+                                    ),
+                                    borderRadius: BorderRadius.circular(7.5),
+                                  )
+                                : BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(7.5),
+                                  ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                TextWidget(
-                                  text: 'Carla Cruz',
-                                  fontSize: 12.sp,
-                                  color: Colors.white,
+                                Image.asset(
+                                  'assets/images/${categoryImages[i]}.png',
+                                  height: 20.sp,
+                                  width: 20.sp,
                                 ),
                                 SizedBox(
-                                  height: 2.sp,
+                                  width: 10.sp,
                                 ),
                                 TextWidget(
-                                  text: '159k Followers',
-                                  fontSize: 8.sp,
-                                  color: Colors.white,
+                                  text: categories[i],
+                                  fontSize: 12.sp,
+                                  color: Colors.black,
                                 ),
                               ],
                             ),
-                            Expanded(
-                              child: SizedBox(
-                                height: 10.sp,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Share.share('<link here>');
-                              },
-                              child: Container(
-                                height: 30.sp,
-                                width: 70.sp,
-                                decoration: BoxDecoration(
-                                  color: Colors.white38,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.remove_red_eye,
-                                      color: Colors.white,
-                                      size: 20.sp,
-                                    ),
-                                    SizedBox(
-                                      width: 5.sp,
-                                    ),
-                                    TextWidget(
-                                      text: '120k',
-                                      fontSize: 8.sp,
-                                      color: Colors.white,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                        SizedBox(
-                          height: 5.sp,
-                        ),
-                      ],
-                    ),
-                  ),
+                      ),
+                  ],
                 ),
               ),
-            );
-          },
-        ))
-      ],
+              SizedBox(
+                height: 20.sp,
+              ),
+              Expanded(
+                  child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      sendGift();
+                    },
+                    child: Card(
+                      child: Container(
+                        height: double.infinity,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(10),
+                          image: const DecorationImage(
+                            opacity: 0.5,
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                              'assets/images/image 12.png',
+                            ),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Container(
+                                  height: 30.sp,
+                                  width: 30.sp,
+                                  decoration: const BoxDecoration(color: Colors.white38, shape: BoxShape.circle),
+                                  child: Icon(
+                                    Icons.favorite,
+                                    color: Colors.white,
+                                    size: 20.sp,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: SizedBox(
+                                  height: 10.sp,
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/Group 56.png',
+                                    height: 40.sp,
+                                  ),
+                                  SizedBox(
+                                    width: 10.sp,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      TextWidget(
+                                        text: 'Carla Cruz',
+                                        fontSize: 12.sp,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(
+                                        height: 2.sp,
+                                      ),
+                                      TextWidget(
+                                        text: '159k Followers',
+                                        fontSize: 8.sp,
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: SizedBox(
+                                      height: 10.sp,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 30.sp,
+                                    width: 70.sp,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white38,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.remove_red_eye,
+                                          color: Colors.white,
+                                          size: 20.sp,
+                                        ),
+                                        SizedBox(
+                                          width: 5.sp,
+                                        ),
+                                        TextWidget(
+                                          text: '120k',
+                                          fontSize: 8.sp,
+                                          color: Colors.white,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5.sp,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ))
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -323,8 +362,7 @@ class _HomeTabState extends State<HomeTab> {
                         children: [
                           for (int i = 0; i < 4; i++)
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10),
+                              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.pop(context);
@@ -348,10 +386,8 @@ class _HomeTabState extends State<HomeTab> {
                                       height: 5.sp,
                                     ),
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Image.asset(
                                           'assets/images/gifts/coin.png',
@@ -383,8 +419,7 @@ class _HomeTabState extends State<HomeTab> {
                         children: [
                           for (int i = 4; i < giftList.length; i++)
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
+                              padding: const EdgeInsets.only(left: 10, right: 10),
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.pop(context);
@@ -408,10 +443,8 @@ class _HomeTabState extends State<HomeTab> {
                                       height: 5.sp,
                                     ),
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Image.asset(
                                           'assets/images/gifts/coin.png',

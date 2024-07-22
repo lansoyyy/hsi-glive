@@ -1,11 +1,8 @@
-import 'dart:developer';
+// ignore_for_file: file_names
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glive/constants/appColors.dart';
-import 'package:glive/constants/assets.dart';
 
 class AppInformationTextInput extends StatefulWidget {
   const AppInformationTextInput(
@@ -24,8 +21,7 @@ class AppInformationTextInput extends StatefulWidget {
   final String? Function(String?)? validator; // Add validator parameter
 
   @override
-  State<AppInformationTextInput> createState() =>
-      _AppInformationTextInputState();
+  State<AppInformationTextInput> createState() => _AppInformationTextInputState();
 }
 
 class _AppInformationTextInputState extends State<AppInformationTextInput> {
@@ -97,9 +93,7 @@ class _AppInformationTextInputState extends State<AppInformationTextInput> {
           color: Colors.grey.withOpacity(0.30),
           boxShadow: [
             BoxShadow(
-              color: isFocused
-                  ? Colors.grey.withOpacity(0.30)
-                  : Colors.transparent,
+              color: isFocused ? Colors.grey.withOpacity(0.30) : Colors.transparent,
               spreadRadius: 1,
               blurRadius: 5,
               offset: const Offset(0, 3), // changes position of shadow
@@ -131,9 +125,7 @@ class _AppInformationTextInputState extends State<AppInformationTextInput> {
                 decoration: InputDecoration(
                     labelText: widget.title,
                     hintText: 'Enter ${widget.title}',
-                    labelStyle: TextStyle(
-                        color:
-                            hasValue ? AppColors.primaryColor : AppColors.grey),
+                    labelStyle: TextStyle(color: hasValue ? AppColors.primaryColor : AppColors.grey),
                     isDense: true,
                     hintStyle: TextStyle(color: AppColors.grey),
                     border: InputBorder.none),

@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:glive/constants/AppColors.dart';
-import 'package:glive/routes.dart';
+import 'package:glive/routes/AppRoutes.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/HeaderWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
@@ -228,16 +225,11 @@ class _ChatTabState extends State<ChatTab> {
                     child: Container(
                       height: 50,
                       width: double.infinity,
-                      decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(10)),
+                      decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: TextFormField(
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'Regular',
-                              fontSize: 14),
+                          style: const TextStyle(color: Colors.black, fontFamily: 'Regular', fontSize: 14),
                           onChanged: (value) {
                             setState(() {
                               nameSearched = value;
@@ -264,7 +256,7 @@ class _ChatTabState extends State<ChatTab> {
                       padding: const EdgeInsets.all(15.0),
                       child: GestureDetector(
                         onTap: () {
-                          Get.toNamed(RouteNames.chat);
+                          Get.toNamed(AppRoutes.CHAT);
                         },
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,

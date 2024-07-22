@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:glive/routes.dart';
+import 'package:glive/routes/AppRoutes.dart';
 import 'package:glive/services/auth_service.dart';
 import 'package:glive/widgets/TextWidget.dart';
 
@@ -72,7 +70,7 @@ class _FaceIDViewState extends State<FaceIDView> {
               //     _controllers.map((controller) => controller.text).join();
               // print("Entered OTP: $otp");
 
-              authService.authchack(context, RouteNames.faceidsetup);
+              authService.authchack(context, AppRoutes.FACEIDSETUP);
             },
           ),
           SizedBox(

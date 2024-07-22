@@ -1,6 +1,4 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:developer';
+// ignore_for_file: file_names
 
 import 'package:dio/dio.dart';
 import 'package:glive/constants/StorageCodes.dart';
@@ -14,8 +12,7 @@ class AuthInterceptor extends Interceptor {
   late Dio interceptorDio;
 
   @override
-  void onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     String authToken = await LocalStorage.readString(StorageCodes.token);
 
     options.headers = {...options.headers, authHeader: 'Bearer $authToken'};

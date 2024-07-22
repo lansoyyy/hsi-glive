@@ -1,35 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:glive/constants/StorageCodes.dart';
-import 'package:glive/constants/appColors.dart';
-import 'package:glive/constants/assets.dart';
-
-import 'package:glive/models/database/AdminModel.dart';
-
-import 'package:glive/models/response/LoginResponse.dart';
-import 'package:glive/modules/home/home_view.dart';
-import 'package:glive/network/ApiEndpoints.dart';
-import 'package:glive/network/NetworkProvider.dart';
-import 'package:glive/repositories/AdminRepository.dart';
-import 'package:glive/routes.dart';
-import 'package:glive/utils/CommonFunctions.dart';
-import 'package:glive/utils/GlobalVariables.dart';
-import 'package:glive/utils/LoadingUtil.dart';
-import 'package:glive/utils/LocalStorage.dart';
-import 'package:glive/utils/syncHelper.dart';
-import 'package:glive/utils/ToastHelper.dart';
+import 'package:glive/routes/AppRoutes.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
-import 'package:glive/widgets/TouchableOpacity.dart';
-import 'package:glive/widgets/AppPasswordInput.dart';
-import 'package:glive/widgets/AppTextInput.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../models/parameters/LoginParameter.dart';
 
 class InitialLoginView extends StatefulWidget {
   const InitialLoginView({super.key});
@@ -84,7 +58,7 @@ class _InitialLoginViewState extends State<InitialLoginView> {
                 padding: const EdgeInsets.only(bottom: 15),
                 child: GestureDetector(
                   onTap: () {
-                    Get.offNamed(RouteNames.login);
+                    Get.offNamed(AppRoutes.LOGIN);
                   },
                   child: Container(
                     width: 350.sp,
@@ -96,8 +70,7 @@ class _InitialLoginViewState extends State<InitialLoginView> {
                             color: Colors.grey.withOpacity(0.30),
                             spreadRadius: 1,
                             blurRadius: 5,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
+                            offset: const Offset(0, 3), // changes position of shadow
                           ),
                         ],
                         border: Border.all(color: Colors.white, width: 0.30),
@@ -161,7 +134,7 @@ class _InitialLoginViewState extends State<InitialLoginView> {
             ButtonWidget(
               label: 'Sign In',
               onPressed: () {
-                Get.offNamed(RouteNames.login);
+                Get.offNamed(AppRoutes.LOGIN);
               },
             ),
             SizedBox(

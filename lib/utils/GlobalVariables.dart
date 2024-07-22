@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/cupertino.dart';
 import 'package:glive/models/database/AdminModel.dart';
 
@@ -12,9 +14,9 @@ class GlobalVariables {
   static late GlobalKey<NavigatorState> navigatorKey;
 }
 
-int registrationIndexPage = 0;
+int registrationIndexPage = 1;
+int registrationAccomplishedPage = -1;
 int forgotpasswordIndexPage = 0;
-
 double widthScreen() {
   return GlobalVariables.width;
 }
@@ -23,4 +25,4 @@ double heightScreen() {
   return GlobalVariables.height;
 }
 
-List socialMediaImages = ['facebook', 'instagram', 'apple'];
+List socialMediaImages = ['facebook', 'google', 'apple'];

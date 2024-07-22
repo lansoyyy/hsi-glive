@@ -1,16 +1,8 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:glive/routes.dart';
 import 'package:glive/services/auth_service.dart';
 import 'package:glive/utils/GlobalVariables.dart';
 import 'package:glive/widgets/TextWidget.dart';
-import 'package:local_auth/local_auth.dart';
 
 import '../../widgets/ButtonWidget.dart';
 
@@ -58,8 +50,7 @@ class _FingerprintViewState extends State<FingerprintView> {
                   height: 10.sp,
                 ),
                 TextWidget(
-                  text:
-                      'Add a fingerprint number to make your\naccount more secure',
+                  text: 'Add a fingerprint number to make your\naccount more secure',
                   fontSize: 15.sp,
                   color: Colors.white,
                 ),

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:convert';
 import 'dart:math';
 import 'package:age_calculator/age_calculator.dart';
@@ -19,11 +21,9 @@ String uid() {
 }
 
 String randomString(int length) {
-  const chars =
-      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  const chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   Random rnd = Random();
-  return String.fromCharCodes(Iterable.generate(
-      length, (_) => chars.codeUnitAt(rnd.nextInt(chars.length))));
+  return String.fromCharCodes(Iterable.generate(length, (_) => chars.codeUnitAt(rnd.nextInt(chars.length))));
 }
 
 Color rgba(
@@ -70,9 +70,7 @@ class RowBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children:
-          List.generate(itemCount!, (index) => itemBuilder!(context, index))
-              .toList(),
+      children: List.generate(itemCount!, (index) => itemBuilder!(context, index)).toList(),
     );
   }
 }
@@ -96,8 +94,7 @@ class ColumnBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: List.generate(itemCount, (index) => itemBuilder(context, index))
-          .toList(),
+      children: List.generate(itemCount, (index) => itemBuilder(context, index)).toList(),
     );
   }
 }
@@ -117,12 +114,8 @@ extension StringExtension on String {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
 
-  String toCapitalized() =>
-      length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
-  String toTitleCase() => replaceAll(RegExp(' +'), ' ')
-      .split(' ')
-      .map((str) => str.toCapitalized())
-      .join(' ');
+  String toCapitalized() => length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
+  String toTitleCase() => replaceAll(RegExp(' +'), ' ').split(' ').map((str) => str.toCapitalized()).join(' ');
 }
 
 Key createKey() {
@@ -165,9 +158,7 @@ void showComingSoon(BuildContext context) {
               child: Container(
                 height: 200,
                 width: 300,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -210,9 +201,7 @@ String commaNumber(double number) {
   String formattedIntegerPart = integerPart.replaceAllMapped(reg, matchFunc);
 
   // Combine the formatted integer part with the decimal part
-  return decimalPart.isNotEmpty
-      ? '$formattedIntegerPart.$decimalPart'
-      : formattedIntegerPart;
+  return decimalPart.isNotEmpty ? '$formattedIntegerPart.$decimalPart' : formattedIntegerPart;
 }
 
 String padDateString(String dateString) {

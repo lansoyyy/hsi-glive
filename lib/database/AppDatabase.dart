@@ -1,23 +1,24 @@
+// ignore_for_file: file_names, depend_on_referenced_packages, prefer_interpolation_to_compose_strings, avoid_print
+
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io' as io;
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
-import 'package:glive/constants/StorageCodes.dart';
+import 'package:path/path.dart' as p;
+import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+
+import 'package:glive/constants/StorageCodes.dart';
+import 'package:glive/database/repository.dart';
 import 'package:glive/repositories/adminRepository.dart';
 import 'package:glive/repositories/fundRepository.dart';
 import 'package:glive/repositories/transactionRepository.dart';
 import 'package:glive/repositories/userRepository.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
-
-import 'package:glive/database/repository.dart';
 import 'package:glive/utils/commonFunctions.dart';
 import 'package:glive/utils/localStorage.dart';
-
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'dart:io' as io;
-import 'package:path/path.dart' as p;
 
 class AppDatabase {
   //static String databaseName = "child_admin_db.db";
@@ -36,8 +37,7 @@ class AppDatabase {
     //await reset();
     Completer completer = Completer();
 
-    String installationId =
-        await LocalStorage.readString(StorageCodes.installationId);
+    String installationId = await LocalStorage.readString(StorageCodes.installationId);
 
     log("Installation ID: '$installationId'");
 
@@ -83,12 +83,10 @@ class AppDatabase {
       if (Platform.isWindows || Platform.isLinux) {
         if (!didInititate) {
           databaseFactory = databaseFactoryFfi;
-          final io.Directory appDocumentsDir =
-              await getApplicationDocumentsDirectory();
+          final io.Directory appDocumentsDir = await getApplicationDocumentsDirectory();
 
           //Create path for database
-          String dbPath =
-              p.join(appDocumentsDir.path, "palengkeproject", databaseName);
+          String dbPath = p.join(appDocumentsDir.path, "palengkeproject", databaseName);
 
           var db = await databaseFactory.openDatabase(
             dbPath,
@@ -120,8 +118,7 @@ class AppDatabase {
       } else {
         var databasesPath = await getDatabasesPath();
         String path = join(databasesPath, databaseName);
-        database = await openDatabase(path, version: 1,
-            onCreate: (Database db, int version) async {
+        database = await openDatabase(path, version: 1, onCreate: (Database db, int version) async {
           for (var repository in repositories) {
             Map fields = getFields(repository);
 
@@ -170,18 +167,15 @@ class AppDatabase {
   static Future<void> reset() async {
     if (kIsWeb) {
       //Create path for
-      await databaseFactory.deleteDatabase(
-          "${await LocalStorage.readString(StorageCodes.installationId)}.db");
+      await databaseFactory.deleteDatabase("${await LocalStorage.readString(StorageCodes.installationId)}.db");
       log("Web database deleted");
     } else {
       if (Platform.isWindows || Platform.isLinux) {
         databaseFactory = databaseFactoryFfi;
-        final io.Directory appDocumentsDir =
-            await getApplicationDocumentsDirectory();
+        final io.Directory appDocumentsDir = await getApplicationDocumentsDirectory();
 
         //Create path for database
-        String dbPath =
-            p.join(appDocumentsDir.path, "palengkeproject", databaseName);
+        String dbPath = p.join(appDocumentsDir.path, "palengkeproject", databaseName);
         databaseFactory.deleteDatabase(dbPath);
       } else {
         var databasesPath = await getDatabasesPath();

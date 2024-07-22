@@ -1,9 +1,8 @@
-import 'dart:developer';
+// ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
 import 'package:glive/models/app/ageGenderModel.dart';
 import 'package:glive/models/app/NameModel.dart';
-import 'package:glive/routes.dart';
 
 void appGoBack(BuildContext context, String optionalRoute) {
   if (Navigator.canPop(context)) {
@@ -21,14 +20,12 @@ NameModel formatName(String unformattedName) {
   } else if (parts.length == 2) {
     return NameModel(firstName: parts[0], lastName: parts[1], middleName: "");
   } else if (parts.length == 3) {
-    return NameModel(
-        firstName: parts[0], middleName: parts[1], lastName: parts[2]);
+    return NameModel(firstName: parts[0], middleName: parts[1], lastName: parts[2]);
   } else {
     String firstName = parts.first;
     String lastName = parts.last;
     String middleName = parts.sublist(1, parts.length - 1).join(" ");
-    return NameModel(
-        firstName: firstName, lastName: lastName, middleName: middleName);
+    return NameModel(firstName: firstName, lastName: lastName, middleName: middleName);
   }
 }
 
@@ -64,8 +61,7 @@ String formatBirthDate(String no, String bday, AgeGenderModel ageGenderModel) {
     }
   }
   DateTime birthday = DateTime(year, month, day);
-  String formattedBirthday =
-      "${birthday.year}-${birthday.month.toString().padLeft(2, '0')}-${birthday.day.toString().padLeft(2, '0')}";
+  String formattedBirthday = "${birthday.year}-${birthday.month.toString().padLeft(2, '0')}-${birthday.day.toString().padLeft(2, '0')}";
 
   return formattedBirthday;
 }
@@ -74,8 +70,7 @@ String getFirstTwoCharacters(String input) {
   if (input.length < 2) {
     return input; // If the input string has less than 2 characters, return it as is
   }
-  return input.substring(
-      0, 2); // Get the substring from index 0 to 2 (exclusive)
+  return input.substring(0, 2); // Get the substring from index 0 to 2 (exclusive)
 }
 /* 
 

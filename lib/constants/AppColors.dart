@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:glive/utils/commonFunctions.dart';
 
@@ -18,8 +20,33 @@ class AppColors {
   static Color pumpkin = HexColor("#d35400");
   static Color bluegreen = HexColor("85ecf8");
 
-  static List<Color> gradiants = [
-    const Color(0xFF2F0032), // Darker purple
-    const Color(0xFF00272A), // Darker teal
+  static const Color lightGreyColor = Color(0xFF414141);
+
+  static const Color buttonGradStartColor = Color(0xFFE630EF);
+  static const Color buttonGradEndColor = Color(0xFF33E6F6);
+
+  static const Color giftGradStartColor = Color(0xFFE630EF);
+  static const Color giftGradEndColor = Color(0xFFFFDE62);
+
+  static const Color bgStartGradientColor = Color(0xFF00272A);
+  static const Color bgEndGradientColor = Color(0xFF2F0032);
+
+  static const Color liveBackgroundColor = Color(0xFFF11B43);
+
+  static List<Color> gradients = [
+    HexColor("#00272A"),
+    HexColor("#2F0032"),
+  ];
+  static const List<Color> bgGradientColors = [
+    Color(0xFF00272A),
+    Color(0xFF2F0032),
+  ];
+  static const List<Color> gradiants = [
+    Color(0xFF2F0032), // Darker purple
+    Color(0xFF00272A), // Darker teal
+  ];
+  static List<Color> gradiants2 = [
+    const Color(0xFF8B008B).withOpacity(0.6),
+    const Color(0xFF008B8B).withOpacity(0.6),
   ];
 }

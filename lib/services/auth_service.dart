@@ -1,18 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:glive/routes.dart';
 import 'package:local_auth/local_auth.dart';
 
 class AuthenticationService {
   final LocalAuthentication auth = LocalAuthentication();
 
   authchack(context, String path) async {
-    List<BiometricType> availableBiometrics =
-        await auth.getAvailableBiometrics();
+    List<BiometricType> availableBiometrics = await auth.getAvailableBiometrics();
 
     if (Platform.isIOS) {
       if (availableBiometrics.contains(BiometricType.face)) {

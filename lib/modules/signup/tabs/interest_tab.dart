@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:glive/constants/AppColors.dart';
-import 'package:glive/routes.dart';
 import 'package:glive/utils/GlobalVariables.dart';
-import 'package:glive/widgets/AppTextInput.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
-
-import '../../../widgets/AppPasswordInput.dart';
 
 class InterestTab extends StatefulWidget {
   const InterestTab({super.key});
@@ -90,23 +83,19 @@ class _InterestTabState extends State<InterestTab> {
                             color: Colors.pink,
                           ),
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10, right: 10, top: 5, bottom: 5),
+                      padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.asset(
-                              'assets/images/interest/${interests[i]}.png'),
+                          Image.asset('assets/images/interest/${interests[i]}.png'),
                           SizedBox(
                             width: 10.sp,
                           ),
                           TextWidget(
                             text: interests[i],
                             fontSize: 14.sp,
-                            color: selectedInterests.contains(interests[i])
-                                ? Colors.white
-                                : Colors.black,
+                            color: selectedInterests.contains(interests[i]) ? Colors.white : Colors.black,
                           ),
                         ],
                       ),

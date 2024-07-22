@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:glive/constants/AppColors.dart';
-import 'package:glive/routes.dart';
-import 'package:glive/utils/GlobalVariables.dart';
+import 'package:glive/routes/AppRoutes.dart';
 import 'package:glive/widgets/AppPasswordInput.dart';
-import 'package:glive/widgets/AppTextInput.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
 
@@ -53,21 +49,13 @@ class _ForgotPasswordTabState extends State<ForgotPasswordTab> {
               height: 50.sp,
             ),
             Center(
-              child: AppPasswordInput(
-                  width: 350.sp,
-                  title: "Password",
-                  controller: password,
-                  icon: Icons.lock),
+              child: AppPasswordInput(width: 350.sp, title: "Password", controller: password, icon: Icons.lock),
             ),
             SizedBox(
               height: 20.sp,
             ),
             Center(
-              child: AppPasswordInput(
-                  width: 350.sp,
-                  title: "Confirm Password",
-                  controller: confirmpassword,
-                  icon: Icons.lock),
+              child: AppPasswordInput(width: 350.sp, title: "Confirm Password", controller: confirmpassword, icon: Icons.lock),
             ),
             SizedBox(
               height: 20.sp,
@@ -79,7 +67,7 @@ class _ForgotPasswordTabState extends State<ForgotPasswordTab> {
                 width: 350.sp,
                 label: 'Save Password',
                 onPressed: () {
-                  Get.offNamed(RouteNames.login);
+                  Get.offNamed(AppRoutes.LOGIN);
                 },
               ),
             ),

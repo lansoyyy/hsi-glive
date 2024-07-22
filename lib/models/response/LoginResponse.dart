@@ -2,12 +2,13 @@
 //
 //     final loginResponse = loginResponseFromJson(jsonString);
 
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
 import 'package:glive/models/database/AdminModel.dart';
 
-LoginResponse loginResponseFromJson(String str) =>
-    LoginResponse.fromJson(json.decode(str));
+LoginResponse loginResponseFromJson(String str) => LoginResponse.fromJson(json.decode(str));
 
 String loginResponseToJson(LoginResponse data) => json.encode(data.toJson());
 

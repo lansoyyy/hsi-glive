@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glive/widgets/TextWidget.dart';
 
@@ -11,8 +10,7 @@ class Post extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.all(5.0),

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, library_private_types_in_public_api
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +28,6 @@ class _TouchableOpacityState extends State<TouchableOpacity> {
     bool disabled = widget.disabled!;
 
     return GestureDetector(
-
       onTapDown: (_) {
         if (disabled) {
           return;

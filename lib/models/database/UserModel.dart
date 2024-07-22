@@ -2,9 +2,9 @@
 //
 //     final userModel = userModelFromJson(jsonString);
 
-import 'dart:convert';
+// ignore_for_file: file_names
 
-import 'package:glive/utils/commonFunctions.dart';
+import 'dart:convert';
 
 UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
 
@@ -24,8 +24,7 @@ class UserModel {
   String image;
   String imageName;
   String createdAt;
-  String
-      syncedAt; //only in mobile, used if failed in syncing to online database
+  String syncedAt; //only in mobile, used if failed in syncing to online database
   String deletedAt;
 
   UserModel({
@@ -73,8 +72,8 @@ class UserModel {
         "address": address,
         "birthDate": birthDate,
         "precint": precint,
-        "mobile": mobile ?? "",
-        "gender": gender ?? "",
+        "mobile": mobile,
+        "gender": gender,
         "image": image,
         "imageName": imageName,
         "createdAt": createdAt,

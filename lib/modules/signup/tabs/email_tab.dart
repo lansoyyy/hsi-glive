@@ -1,10 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:glive/constants/AppColors.dart';
-import 'package:glive/routes.dart';
+import 'package:glive/routes/AppRoutes.dart';
 import 'package:glive/utils/GlobalVariables.dart';
 import 'package:glive/widgets/AppTextInput.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
@@ -61,8 +64,7 @@ class _EmailTabState extends State<EmailTab> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter an email address';
                     }
-                    final emailRegex =
-                        RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
                     if (!emailRegex.hasMatch(value)) {
                       return 'Please enter a valid email address';
                     }
@@ -99,7 +101,7 @@ class _EmailTabState extends State<EmailTab> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Get.offNamed(RouteNames.login);
+                        Get.offNamed(AppRoutes.LOGIN);
                       },
                       child: TextWidget(
                         text: 'Sign in',
@@ -129,14 +131,13 @@ class _EmailTabState extends State<EmailTab> {
                         padding: const EdgeInsets.only(left: 5, right: 5),
                         child: GestureDetector(
                           onTap: () {
-                            Get.offNamed(RouteNames.security);
+                            Get.offNamed(AppRoutes.SECURITY);
                           },
                           child: Container(
                             width: 55.sp,
                             height: 55.sp,
                             decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: Colors.white, width: 0.5),
+                              border: Border.all(color: Colors.white, width: 0.5),
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: Center(
@@ -156,8 +157,7 @@ class _EmailTabState extends State<EmailTab> {
           );
   }
 
-  final List<TextEditingController> _controllers =
-      List.generate(6, (index) => TextEditingController());
+  final List<TextEditingController> _controllers = List.generate(6, (index) => TextEditingController());
   final List<FocusNode> _focusNodes = List.generate(6, (index) => FocusNode());
 
   Widget verifiedWidget() {
@@ -239,7 +239,7 @@ class _EmailTabState extends State<EmailTab> {
 
       // Print all the values from the controllers
       String otp = _controllers.map((controller) => controller.text).join();
-      print('Entered OTP: $otp');
+      log('Entered OTP: $otp');
 
       // Perform OTP verification here
     }

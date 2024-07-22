@@ -2,15 +2,13 @@
 //
 //     final transactionModel = transactionModelFromJson(jsonString);
 
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
-import 'package:glive/utils/commonFunctions.dart';
+TransactionModel transactionModelFromJson(String str) => TransactionModel.fromJson(json.decode(str));
 
-TransactionModel transactionModelFromJson(String str) =>
-    TransactionModel.fromJson(json.decode(str));
-
-String transactionModelToJson(TransactionModel data) =>
-    json.encode(data.toJson());
+String transactionModelToJson(TransactionModel data) => json.encode(data.toJson());
 
 class TransactionModel {
   String id;
@@ -45,8 +43,7 @@ class TransactionModel {
     required this.deletedAt,
   });
 
-  factory TransactionModel.fromJson(Map<String, dynamic> json) =>
-      TransactionModel(
+  factory TransactionModel.fromJson(Map<String, dynamic> json) => TransactionModel(
         id: json["id"] ?? "",
         userId: json["userId"] ?? "",
         adminId: json["adminId"] ?? "",

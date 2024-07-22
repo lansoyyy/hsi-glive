@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:glive/constants/appColors.dart';
 import 'package:glive/constants/assets.dart';

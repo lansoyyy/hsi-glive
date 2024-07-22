@@ -1,15 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:glive/constants/AppColors.dart';
+import 'package:glive/routes/AppRoutes.dart';
+import 'package:glive/utils/QuickDialog.dart';
 import 'package:glive/widgets/AppInformationTextInput.dart';
-import 'package:glive/widgets/AppTextInput.dart';
 import 'package:glive/widgets/ButtonWidget.dart';
 import 'package:glive/widgets/TextWidget.dart';
-
-import '../../../routes.dart';
+import 'package:glive/widgets/TouchableOpacity.dart';
 
 class ProfileTab extends StatefulWidget {
   const ProfileTab({super.key});
@@ -37,8 +36,7 @@ class _ProfileTabState extends State<ProfileTab> {
                           ? Padding(
                               padding: const EdgeInsets.all(10),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   IconButton(
                                     onPressed: () {
@@ -73,8 +71,7 @@ class _ProfileTabState extends State<ProfileTab> {
                           : Padding(
                               padding: const EdgeInsets.all(10),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   TextWidget(
                                     text: 'Profile',
@@ -116,8 +113,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 20.sp, right: 50.sp),
+                                    padding: EdgeInsets.only(top: 20.sp, right: 50.sp),
                                     child: Align(
                                       alignment: Alignment.topRight,
                                       child: Image.asset(
@@ -144,14 +140,11 @@ class _ProfileTabState extends State<ProfileTab> {
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           TextWidget(
                                             text: 'Post',
@@ -178,10 +171,8 @@ class _ProfileTabState extends State<ProfileTab> {
                                         width: 30.sp,
                                       ),
                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           TextWidget(
                                             text: 'Followers',
@@ -208,10 +199,8 @@ class _ProfileTabState extends State<ProfileTab> {
                                         width: 30.sp,
                                       ),
                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           TextWidget(
                                             text: 'Following',
@@ -231,26 +220,22 @@ class _ProfileTabState extends State<ProfileTab> {
                                     height: 20.sp,
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 10.sp, right: 10.sp),
+                                    padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
                                     child: Column(
                                       children: [
                                         GestureDetector(
                                           onTap: () {
-                                            Get.toNamed(
-                                                RouteNames.creatorcenter);
+                                            Get.toNamed(AppRoutes.CREATORCENTER);
                                           },
                                           child: Container(
                                             width: double.infinity,
                                             height: 55.sp,
                                             decoration: BoxDecoration(
                                               color: Colors.white38,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
+                                              borderRadius: BorderRadius.circular(10),
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 15.sp, right: 15.sp),
+                                              padding: EdgeInsets.only(left: 15.sp, right: 15.sp),
                                               child: tileItem(
                                                 'Creator Center',
                                                 'image 119',
@@ -266,15 +251,12 @@ class _ProfileTabState extends State<ProfileTab> {
                                           height: 125.sp,
                                           decoration: BoxDecoration(
                                             color: Colors.white38,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            borderRadius: BorderRadius.circular(10),
                                           ),
                                           child: Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 15.sp, right: 15.sp),
+                                            padding: EdgeInsets.only(left: 15.sp, right: 15.sp),
                                             child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 tileItem(
                                                   'Wallet',
@@ -300,15 +282,12 @@ class _ProfileTabState extends State<ProfileTab> {
                                           height: 125.sp,
                                           decoration: BoxDecoration(
                                             color: Colors.white38,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            borderRadius: BorderRadius.circular(10),
                                           ),
                                           child: Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 15.sp, right: 15.sp),
+                                            padding: EdgeInsets.only(left: 15.sp, right: 15.sp),
                                             child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 tileItem(
                                                   'Task Center',
@@ -326,11 +305,24 @@ class _ProfileTabState extends State<ProfileTab> {
                                             ),
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: tileItem(
-                                            'Logout',
-                                            'image 119 (1)',
+                                        TouchableOpacity(
+                                          onTap: () async {
+                                            bool willLogout = await QuickDialog.logoutConfirmation(context);
+                                            if (willLogout) {
+                                              final box = GetStorage();
+                                              box.remove("token");
+                                              Get.offNamed(AppRoutes.LOGIN);
+                                            }
+                                          },
+                                          child: Container(
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(20.0),
+                                              child: tileItem(
+                                                'Logout',
+                                                'image 119 (1)',
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -733,9 +725,7 @@ class _ProfileTabState extends State<ProfileTab> {
               color: Colors.grey.withOpacity(0.30),
               boxShadow: [
                 BoxShadow(
-                  color: isFocused
-                      ? Colors.grey.withOpacity(0.30)
-                      : Colors.transparent,
+                  color: isFocused ? Colors.grey.withOpacity(0.30) : Colors.transparent,
                   spreadRadius: 1,
                   blurRadius: 5,
                   offset: const Offset(0, 3), // changes position of shadow
@@ -768,8 +758,7 @@ class _ProfileTabState extends State<ProfileTab> {
                     dropdownValue = newValue;
                   });
                 },
-                items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4']
-                    .map<DropdownMenuItem<String>>((String value) {
+                items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4'].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(
@@ -823,9 +812,7 @@ class _ProfileTabState extends State<ProfileTab> {
                 color: Colors.grey.withOpacity(0.30),
                 boxShadow: [
                   BoxShadow(
-                    color: isFocused
-                        ? Colors.grey.withOpacity(0.30)
-                        : Colors.transparent,
+                    color: isFocused ? Colors.grey.withOpacity(0.30) : Colors.transparent,
                     spreadRadius: 1,
                     blurRadius: 5,
                     offset: const Offset(0, 3), // changes position of shadow
@@ -858,12 +845,7 @@ class _ProfileTabState extends State<ProfileTab> {
                       dropdownValue = newValue;
                     });
                   },
-                  items: <String>[
-                    'Option 1',
-                    'Option 2',
-                    'Option 3',
-                    'Option 4'
-                  ].map<DropdownMenuItem<String>>((String value) {
+                  items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4'].map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(

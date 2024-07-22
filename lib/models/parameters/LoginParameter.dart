@@ -2,10 +2,11 @@
 //
 //     final loginParameter = loginParameterFromJson(jsonString);
 
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
-LoginParameter loginParameterFromJson(String str) =>
-    LoginParameter.fromJson(json.decode(str));
+LoginParameter loginParameterFromJson(String str) => LoginParameter.fromJson(json.decode(str));
 
 String loginParameterToJson(LoginParameter data) => json.encode(data.toJson());
 

@@ -1,11 +1,8 @@
-import 'dart:developer';
+// ignore_for_file: file_names
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glive/constants/appColors.dart';
-import 'package:glive/constants/assets.dart';
 
 class AppTextInput extends StatefulWidget {
   const AppTextInput({
@@ -21,7 +18,6 @@ class AppTextInput extends StatefulWidget {
   final String title;
   final IconData icon;
   final TextEditingController controller;
-
   final String? Function(String?)? validator; // Add validator parameter
 
   @override
@@ -106,7 +102,7 @@ class _AppTextInputState extends State<AppTextInput> {
             ),
           ],
           border: Border.all(color: Colors.white, width: 0.30),
-          borderRadius: BorderRadius.circular(5)),
+          borderRadius: BorderRadius.circular(8.sp)),
       child: Stack(
         children: [
           Container(
@@ -116,9 +112,6 @@ class _AppTextInputState extends State<AppTextInput> {
             child: Center(
               child: TextFormField(
                 validator: widget.validator,
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
                 controller: widget.controller,
                 focusNode: focusNode,
                 cursorColor: AppColors.primaryColor,
