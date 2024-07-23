@@ -328,6 +328,36 @@ class ApiImplementation {
     }
   }
 
+  Future<String> likePosts(String postId) async {
+    try {
+      var dio = Dio();
+      await _addTokenToHeader();
+      var response = await dio.request(
+        "${ApiEndpoints.postsLike}/$postId/like",
+        options: Options(method: 'POST', headers: headers, responseType: ResponseType.plain),
+      );
+      log("likePosts ${response.data.toString()}");
+      return response.data.toString();
+    } catch (ex) {
+      rethrow;
+    }
+  }
+
+  Future<String> unlikePosts(String postId) async {
+    try {
+      var dio = Dio();
+      await _addTokenToHeader();
+      var response = await dio.request(
+        "${ApiEndpoints.postsUnlike}/$postId/unlike",
+        options: Options(method: 'POST', headers: headers, responseType: ResponseType.plain),
+      );
+      log("unlikePosts ${response.data.toString()}");
+      return response.data.toString();
+    } catch (ex) {
+      rethrow;
+    }
+  }
+
   _addTokenToHeader() {
     headers["Authorization"] = "Bearer ${box.read("token")}";
   }

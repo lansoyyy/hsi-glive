@@ -32,12 +32,16 @@ class ApiEndpoints {
   static const String editPosts = "$baseUrl/posts";
   static const String getPostsViews = "$baseUrl/posts";
   static const String getPostsPosts = "$baseUrl/posts";
+  static const String postsLike = "$baseUrl/posts";
+  static const String postsUnlike = "$baseUrl/posts";
+  static const String getPostsLikes = "$baseUrl/posts";
 
   static const String postsForYou = "$baseUrl/posts/for-you";
   static const String postsFollowing = "$baseUrl/posts/following";
   static const String suggestToFololw = "$baseUrl/users/me/suggest-to-follow";
   static const String usersFollowing = "$baseUrl/users/me/following";
   static const String usersFollowers = "$baseUrl/users/me/followers";
+
   static const String followUser = "$baseUrl/users";
   static const String removeUser = "$baseUrl/users";
   static const String unfollowUser = "$baseUrl/users";

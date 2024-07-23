@@ -64,6 +64,7 @@ class _ForYouPageState extends State<ForYouPage> with AutomaticKeepAliveClientMi
                   videoController.currentForYouIndex.value = index;
                 },
                 itemBuilder: (context, index) {
+                  videoController.isPostsLike.value = videoController.postsForYouData[index].isLike;
                   return Stack(
                     children: [
                       Obx(() => Column(

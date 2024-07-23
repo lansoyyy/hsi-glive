@@ -10,11 +10,11 @@ class ForYouModel {
   final List<String> tags;
   final List<Media> media;
   final String music;
-  final int likes;
+  int likes;
   final int comments;
   final int views;
   final int shares;
-  final bool isLike;
+  bool isLike;
 
   ForYouModel(
       {required this.id,

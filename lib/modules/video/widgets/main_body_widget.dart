@@ -1,15 +1,23 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:glive/constants/AppColors.dart';
+import 'package:glive/constants/Assets.dart';
+import 'package:glive/controllers/audios_controller.dart';
+import 'package:glive/controllers/posts_controller.dart';
 import 'package:glive/models/app/ForYouModel.dart';
+import 'package:glive/modules/video/controller/video_controller.dart';
 
 class MainBodyWidget extends StatelessWidget {
   // final PostModel postModel;
   final ForYouModel postModel;
 
-  const MainBodyWidget({super.key, required this.postModel});
-
+  MainBodyWidget({super.key, required this.postModel});
+  PostsController postsController = Get.find();
+  VideoController videoController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -69,8 +77,19 @@ class MainBodyWidget extends StatelessWidget {
                     Column(
                       children: [
                         InkWell(
-                          onTap: () {},
-                          child: Icon(Icons.favorite, size: 40.r, color: postModel.isLike == true ? Colors.red : Colors.red),
+                          onTap: () async {
+                            if (videoController.isPostsLike.value == true) {
+                              postsController.unlikePosts(postId: postModel.id);
+                              videoController.updatePostsForYouLlikes(postModel.id, false);
+                            } else {
+                              await Get.find<AudioController>().audioPlayer.play(AssetSource(Assets.tapNotif));
+                              postsController.likePosts(postId: postModel.id);
+                              videoController.updatePostsForYouLlikes(postModel.id, true);
+                            }
+                          },
+                          child: Obx(() => videoController.isPostsLike.value
+                              ? Icon(Icons.favorite, size: 40.r, color: Colors.red)
+                              : Icon(Icons.favorite, size: 40.r, color: Colors.white)),
                         ),
                         SizedBox(height: 7.h),
                         Text(

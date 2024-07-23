@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
+import 'package:glive/controllers/audios_controller.dart';
+import 'package:glive/controllers/posts_controller.dart';
 import 'package:glive/models/response/InterestListResponse.dart';
 import 'package:glive/network/ApiImplementation.dart';
 import 'package:glive/network/NetworkProvider.dart';
@@ -8,6 +10,8 @@ import 'package:glive/utils/ToastHelper.dart';
 
 class HomeController extends GetxController {
   NetworkProvider networkProvider = NetworkProvider();
+  PostsController postsController = Get.put(PostsController());
+  AudioController audioController = Get.put(AudioController());
   static ApiImplementation apiImplementation = ApiImplementation();
   final RxInt selectedIndex = 0.obs;
 

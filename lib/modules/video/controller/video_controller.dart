@@ -30,6 +30,7 @@ class VideoController extends GetxController {
   RxList<FollowingModel> postsFollowingData = <FollowingModel>[].obs;
   RxList<SuggestToFollowModel> suggestToFollowData = <SuggestToFollowModel>[].obs;
   RxList<String> followedUserData = <String>[].obs;
+  RxBool isPostsLike = false.obs;
 
   static ApiImplementation apiImplementation = ApiImplementation();
 
@@ -195,6 +196,19 @@ class VideoController extends GetxController {
     isFollowedClicked(false);
   }
 
+  void updatePostsForYouLlikes(String id, bool isLike) {
+    int index = postsForYouData.indexWhere((element) => element.id == id);
+
+    if (index != 1 && isLike == true) {
+      postsForYouData[index].likes++;
+      postsForYouData[index].isLike = true;
+    } else {
+      postsForYouData[index].likes--;
+      postsForYouData[index].isLike = false;
+    }
+    postsForYouData.refresh();
+    update();
+  }
   // void initializeVideos() {
   //   postModelItems.addAll(initialPostData);
   //   pages.addAll(List.generate(postModelItems.length, (index) => index));
